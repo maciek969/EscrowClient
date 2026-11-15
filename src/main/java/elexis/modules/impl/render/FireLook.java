@@ -23,7 +23,7 @@ public final class FireLook extends Function {
 
     @EventHandler
     public void onRender2D(EventRender.Screen.Hud event) {
-        if (nullCheck() || NoRneder.is("\u041e\u0433\u043e\u043d\u044c") || !mc.player.isOnFire()) {
+        if (nullCheck() || NoRneder.is("Fire") || !mc.player.isOnFire()) {
             return;
         }
 

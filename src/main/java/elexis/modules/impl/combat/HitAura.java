@@ -57,42 +57,42 @@ import elexis.client.utils.player.MovementManager;
 @FunctionAdd(
         name = "HitAura",
         alias = "Hit Aura",
-        description = "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0430\u0442\u0430\u043a\u0443\u0435\u0442 \u0446\u0435\u043b\u044c",
+        description = "Automatically attacks the target",
         category = Category.Combat,
         key = 82
 )
 @Environment(EnvType.CLIENT)
 public class HitAura extends Function {
-    private static final String T_PLAYERS = "\u0418\u0433\u0440\u043e\u043a\u0438";
-    private static final String T_NAKED = "\u0413\u043e\u043b\u044b\u0435";
-    private static final String T_MOBS = "\u041c\u043e\u0431\u044b";
+    private static final String T_PLAYERS = "Players";
+    private static final String T_NAKED = "Naked";
+    private static final String T_MOBS = "Mobs";
 
-    private static final String M_THROUGH_WALLS = "\u0411\u0438\u0442\u044c \u0447\u0435\u0440\u0435\u0437 \u0431\u043b\u043e\u043a\u0438";
-    private static final String M_ONLY_WEAPON = "\u0411\u0438\u0442\u044c \u0442\u043e\u043b\u044c\u043a\u043e \u043e\u0440\u0443\u0436\u0438\u0435\u043c";
-    private static final String M_NO_EATING = "\u041d\u0435 \u0431\u0438\u0442\u044c \u0435\u0441\u043b\u0438 \u0435\u0448\u044c";
-    private static final String M_NO_CONTAINERS = "\u041d\u0435 \u0431\u0438\u0442\u044c \u0432 \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u0435";
-    private static final String M_BREAK_SHIELD = "\u041b\u043e\u043c\u0430\u0442\u044c \u0449\u0438\u0442";
-    private static final String M_PRESS_SHIELD = "\u041e\u0442\u0436\u0438\u043c\u0430\u0442\u044c \u0449\u0438\u0442 \u043f\u0440\u0438 \u0443\u0434\u0430\u0440\u0435";
-    private static final String M_HIT_AND_EAT = "\u0411\u0438\u0442\u044c \u0438 \u0435\u0441\u0442\u044c \u0435\u0434\u0443";
+    private static final String M_THROUGH_WALLS = "Hit through walls";
+    private static final String M_ONLY_WEAPON = "Hit only with weapon";
+    private static final String M_NO_EATING = "Do not hit while eating";
+    private static final String M_NO_CONTAINERS = "Do not hit in container";
+    private static final String M_BREAK_SHIELD = "Break shield";
+    private static final String M_PRESS_SHIELD = "Press shield on hit";
+    private static final String M_HIT_AND_EAT = "Hit and eat";
 
-    private static final String E_LEGIT_SPRINT = "\u041b\u0435\u0433\u0438\u0442\u043d\u044b\u0439 \u0441\u043f\u0440\u0438\u043d\u0442";
-    private static final String E_SMART_CRITS = "\u0423\u043c\u043d\u044b\u0435 \u043a\u0440\u0438\u0442\u044b";
+    private static final String E_LEGIT_SPRINT = "Legit sprint";
+    private static final String E_SMART_CRITS = "Smart crits";
 
-    private static final String SLOW_RADIUS = "\u041f\u043e \u0440\u0430\u0434\u0438\u0443\u0441\u0443";
-    private static final String SLOW_PRE_HIT = "\u041f\u0435\u0440\u0435\u0434 \u0443\u0434\u0430\u0440\u043e\u043c";
-    private static final String RES_LAG2 = "\u041b\u0430\u04332";
-    private static final String RES_ANTI_AIM = "\u0410\u043d\u0442\u0438-\u0410\u0438\u043c";
-    private static final String RES_BACKTRACK = "\u0411\u044d\u043a\u0442\u0440\u0435\u043a";
-    private static final String AIM_RESOLVER = "\u0420\u0435\u0437\u043e\u043b\u044c\u0432";
-    private static final String AIM_FIREWORK = "\u0424\u0435\u0439\u0435\u0440\u0432\u0435\u0440\u043a";
-    private static final String AIM_MIDDLE = "\u0421\u0435\u0440\u0435\u0434\u0438\u043d\u0430";
-    private static final String AIM_NORMAL = "\u041e\u0431\u044b\u0447\u043d\u0430\u044f";
+    private static final String SLOW_RADIUS = "By radius";
+    private static final String SLOW_PRE_HIT = "Before hit";
+    private static final String RES_LAG2 = "Lag2";
+    private static final String RES_ANTI_AIM = "Anti-Aim";
+    private static final String RES_BACKTRACK = "Backtrack";
+    private static final String AIM_RESOLVER = "Resolve";
+    private static final String AIM_FIREWORK = "Firework";
+    private static final String AIM_MIDDLE = "Middle";
+    private static final String AIM_NORMAL = "Normal";
 
-    public static SliderSetting attackRange = new SliderSetting("\u0420\u0430\u0434\u0438\u0443\u0441 \u0430\u0442\u0430\u043a\u0438", 3.0F, 3.0F, 6.0F, 0.1F, false);
-    public static SliderSetting preRange = new SliderSetting("\u0420\u0430\u0434\u0438\u0443\u0441 \u043e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d\u0438\u044f", 1.0F, 0.0F, 5.0F, 0.1F, false);
-    public static BooleanSetting raycastCheck = new BooleanSetting("\u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u043d\u0430 \u043d\u0430\u0432\u0435\u0434\u0435\u043d\u0438\u0435", true);
-    public static BooleanSetting smartAim = new BooleanSetting("\u0423\u043c\u043d\u043e\u0435 \u043d\u0430\u0432\u0435\u0434\u0435\u043d\u0438\u0435", true);
-    public static ModeSetting rotationType = new ModeSetting("\u0420\u0435\u0436\u0438\u043c \u0440\u043e\u0442\u0430\u0446\u0438\u0438", "SpookyTime",
+    public static SliderSetting attackRange = new SliderSetting("Attack range", 3.0F, 3.0F, 6.0F, 0.1F, false);
+    public static SliderSetting preRange = new SliderSetting("Detection range", 1.0F, 0.0F, 5.0F, 0.1F, false);
+    public static BooleanSetting raycastCheck = new BooleanSetting("Raycast check", true);
+    public static BooleanSetting smartAim = new BooleanSetting("Smart aim", true);
+    public static ModeSetting rotationType = new ModeSetting("Rotation mode", "SpookyTime",
             "SpookyTime", "FunTime", "ReallyWorld", "CakeWorld") {
         @Override
         public void set(String value) {
@@ -106,33 +106,33 @@ public class HitAura extends Function {
         }
     };
     public static ModeSetting antiCheat = new ModeSetting("AntiCheat", "None", "None", "Grim", "SlotAC").hidden(() -> true);
-    public static MultiBooleanSetting targets = new MultiBooleanSetting("\u0426\u0435\u043b\u0438", new BooleanSetting(T_PLAYERS, true), new BooleanSetting(T_NAKED, true), new BooleanSetting(T_MOBS, true));
-    public static ModeSetting attackDelay = new ModeSetting("\u0422\u0430\u0439\u043c\u0438\u043d\u0433 \u0443\u0434\u0430\u0440\u0430", "\u0411\u044b\u0441\u0442\u0440\u044b\u0439", "\u0411\u044b\u0441\u0442\u0440\u044b\u0439", "\u0414\u0438\u043d\u0430\u043c\u0438\u0447\u043d\u044b\u0439");
-    public static MultiBooleanSetting misc = new MultiBooleanSetting("\u041f\u0440\u043e\u0447\u0435\u0435 \u0434\u043e \u0443\u0434\u0430\u0440\u0430", new BooleanSetting(M_THROUGH_WALLS, false), new BooleanSetting(M_ONLY_WEAPON, false), new BooleanSetting(M_NO_EATING, true), new BooleanSetting(M_NO_CONTAINERS, false), new BooleanSetting(M_BREAK_SHIELD, false), new BooleanSetting(M_PRESS_SHIELD, false), new BooleanSetting(M_HIT_AND_EAT, false));
-    public static MultiBooleanSetting extraSettings = new MultiBooleanSetting("\u0414\u043e\u043f. \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", new BooleanSetting(E_LEGIT_SPRINT, false), new BooleanSetting(E_SMART_CRITS, false));
-    public static ModeSetting motion = new ModeSetting("\u0420\u0435\u0436\u0438\u043c \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f", "Default", "Default", "Free", "Target");
+    public static MultiBooleanSetting targets = new MultiBooleanSetting("Targets", new BooleanSetting(T_PLAYERS, true), new BooleanSetting(T_NAKED, true), new BooleanSetting(T_MOBS, true));
+    public static ModeSetting attackDelay = new ModeSetting("Attack timing", "Fast", "Fast", "Dynamic");
+    public static MultiBooleanSetting misc = new MultiBooleanSetting("Other before hit", new BooleanSetting(M_THROUGH_WALLS, false), new BooleanSetting(M_ONLY_WEAPON, false), new BooleanSetting(M_NO_EATING, true), new BooleanSetting(M_NO_CONTAINERS, false), new BooleanSetting(M_BREAK_SHIELD, false), new BooleanSetting(M_PRESS_SHIELD, false), new BooleanSetting(M_HIT_AND_EAT, false));
+    public static MultiBooleanSetting extraSettings = new MultiBooleanSetting("Extra settings", new BooleanSetting(E_LEGIT_SPRINT, false), new BooleanSetting(E_SMART_CRITS, false));
+    public static ModeSetting motion = new ModeSetting("Motion mode", "Default", "Default", "Free", "Target");
 
-    public static BooleanSetting elytraSlowdown = new BooleanSetting("\u0417\u0430\u043c\u0435\u0434\u043b\u0435\u043d\u0438\u0435 \u043d\u0430 \u044d\u043b\u0438\u0442\u0440\u0430\u0445", true);
-    public static ModeSetting elytraSlowdownMode = new ModeSetting("\u0420\u0435\u0436\u0438\u043c \u0437\u0430\u043c\u0435\u0434\u043b\u0435\u043d\u0438\u044f", SLOW_RADIUS, SLOW_RADIUS, SLOW_PRE_HIT).hidden(() -> !elytraSlowdown.get());
-    public static SliderSetting elytraSlowdownRadius = new SliderSetting("\u0420\u0430\u0434\u0438\u0443\u0441 \u0437\u0430\u043c\u0435\u0434\u043b\u0435\u043d\u0438\u044f", 3.0F, 1.0F, 6.0F, 0.1F, false).hidden(() -> !elytraSlowdown.get() || !elytraSlowdownMode.is(SLOW_RADIUS));
-    public static SliderSetting elytraMinSpeed = new SliderSetting("\u041c\u0438\u043d. \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c", 0.3F, 0.1F, 0.9F, 0.05F, false).hidden(() -> !elytraSlowdown.get() || !elytraSlowdownMode.is(SLOW_RADIUS));
-    public static SliderSetting elytraPreHitTicks = new SliderSetting("\u0422\u0438\u043a\u0438 \u0434\u043e \u0443\u0434\u0430\u0440\u0430", 3.0F, 1.0F, 10.0F, 1.0F, false).hidden(() -> !elytraSlowdown.get() || !elytraSlowdownMode.is(SLOW_PRE_HIT));
-    public static BooleanSetting elytraHitAfterOvertake = new BooleanSetting("\u0411\u0438\u0442\u044c \u043f\u043e\u0441\u043b\u0435 \u043f\u0435\u0440\u0435\u0433\u043e\u043d\u0430", true);
-    public static BooleanSetting elytraTurnaround = new BooleanSetting("\u0420\u0430\u0437\u0432\u043e\u0440\u043e\u0442 \u043d\u0430 \u044d\u043b\u0438\u0442\u0440\u0430\u0445", true);
-    public static BooleanSetting elytraUseResolver = new BooleanSetting("\u0420\u0435\u0437\u043e\u043b\u044c\u0432\u0435\u0440 (Elytra)", true);
-    public static ModeSetting elytraResolverMode = new ModeSetting("\u0420\u0435\u0436\u0438\u043c \u0440\u0435\u0437\u043e\u043b\u044c\u0432\u0435\u0440\u0430", RES_LAG2, RES_LAG2, RES_ANTI_AIM, RES_BACKTRACK).hidden(() -> !elytraUseResolver.get());
-    public static SliderSetting elytraResolverBacktrackTicks = new SliderSetting("\u0422\u0438\u043a\u0438 \u0431\u044d\u043a\u0442\u0440\u0435\u043a\u0430", 15.0F, 2.0F, 25.0F, 1.0F, false).hidden(() -> !elytraUseResolver.get() || !elytraResolverMode.is(RES_BACKTRACK));
-    public static ModeSetting elytraAimMode = new ModeSetting("\u0420\u0435\u0436\u0438\u043c \u0442\u043e\u0447\u043a\u0438", AIM_FIREWORK, AIM_RESOLVER, AIM_FIREWORK, AIM_MIDDLE, AIM_NORMAL);
-    public static BooleanSetting elytraAutoFirework = new BooleanSetting("\u0410\u0432\u0442\u043e-\u0424\u0435\u0439\u0435\u0440\u0432\u0435\u0440\u043a", false);
-    public static BooleanSetting elytraSmartFirework = new BooleanSetting("\u0423\u043c\u043d\u043e\u0435 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435", true).hidden(() -> !elytraAutoFirework.get());
-    public static SliderSetting elytraFireworkDelay = new SliderSetting("\u0417\u0430\u0434\u0435\u0440\u0436\u043a\u0430 \u0444\u0435\u0439\u0435\u0440\u0432\u0435\u0440\u043a\u0430", 400.0F, 200.0F, 800.0F, 50.0F, false).hidden(() -> !elytraAutoFirework.get() || elytraSmartFirework.get());
-    public static BooleanSetting elytraPredict = new BooleanSetting("\u041f\u0440\u0435\u0434\u0438\u043a\u0442", true);
-    public static SliderSetting elytraPredictValue = new SliderSetting("\u041f\u0440\u0435\u0434\u0438\u043a\u0442 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435", 3.0F, 1.0F, 5.0F, 0.1F, false);
-    public static BooleanSetting showPredictPoint = new BooleanSetting("\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0442\u043e\u0447\u043a\u0443 \u043f\u0440\u0435\u0434\u0438\u043a\u0442\u0430", true).hidden(() -> !elytraPredict.get());
+    public static BooleanSetting elytraSlowdown = new BooleanSetting("Elytra slowdown", true);
+    public static ModeSetting elytraSlowdownMode = new ModeSetting("Slowdown mode", SLOW_RADIUS, SLOW_RADIUS, SLOW_PRE_HIT).hidden(() -> !elytraSlowdown.get());
+    public static SliderSetting elytraSlowdownRadius = new SliderSetting("Slowdown radius", 3.0F, 1.0F, 6.0F, 0.1F, false).hidden(() -> !elytraSlowdown.get() || !elytraSlowdownMode.is(SLOW_RADIUS));
+    public static SliderSetting elytraMinSpeed = new SliderSetting("Min speed", 0.3F, 0.1F, 0.9F, 0.05F, false).hidden(() -> !elytraSlowdown.get() || !elytraSlowdownMode.is(SLOW_RADIUS));
+    public static SliderSetting elytraPreHitTicks = new SliderSetting("Ticks before hit", 3.0F, 1.0F, 10.0F, 1.0F, false).hidden(() -> !elytraSlowdown.get() || !elytraSlowdownMode.is(SLOW_PRE_HIT));
+    public static BooleanSetting elytraHitAfterOvertake = new BooleanSetting("Hit after flyby", true);
+    public static BooleanSetting elytraTurnaround = new BooleanSetting("Elytra turnaround", true);
+    public static BooleanSetting elytraUseResolver = new BooleanSetting("Resolver (Elytra)", true);
+    public static ModeSetting elytraResolverMode = new ModeSetting("Resolver mode", RES_LAG2, RES_LAG2, RES_ANTI_AIM, RES_BACKTRACK).hidden(() -> !elytraUseResolver.get());
+    public static SliderSetting elytraResolverBacktrackTicks = new SliderSetting("Backtrack ticks", 15.0F, 2.0F, 25.0F, 1.0F, false).hidden(() -> !elytraUseResolver.get() || !elytraResolverMode.is(RES_BACKTRACK));
+    public static ModeSetting elytraAimMode = new ModeSetting("Aim point mode", AIM_FIREWORK, AIM_RESOLVER, AIM_FIREWORK, AIM_MIDDLE, AIM_NORMAL);
+    public static BooleanSetting elytraAutoFirework = new BooleanSetting("Auto firework", false);
+    public static BooleanSetting elytraSmartFirework = new BooleanSetting("Smart usage", true).hidden(() -> !elytraAutoFirework.get());
+    public static SliderSetting elytraFireworkDelay = new SliderSetting("Firework delay", 400.0F, 200.0F, 800.0F, 50.0F, false).hidden(() -> !elytraAutoFirework.get() || elytraSmartFirework.get());
+    public static BooleanSetting elytraPredict = new BooleanSetting("Predict", true);
+    public static SliderSetting elytraPredictValue = new SliderSetting("Predict value", 3.0F, 1.0F, 5.0F, 0.1F, false);
+    public static BooleanSetting showPredictPoint = new BooleanSetting("Show predict point", true).hidden(() -> !elytraPredict.get());
 
-    public static BooleanSetting elytraSmartOvertake = new BooleanSetting("\u0423\u043c\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u0433\u043e\u043d", true);
-    public static SliderSetting elytraOvertakeDistance = new SliderSetting("\u0414\u0438\u0441\u0442\u0430\u043d\u0446\u0438\u044f \u043f\u0435\u0440\u0435\u0433\u043e\u043d\u0430", 2.4F, 0.5F, 6.0F, 0.1F, false).hidden(() -> !elytraSmartOvertake.get());
-    public static SliderSetting elytraOvertakeBoost = new SliderSetting("\u0421\u0438\u043b\u0430 \u043f\u0435\u0440\u0435\u0433\u043e\u043d\u0430", 0.55F, 0.1F, 1.5F, 0.05F, false).hidden(() -> !elytraSmartOvertake.get());
+    public static BooleanSetting elytraSmartOvertake = new BooleanSetting("Smart flyby", true);
+    public static SliderSetting elytraOvertakeDistance = new SliderSetting("Flyby distance", 2.4F, 0.5F, 6.0F, 0.1F, false).hidden(() -> !elytraSmartOvertake.get());
+    public static SliderSetting elytraOvertakeBoost = new SliderSetting("Flyby power", 0.55F, 0.1F, 1.5F, 0.05F, false).hidden(() -> !elytraSmartOvertake.get());
     // New Elytra features from DDATTACK
     public static BooleanSetting elytraCustomRotate = new BooleanSetting("Custom Rotate for elytra", false);
     public static SliderSetting elytraMinY = new SliderSetting("Y smoothness for elytra", 1.0F, 1.0F, 360.0F, 1.0F, false).hidden(() -> !elytraCustomRotate.get());
