@@ -273,7 +273,7 @@ public final class HandsEffectRenderer implements IMinecraft {
         float dYaw=MathHelper.wrapDegrees(yaw-lastYaw);
         float dPitch=pitch-lastPitch;
 
-        // Очистка истории при телепортации камеры (защита от растягивания)
+        // Clear history on camera teleport (protection against stretching)
         if (Math.abs(dYaw)>60f || Math.abs(dPitch)>60f || mc.world==null) {
             clearHistory();
             lastYaw=yaw; lastPitch=pitch;
@@ -337,7 +337,7 @@ public final class HandsEffectRenderer implements IMinecraft {
     }
     private static void renderGlassFire(Hands m,float time,float dt) {
         HandsGlassSettings g=m.glass;
-        int colour=g.fireColorMode.is("Свой")?g.fireCustomColor.get():m.getMirrorColor();
+        int colour=g.fireColorMode.is("Custom")?g.fireCustomColor.get():m.getMirrorColor();
         ShaderProgram glow=original("bagaruki_burn_glow");
         glow.use();bind(glow,"HandSampler",hand,0);bind(glow,"MaskSampler",hand,1);
         burnData(glow,g,colour,time);target(fireGlow);GL11.glDisable(GL11.GL_BLEND);draw();
@@ -353,7 +353,7 @@ public final class HandsEffectRenderer implements IMinecraft {
     }
     private static void burnData(ShaderProgram p,HandsGlassSettings g,int colour,float time) {
         vector(p,"ResolutionTime",width,height,time,g.fireBurnThrough.get()?1:0);
-        vector(p,"FireParams",g.fireRadius.get(),g.fireIntensity.get(),g.fireSpeed.get(),g.fireColorMode.is("Предмет")?0:1);
+        vector(p,"FireParams",g.fireRadius.get(),g.fireIntensity.get(),g.fireSpeed.get(),g.fireColorMode.is("Item")?0:1);
         vector(p,"TrailParams",.965f,g.fireHeight.get(),g.fireSpeed.get(),g.fireTrail.get());
         vector(p,"FireColor",(colour>>16&255)/255f,(colour>>8&255)/255f,(colour&255)/255f,g.fireIntensity.get());
     }

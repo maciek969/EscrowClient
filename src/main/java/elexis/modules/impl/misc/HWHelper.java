@@ -21,37 +21,37 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-@FunctionAdd(name = "HWHelper", alias = "HWHelper", category = Category.Utilities, description = "Бинды и радиус предметов HolyWorld")
+@FunctionAdd(name = "HWHelper", alias = "HWHelper", category = Category.Utilities, description = "HolyWorld item binds and radius")
 public final class HWHelper extends Function {
     private static final Pattern LORE_RADIUS = Pattern.compile("(?iu)радиус\\s*:?\\s*(\\d+(?:[.,]\\d+)?)\\s*блок");
-    public final BooleanSetting itemRadius = new BooleanSetting("Радиус предметов", false);
-    public final BindSetting trapKey = new BindSetting("Бинд взрывной трапки", 0);
-    public final BindSetting snowKey = new BindSetting("Бинд снега", 0);
-    public final BindSetting stanKey = new BindSetting("Бинд стана", 0);
-    public final BindSetting explosionKey = new BindSetting("Бинд взрывной штучки", 0);
+    public final BooleanSetting itemRadius = new BooleanSetting("Item radius", false);
+    public final BindSetting trapKey = new BindSetting("Explosive trap bind", 0);
+    public final BindSetting snowKey = new BindSetting("Snow bind", 0);
+    public final BindSetting stanKey = new BindSetting("Stun bind", 0);
+    public final BindSetting explosionKey = new BindSetting("Explosive gadget bind", 0);
 
     public HWHelper() { addSettings(itemRadius, trapKey, snowKey, stanKey, explosionKey); }
 
     @EventHandler public void input(EventKey event) {
         if (nullCheck() || event.screen() != null) return;
-        if (event.isKeyDown(trapKey.get())) HelperItems.use(HelperItems.find(Items.PRISMARINE_SHARD, "Взрывная трапка", false));
-        else if (event.isKeyDown(snowKey.get())) HelperItems.use(HelperItems.find(Items.SNOWBALL, "Ком снега", false));
-        else if (event.isKeyDown(stanKey.get())) HelperItems.use(HelperItems.find(Items.NETHER_STAR, "Стан", false));
-        else if (event.isKeyDown(explosionKey.get())) HelperItems.use(HelperItems.find(Items.FIRE_CHARGE, "Взрывная штучка", false));
+        if (event.isKeyDown(trapKey.get())) HelperItems.use(HelperItems.find(Items.PRISMARINE_SHARD, "Explosive trap", false));
+        else if (event.isKeyDown(snowKey.get())) HelperItems.use(HelperItems.find(Items.SNOWBALL, "Snowball", false));
+        else if (event.isKeyDown(stanKey.get())) HelperItems.use(HelperItems.find(Items.NETHER_STAR, "Stun", false));
+        else if (event.isKeyDown(explosionKey.get())) HelperItems.use(HelperItems.find(Items.FIRE_CHARGE, "Explosive gadget", false));
     }
 
     @EventHandler public void sound(EventReceivePacket event) {
         if (!(event.getPacket() instanceof PlaySoundS2CPacket packet)) return;
         String trap = switch (packet.getSound().value().id().getPath()) {
-            case "block.beacon.deactivate" -> "Стан";
-            case "entity.generic.explode" -> "Взрывная трапка";
+            case "block.beacon.deactivate" -> "Stun";
+            case "entity.generic.explode" -> "Explosive trap";
             default -> null;
         };
         if (trap == null) return;
         var connection = mc.getNetworkHandler();
         mc.execute(() -> {
             if (isState() && connection == mc.getNetworkHandler() && !nullCheck() && HelperItems.serverContains("holyworld")) {
-                mc.player.sendMessage(Text.literal(String.format(Locale.ROOT, "%s обнаружена: %.0f %.0f %.0f (15 сек.)",
+                mc.player.sendMessage(Text.literal(String.format(Locale.ROOT, "%s detected: %.0f %.0f %.0f (15 sec.)",
                         trap, packet.getX(), packet.getY(), packet.getZ())), false);
             }
         });

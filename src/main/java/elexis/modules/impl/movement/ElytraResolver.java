@@ -10,7 +10,7 @@ import elexis.modules.api.settings.impl.NumberSetting;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
-@FunctionAdd(name = "ElytraResolver", alias = "Elytra Resolver", category = Category.Movement, description = "Отводит игрока от ближайшей угрозы в полёте")
+@FunctionAdd(name = "ElytraResolver", alias = "Elytra Resolver", category = Category.Movement, description = "Steers the player away from the nearest threat in flight")
 public final class ElytraResolver extends Function {
     private final NumberSetting distance = new NumberSetting("Distance", 6.0F, 4.0F, 8.0F, 0.1F);
     private final BooleanSetting autoFirework = new BooleanSetting("Auto firework", true);

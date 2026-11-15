@@ -1,13 +1,13 @@
 package elexis.modules.impl.render.javelin.crystalhands;
 
 public enum CrystalAnimation {
-   ROTATION("Вращение"),
-   PULSE("Пульсация"),
-   PENDULUM("Маятник"),
-   RESONANCE("Резонанс"),
-   GYROSCOPE("Гироскоп"),
-   FLOAT("Левитация"),
-   TUMBLE("Перекат");
+   ROTATION("Spin"),
+   PULSE("Pulse"),
+   PENDULUM("Pendulum"),
+   RESONANCE("Resonance"),
+   GYROSCOPE("Gyroscope"),
+   FLOAT("Levitation"),
+   TUMBLE("Roll");
 
    public final String label;
 

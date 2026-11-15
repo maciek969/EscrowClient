@@ -15,7 +15,7 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 
-@FunctionAdd(name = "AutoJoin", alias = "AutoJoin", category = Category.Utilities, description = "Автоматически открывает компас и заходит в дуэли")
+@FunctionAdd(name = "AutoJoin", alias = "AutoJoin", category = Category.Utilities, description = "Automatically opens the compass and joins duels")
 @Environment(EnvType.CLIENT)
 public class AutoJoin extends Function {
     private final SliderSetting delay = new SliderSetting("Delay", 10.0F, 2.0F, 40.0F, 1.0F);

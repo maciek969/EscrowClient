@@ -14,7 +14,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 
 @FunctionAdd(name = "AimBot", alias = "AimBot", category = Category.Combat,
-        description = "Плавное наведение на игроков в пределах FOV")
+        description = "Smooth aim at players within FOV")
 public final class AimBot extends Function {
     private final SliderSetting range = new SliderSetting("Range", 3f, 1f, 6f, 0.1f);
     private final SliderSetting fov = new SliderSetting("FOV", 360f, 5f, 360f, 1f);

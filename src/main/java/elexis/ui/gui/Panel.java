@@ -48,7 +48,7 @@ public class Panel {
         }
     }
 
-    // в”Ђв”Ђ Scroll helpers в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+    // ── Scroll helpers ────────────────────────────────────────────────────────
 
     private float totalContentHeight() {
         float h = 0f;
@@ -72,45 +72,45 @@ public class Panel {
         scrollOffset = Math.max(0f, Math.min(max, scrollOffset));
     }
 
-    // в”Ђв”Ђ Draw в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+    
 
     public void drawPanel(Renderer2D render, float x, float y, float alpha, int mouseX, int mouseY) {
         float a01 = alpha / 255f;
         int   ai  = (int) alpha;
 
-        // РўРµРЅСЊ РїРѕРґ РїР°РЅРµР»СЊСЋ
+        // Shadow under the panel
         render.shadow(x, y, WIDTH, HEIGHT, CORNER, 18f, 2f,
                 new Color(0, 0, 0, (int)(a01 * 80)).getRGB());
 
-        // Blur С„РѕРЅ
+        // Blur background
         render.prepareBlur(14f);
         render.blur(x, y, WIDTH, HEIGHT, CORNER);
 
-        // РћСЃРЅРѕРІРЅРѕР№ С„РѕРЅ
+        // Main background
         render.rect(x, y, WIDTH, HEIGHT, CORNER,
                 new Color(8, 8, 12, (int)(a01 * 210)).getRGB());
 
-        // РўРѕРЅРєР°СЏ РѕР±РІРѕРґРєР°
+        // Thin border
         render.rectOutline(x, y, WIDTH, HEIGHT, CORNER,
                 new Color(255, 255, 255, (int)(a01 * 18)).getRGB(), 1f);
 
         Color c1 = ClientColors.getMainColor();
         Color c2 = ClientColors.getSecondaryColor();
 
-        // в”Ђв”Ђ Р—Р°РіРѕР»РѕРІРѕРє в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+        // ── Header ─────────────────────────────────────────────────────────
 
-        // Р¤РѕРЅ Р·Р°РіРѕР»РѕРІРєР°
+        // Header background
         render.rect(x, y, WIDTH, HEADER_H, CORNER, CORNER, 0f, 0f,
                 new Color(15, 15, 20, (int)(a01 * 180)).getRGB());
 
-        // Р Р°Р·РґРµР»РёС‚РµР»СЊ Р·Р°РіРѕР»РѕРІРєР°
+        // Header separator
         render.gradient(x + 12f, y + HEADER_H - 1f, WIDTH - 24f, 1f, 0f,
                 new Color(255, 255, 255, 0).getRGB(),
                 new Color(255, 255, 255, (int)(a01 * 35)).getRGB(),
                 new Color(255, 255, 255, (int)(a01 * 35)).getRGB(),
                 new Color(255, 255, 255, 0).getRGB());
 
-        // РРєРѕРЅРєР° РєР°С‚РµРіРѕСЂРёРё
+        // Category icon
         String icon = category.getIcon();
         float iconSize = 16f;
         float iconX = x + 16f;
@@ -118,7 +118,7 @@ public class Panel {
         render.text(FontRegistry.ICONS, iconX, iconY, iconSize, icon,
                 withAlpha(c1, ai));
 
-        // РќР°Р·РІР°РЅРёРµ РєР°С‚РµРіРѕСЂРёРё
+        // Category name
         String title = RussianText.tr(category.name());
         float titleSize = 15f;
         float titleX = x + 16f + iconSize + 8f;
@@ -126,7 +126,7 @@ public class Panel {
         render.text(FontRegistry.SF_SEMIBOLD, titleX, titleY, titleSize, title,
                 new Color(240, 240, 248, ai).getRGB());
 
-        // РЎС‡С‘С‚С‡РёРє РјРѕРґСѓР»РµР№ (СЃРїСЂР°РІР°)
+        // Module counter (on the right)
         long enabled = components.stream().filter(c -> matchesSearch(c) && c.function.isState()).count();
         long visibleCount = components.stream().filter(this::matchesSearch).count();
         String countStr = enabled + "/" + visibleCount;
@@ -137,7 +137,7 @@ public class Panel {
         render.text(FontRegistry.SF_MEDIUM, countX, countY, countSize, countStr,
                 new Color(120, 120, 135, (int)(a01 * 180)).getRGB());
 
-        // в”Ђв”Ђ РљРѕРЅС‚РµРЅС‚ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+        // ── Content ───────────────────────────────────────────────────────────
 
         float contentY = y + HEADER_H;
         float contentH = HEIGHT - HEADER_H;
@@ -157,7 +157,7 @@ public class Panel {
             render.popClipRect();
         }
 
-        // РЎРєСЂРѕР»Р»Р±Р°СЂ вЂ” С‚РѕРЅРєРёР№, СЃ РіСЂР°РґРёРµРЅС‚РѕРј
+        // Scrollbar — thin, with a gradient
         if (totalH > contentH) {
             float bw  = 2.5f;
             float bx  = x + WIDTH - bw - 4f;
@@ -165,11 +165,11 @@ public class Panel {
             float bh  = Math.max(24f, contentH * ratio);
             float by  = contentY + (maxScroll > 0 ? (scrollOffset / maxScroll) * (contentH - bh) : 0f);
 
-            // РўСЂРµРє
+            // Track
             render.rect(bx, contentY + 6f, bw, contentH - 12f, bw / 2f,
                     new Color(255, 255, 255, (int)(a01 * 8)).getRGB());
 
-            // РџРѕР»Р·СѓРЅРѕРє СЃ РіСЂР°РґРёРµРЅС‚РѕРј С†РІРµС‚Р° С‚РµРјС‹
+            // Slider with a theme color gradient
             render.gradient(bx, by, bw, bh, bw / 2f,
                     withAlpha(c1, (int)(a01 * 180)),
                     withAlpha(c1, (int)(a01 * 180)),
@@ -177,7 +177,7 @@ public class Panel {
                     withAlpha(c2, (int)(a01 * 120)));
         }
 
-        // РќРёР¶РЅРёР№ fade-out
+        // Bottom fade-out
         render.gradient(x, y + HEIGHT - 28f, WIDTH, 28f,
                 CORNER, CORNER, CORNER, CORNER,
                 new Color(0, 0, 0, 0).getRGB(),
@@ -186,7 +186,7 @@ public class Panel {
                 new Color(8, 8, 12, (int)(a01 * 180)).getRGB());
     }
 
-    // в”Ђв”Ђ Input в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+    
 
     public boolean mouseScrolled(double mx, double my, double px, double py, double amount) {
         if (mx < px || mx > px + WIDTH || my < py || my > py + HEIGHT) return false;
@@ -257,7 +257,7 @@ public class Panel {
     public float getHeaderH()           { return HEADER_H; }
     public void  resetScroll()          { scrollOffset = 0f; targetScrollOffset = 0f; }
 
-    // в”Ђв”Ђ Helpers в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+    
 
     private boolean matchesSearch(FunctionComponent comp) {
         String query = ClickGui.getSearchQuery();

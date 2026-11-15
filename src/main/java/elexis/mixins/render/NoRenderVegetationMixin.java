@@ -44,7 +44,7 @@ public class NoRenderVegetationMixin {
     private void noRender$vegetation(BlockState state, BlockPos pos, BlockRenderView world,
                                       MatrixStack stack, VertexConsumer vertexConsumer,
                                       boolean cull, List<?> list, CallbackInfo ci) {
-        if (NoRneder.is("Растительность") && VEGETATION_BLOCKS.contains(state.getBlock())) {
+        if (NoRneder.is("Vegetation") && VEGETATION_BLOCKS.contains(state.getBlock())) {
             ci.cancel();
         }
     }

@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Covers crystal bases that an opponent can use to cause unacceptable self damage. */
-@FunctionAdd(name="AntiCrystal", alias="AntiCrystal", category=Category.Combat, description="Перекрывает опасные места установки кристаллов")
+@FunctionAdd(name="AntiCrystal", alias="AntiCrystal", category=Category.Combat, description="Blocks dangerous crystal placement spots")
 public final class AntiCrystal extends Function {
-    public final SliderSetting minDamage = new SliderSetting("Мин дамаг по себе", 8, 1, 20, .5f);
+    public final SliderSetting minDamage = new SliderSetting("Min self damage", 8, 1, 20, .5f);
     private final List<JavelinCombat.FadingBox> visuals = new ArrayList<>();
     private PlayerEntity target;
     private JavelinCombat.Placement lastData;

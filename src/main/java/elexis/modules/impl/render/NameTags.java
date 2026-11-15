@@ -33,7 +33,7 @@ import java.util.Map;
 
 /** Javelin name plates with native, resource-pack-aware item atlas rendering. */
 @FunctionAdd(name="NameTags", alias="NameTags", category=Category.Render,
-        description="Теги Javelin с головами, здоровьем и экипировкой")
+        description="Javelin tags with heads, health and gear")
 public final class NameTags extends Function {
     private static final float ITEM_SIZE=13, ITEM_GAP=2, TEXT_SIZE=14;
     private static final int BACKGROUND=0x73000000, FRIEND_BACKGROUND=0x734BE38C;
@@ -41,10 +41,10 @@ public final class NameTags extends Function {
     private static final EquipmentSlot[] EQUIPMENT={EquipmentSlot.MAINHAND,EquipmentSlot.OFFHAND,
             EquipmentSlot.HEAD,EquipmentSlot.CHEST,EquipmentSlot.LEGS,EquipmentSlot.FEET};
     private static NameTags instance;
-    public final MultiBooleanSetting targets=new MultiBooleanSetting("Цели",
-            new BooleanSetting("Игроки",true),new BooleanSetting("Предметы",true));
-    public final BooleanSetting playerHead=new BooleanSetting("Голова игрока",true);
-    public final BooleanSetting itemIcons=new BooleanSetting("Иконки предметов",true);
+    public final MultiBooleanSetting targets=new MultiBooleanSetting("Targets",
+            new BooleanSetting("Players",true),new BooleanSetting("Items",true));
+    public final BooleanSetting playerHead=new BooleanSetting("Player head",true);
+    public final BooleanSetting itemIcons=new BooleanSetting("Item icons",true);
     private final List<Entry> entries=new ArrayList<>();
     private final List<Icon> icons=new ArrayList<>();
     private final Map<ItemStack,Integer> iconIndices=new IdentityHashMap<>();
@@ -62,7 +62,7 @@ public final class NameTags extends Function {
     }
 
     public boolean shouldHideVanillaPlayerLabels() {
-        return isState() && targets.get("Игроки");
+        return isState() && targets.get("Players");
     }
 
     public void rememberVanillaPlayerLabel(Text playerName,Text displayName) {
@@ -84,7 +84,7 @@ public final class NameTags extends Function {
         if(world!=mc.world) { serverNames.clear(); world=mc.world; }
         double pixelScale=mc.getWindow().getScaleFactor();
         for(Entity entity:mc.world.getEntities()) {
-            if(entity instanceof PlayerEntity player && targets.get("Игроки")) {
+            if(entity instanceof PlayerEntity player && targets.get("Players")) {
                 if(player==mc.player && mc.options.getPerspective().isFirstPerson()) continue;
                 Vec3d position=project(player.getLerpedPos(tickDelta).add(0,player.getHeight()+0.4,0));
                 if(position==null) continue;
@@ -102,7 +102,7 @@ public final class NameTags extends Function {
                         ? client.getSkin().body().texturePath() : null;
                 boolean friend=player!=mc.player && Elexis.getInstance().getFriendStorage().isFriend(player.getGameProfile().name());
                 entries.add(new Entry((float)(position.x*pixelScale),(float)(position.y*pixelScale),name,equipment,friend,skin,ItemStack.EMPTY));
-            } else if(entity instanceof ItemEntity item && targets.get("Предметы")) {
+            } else if(entity instanceof ItemEntity item && targets.get("Items")) {
                 double offset=mc.player.getEyePos().distanceTo(item.getBoundingBox().getCenter())/20;
                 Vec3d position=project(item.getLerpedPos(tickDelta).add(0,item.getHeight()+offset,0));
                 if(position==null) continue;

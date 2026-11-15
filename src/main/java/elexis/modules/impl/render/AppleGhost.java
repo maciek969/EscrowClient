@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-@FunctionAdd(name = "AppleGhost", alias = "AppleGhost", category = Category.Render, description = "Золотые частицы регенерации после яблока")
+@FunctionAdd(name = "AppleGhost", alias = "AppleGhost", category = Category.Render, description = "Golden regeneration particles after an apple")
 public final class AppleGhost extends Function {
     private static final int[] GOLD = {-14040, -10163, -7046, -18155, -3933};
     private static final Identifier GHOST = Identifier.of("javelin", "textures/modules/appleghost/ghost-glow.png");
-    private final SliderSetting amount = new SliderSetting("Количество", 3, 1, 8, 1);
-    private final SliderSetting size = new SliderSetting("Размер", .1f, .05f, .2f, .01f);
-    private final BooleanSetting self = new BooleanSetting("Показывать на себе", true);
+    private final SliderSetting amount = new SliderSetting("Count", 3, 1, 8, 1);
+    private final SliderSetting size = new SliderSetting("Size", .1f, .05f, .2f, .01f);
+    private final BooleanSetting self = new BooleanSetting("Show on self", true);
     private final Map<AbstractClientPlayerEntity, Eating> players = new HashMap<>();
     private final List<Spark> particles = new ArrayList<>();
     private ClientWorld world;

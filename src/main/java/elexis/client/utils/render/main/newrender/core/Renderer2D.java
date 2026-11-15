@@ -323,15 +323,15 @@ public final class Renderer2D {
 
     // --- PostFX ---
     /**
-     * Размывает область экрана (Gaussian mip-based). Вызывать после begin();
-     * метод НЕ управляет жизненным циклом begin/end.
+     * Blurs a screen area (Gaussian mip-based). Call after begin();
+     * the method does NOT manage the begin/end lifecycle.
      */
     public void blur(float x, float y, float w, float h, float rounding) {
         blur(x, y, w, h, rounding, 1.0f);
     }
 
     /**
-     * Рисует подготовленный блюр с указанной прозрачностью, учитывая текущий стек альфы.
+     * Draws the prepared blur with the given opacity, respecting the current alpha stack.
      */
     public void blur(float x, float y, float w, float h, float rounding, float alpha) {
         ensureFrame();
@@ -369,12 +369,7 @@ public final class Renderer2D {
                 regionBlurCaptureWidth, regionBlurCaptureHeight);
     }
 
-    /**
-     * Подготавливает текстуру размытого экрана для последующих вызовов {@link #blur(float, float, float, float, float, float)}.
-     * Выполняет захват и фильтрацию не чаще одного раза за кадр для уникальной комбинации радиуса и размеров кадра.
-     *
-     * @param strength радиус размытия в пикселях (значения < 0.5 будут автоматически подняты до минимально допустимого)
-     */
+    /* */
     public void prepareBlur(float strength) {
         ensureFrame();
         int width = frameWidth;

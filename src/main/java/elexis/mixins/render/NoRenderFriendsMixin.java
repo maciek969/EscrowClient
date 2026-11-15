@@ -18,7 +18,7 @@ public class NoRenderFriendsMixin {
             at = @At("TAIL"), require = 0
     )
     private void noRender$friends(PlayerLikeEntity player, PlayerEntityRenderState state, float tickDelta, CallbackInfo ci) {
-        if (!NoRneder.is("Друзья")) return;
+        if (!NoRneder.is("Friends")) return;
         if (Elexis.getInstance() == null || Elexis.getInstance().getFriendStorage() == null) return;
         if (Elexis.getInstance().getFriendStorage().isFriend(player.getName().getString())) {
             state.invisible = true;

@@ -15,7 +15,7 @@ public class NoRenderWitherHeartsMixin {
 
     @Inject(method = "hasStatusEffect", at = @At("HEAD"), cancellable = true, require = 0)
     private void noRender$witherHearts(RegistryEntry<StatusEffect> effect, CallbackInfoReturnable<Boolean> cir) {
-        if (!NoRneder.is("Сердца иссушения")) return;
+        if (!NoRneder.is("Wither hearts")) return;
         if (effect != null && effect.equals(StatusEffects.WITHER)) {
             cir.setReturnValue(false);
         }

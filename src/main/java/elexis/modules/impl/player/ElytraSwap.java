@@ -18,11 +18,11 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-@FunctionAdd(name = "Elytra Helper", alias = "Elytra Swap", description = "Помощник для элитры", category = Category.Player)
+@FunctionAdd(name = "Elytra Helper", alias = "Elytra Swap", description = "Elytra helper", category = Category.Player)
 public class ElytraSwap extends Function {
     public static final ElytraSwap INSTANCE = new ElytraSwap();
 
-    private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla", "Grim");
+    private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla", "Grim", "GrimClassic");
     private final BindSetting swapKey = new BindSetting("Swap key", -1);
     private final BindSetting fireworkKey = new BindSetting("Firework key", -1);
     private final BooleanSetting autoTakeoff = new BooleanSetting("Auto takeoff", true);
@@ -78,7 +78,25 @@ public class ElytraSwap extends Function {
     }
 
     public void swap(String mode, boolean chestplate) {
+        if ("GrimClassic".equalsIgnoreCase(mode)) {
+            grimClassicSwap(chestplate);
+            return;
+        }
         vanillaSwap(chestplate);
+    }
+
+    // ── GrimClassic: hand-written armor swap ──────────────────────────────
+    // Re-selects the current hotbar slot right before the swap click so the
+    // server has a fresh, acknowledged selected-slot state. Grim rejects
+    // chestplate swaps that race an unacknowledged slot change; this ordering
+    // avoids that without any extra inventory clicks.
+    private void grimClassicSwap(boolean wearingElytra) {
+        if (mc.player == null || mc.interactionManager == null || mc.getNetworkHandler() == null) {
+            return;
+        }
+        int selected = mc.player.getInventory().getSelectedSlot();
+        mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(selected));
+        vanillaSwap(wearingElytra);
     }
 
     private void vanillaSwap(boolean wearingElytra) {

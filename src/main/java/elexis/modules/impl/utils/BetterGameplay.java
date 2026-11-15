@@ -9,9 +9,9 @@ import org.lwjgl.glfw.GLFW;
 
 @FunctionAdd(name = "BetterGameplay", alias = "Better Gameplay", category = Category.Utilities)
 public class BetterGameplay extends Function {
-    public static ModeListSetting list = new ModeListSetting("Что оптимизировать",
-            new BooleanSetting("Прицел", true),
-            new BooleanSetting("Скролл", true));
+    public static ModeListSetting list = new ModeListSetting("What to optimize",
+            new BooleanSetting("Crosshair", true),
+            new BooleanSetting("Scroll", true));
 
     public BetterGameplay() {
         setBind(GLFW.GLFW_KEY_B);

@@ -45,7 +45,7 @@ public class BindCommand extends Command {
                 handleClearBinds(args);
                 break;
             default:
-                logDirect("§cНеизвестное действие. Используй: §fbind add/remove/list/clear");
+                logDirect("§cUnknown action. Use: §fbind add/remove/list/clear");
                 break;
         }
     }
@@ -58,20 +58,20 @@ public class BindCommand extends Command {
 
         Function function = functionManager.getFunctionByName(functionName);
         if (function == null) {
-            logDirect("§cФункция §f" + functionName + "§c не найдена!");
+            logDirect("§cModule §f" + functionName + "§c not found!");
             return;
         }
 
         functionManager.getFunctions().stream()
                 .filter(f -> f.getBind() == key && f != function)
                 .findFirst()
-                .ifPresent(existing -> logDirect(Formatting.YELLOW + "Клавиша §b"
+                .ifPresent(existing -> logDirect(Formatting.YELLOW + "Key §b"
                         + PlayerUtils.getBindName(key) + Formatting.YELLOW
-                        + " уже занята функцией §c" + existing.getName()));
+                        + " is already bound to module §c" + existing.getName()));
 
         function.setBind(key);
-        logDirect(Formatting.GREEN + "Функция §f" + function.getName()
-                + Formatting.GREEN + " успешно привязана к §f" + PlayerUtils.getBindName(key));
+        logDirect(Formatting.GREEN + "Module §f" + function.getName()
+                + Formatting.GREEN + " successfully bound to §f" + PlayerUtils.getBindName(key));
     }
 
     void handleRemoveBind(IArgConsumer args) throws CommandException {
@@ -80,18 +80,18 @@ public class BindCommand extends Command {
 
         Function function = functionManager.getFunctionByName(functionName);
         if (function == null) {
-            logDirect("§cФункция §f" + functionName + "§c не найдена!");
+            logDirect("§cModule §f" + functionName + "§c not found!");
             return;
         }
 
         if (function.getBind() == 0) {
-            logDirect("§eУ функции §f" + function.getName() + "§e нет привязанной клавиши.");
+            logDirect("§eModule §f" + function.getName() + "§e has no bound key.");
             return;
         }
 
         String keyName = PlayerUtils.getBindName(function.getBind());
         function.setBind(0);
-        logDirect("§aБинд §f" + function.getName() + " §8(§c" + keyName + "§8) §aуспешно удалён.");
+        logDirect("§aBind §f" + function.getName() + " §8(§c" + keyName + "§8) §asuccessfully removed.");
     }
 
     void handleListBinds(IArgConsumer args) throws CommandException {
@@ -103,11 +103,11 @@ public class BindCommand extends Command {
                 .toList();
 
         if (boundFunctions.isEmpty()) {
-            logDirect("§fНет привязанных функций. Используй §a.bind add <функция> <клавиша>");
+            logDirect("§fNo bound modules. Use §a.bind add <module> <key>");
             return;
         }
 
-        logDirect("§fПривязанные функции:");
+        logDirect("§fBound modules:");
         for (Function function : boundFunctions) {
             logDirect(" §7• §f" + function.getName() + " §8→ §c" + PlayerUtils.getBindName(function.getBind()));
         }
@@ -124,7 +124,7 @@ public class BindCommand extends Command {
             }
         }
 
-        logDirect(Formatting.GREEN + "Успешно удалено биндов: " + cleared);
+        logDirect(Formatting.GREEN + "Binds removed successfully: " + cleared);
     }
 
     @Override
@@ -165,19 +165,19 @@ public class BindCommand extends Command {
 
     @Override
     public String getShortDesc() {
-        return "Управление биндами для модулей.";
+        return "Manage module binds.";
     }
 
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "Команда управляет биндами модулей.",
+                "Command manages module binds.",
                 "",
-                "Использование:",
-                "> bind add <module> <key> - привязать модуль к клавише.",
-                "> bind remove <module> - удалить бинд модуля.",
-                "> bind list - показать все текущие бинды.",
-                "> bind clear - удалить все бинды."
+                "Usage:",
+                "> bind add <module> <key> - bind a module to a key.",
+                "> bind remove <module> - remove a module bind.",
+                "> bind list - show all current binds.",
+                "> bind clear - remove all binds."
         );
     }
 }

@@ -50,7 +50,7 @@ public final class BlockVisuals {
         @Override public void onDisable() { clear(); super.onDisable(); }
     }
 
-    @FunctionAdd(name="BlockESP",alias="Block ESP",category=Category.Render,description="Подсветка контейнеров, руд и спавнеров")
+    @FunctionAdd(name="BlockESP",alias="Block ESP",category=Category.Render,description="Highlight of containers, ores and spawners")
     public static final class BlockESP extends Scan {
         private final ModeSetting blocks=new ModeSetting("Blocks","Containers","Containers","Ores","Spawners","All");
         public BlockESP() { addSettings(blocks); }
@@ -64,7 +64,7 @@ public final class BlockVisuals {
         }
     }
 
-    @FunctionAdd(name="HoleESP",alias="Hole ESP",category=Category.Render,description="Безопасные лунки из обсидиана и бедрока")
+    @FunctionAdd(name="HoleESP",alias="Hole ESP",category=Category.Render,description="Safe holes from obsidian and bedrock")
     public static final class HoleESP extends Scan {
         @Override protected boolean matches(BlockPos p,BlockState state) {
             if(!state.isAir() || !mc.world.getBlockState(p.up()).isAir() || !mc.world.getBlockState(p.up(2)).isAir()) return false;
@@ -77,7 +77,7 @@ public final class BlockVisuals {
         @Override protected int color(BlockPos p) { return mc.world.getBlockState(p.down()).isOf(Blocks.BEDROCK)?0xFF79EBC4:0xFFFFD179; }
     }
 
-    @FunctionAdd(name="TrapIndicator",alias="Trap Indicator",category=Category.Render,description="Метки поршней и механизмов рядом")
+    @FunctionAdd(name="TrapIndicator",alias="Trap Indicator",category=Category.Render,description="Markers of nearby pistons and mechanisms")
     public static final class TrapIndicator extends Scan {
         @Override protected boolean matches(BlockPos p,BlockState state) {
             Block b=state.getBlock();
@@ -94,7 +94,7 @@ public final class BlockVisuals {
         }
     }
 
-    @FunctionAdd(name="BlockOverlay",alias="Block Overlay",category=Category.Render,description="Подсветка блока под прицелом")
+    @FunctionAdd(name="BlockOverlay",alias="Block Overlay",category=Category.Render,description="Highlight of the block under the crosshair")
     public static final class BlockOverlay extends Function {
         private final ColorSetting color=new ColorSetting("Color",0xFFB29CFF);
         public BlockOverlay() { addSettings(color); }

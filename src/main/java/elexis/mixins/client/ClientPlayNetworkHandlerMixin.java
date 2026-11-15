@@ -24,7 +24,7 @@ public class ClientPlayNetworkHandlerMixin {
     }
     @Inject(method = "onPlayerList", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"), cancellable = true)
     public void antiIngoringPlayerInfoSelfcode(PlayerListS2CPacket packet, CallbackInfo ci) {
-        ci.cancel(); // хах селфкод
+        ci.cancel(); // hah selfcode
     }
 
     @Inject(at = @At("HEAD"), method = "sendChatMessage(Ljava/lang/String;)V", cancellable = true)

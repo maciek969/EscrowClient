@@ -39,7 +39,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /** Adapted from the Astra CrystalAura source supplied by the client owner. */
 @FunctionAdd(name = "CrystalAura", alias = "CrystalAura", category = Category.Combat,
-description = "Кристаллы и обсидиан: расчёт урона, подкоп и режимы ротации")
+description = "Crystals and obsidian: damage calc, dig-down and rotation modes")
 public final class CrystalAura extends Function {
 
     private static final double PLACE_REACH = 4.5D;
@@ -50,13 +50,13 @@ public final class CrystalAura extends Function {
     private static final int SLOT_RETURN_TICKS = 3;
     private static final int MAX_TARGET_HOLD_TICKS = 8;
 
-    public final ModeSetting preset = new ModeSetting("Режим", "Default", "Default", "Donut");
-    public final ModeSetting rotate = new ModeSetting("Ротация", "ReallyWorld", "ReallyWorld", "Плавная", "Vanilla", "Без ротации");
-    public final SliderSetting smoothSpeed = new SliderSetting("Скорость ротации", .5f, .1f, 1f, .05f)
-    .setVisible(() -> rotate.is("Плавная"));
-    public final BooleanSetting autoKrot = new BooleanSetting("Делать подкоп", true);
-    public final SliderSetting explosionDelay = new SliderSetting("Задержка", 0, 0, 500, 10);
-    public final BooleanSetting render = new BooleanSetting("Рендер", true);
+    public final ModeSetting preset = new ModeSetting("Mode", "Default", "Default", "Donut");
+    public final ModeSetting rotate = new ModeSetting("Rotation", "ReallyWorld", "ReallyWorld", "Smooth", "Vanilla", "No rotation");
+    public final SliderSetting smoothSpeed = new SliderSetting("Rotation speed", .5f, .1f, 1f, .05f)
+    .setVisible(() -> rotate.is("Smooth"));
+    public final BooleanSetting autoKrot = new BooleanSetting("Dig down", true);
+    public final SliderSetting explosionDelay = new SliderSetting("Delay", 0, 0, 500, 10);
+    public final BooleanSetting render = new BooleanSetting("Render", true);
 
     private ClientWorld activeWorld;
     private ClientPlayerEntity activePlayer;
@@ -529,17 +529,17 @@ public final class CrystalAura extends Function {
     }
 
     private boolean isInstantRotation() {
-        return this.rotate.is("Vanilla") || this.rotate.is("Без ротации");
+        return this.rotate.is("Vanilla") || this.rotate.is("No rotation");
     }
 
     private void applyRotation(float[] rot) {
         this.rotation = rot;
-        if (rotate.is("Без ротации")) serverRotation = null;
+        if (rotate.is("No rotation")) serverRotation = null;
         if (mc.player == null) return;
 
         if (this.rotate.is("ReallyWorld")) {
             updateSmoothRotation(mc.player, rot[0], rot[1], 0.65F, true);
-        } else if (this.rotate.is("Плавная")) {
+        } else if (this.rotate.is("Smooth")) {
             float speed = (float) this.smoothSpeed.get().doubleValue();
             updateSmoothRotation(mc.player, rot[0], rot[1], speed, false);
         } else if (this.rotate.is("Vanilla")) {

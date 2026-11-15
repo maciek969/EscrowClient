@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import java.util.*;
 import java.util.regex.Pattern;
 
-@FunctionAdd(name="WardenESP",alias="Warden ESP",category=Category.Render,description="Сундуки города варденов и серверные таймеры возрождения")
+@FunctionAdd(name="WardenESP",alias="Warden ESP",category=Category.Render,description="Warden city chests and server respawn timers")
 public final class WardenESP extends Function {
     private static final Pattern TIME=Pattern.compile("(\\d{2}):(\\d{2})");
     private final Set<BlockPos> chests=new HashSet<>();

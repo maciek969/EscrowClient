@@ -13,7 +13,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
 
 /** Javelin's web-specific critical sequence and one-tick timer recovery. */
-@FunctionAdd(name="Criticals", alias="Criticals", category=Category.Combat, description="Критическая атака в паутине")
+@FunctionAdd(name="Criticals", alias="Criticals", category=Category.Combat, description="Critical attack in cobweb")
 public final class Criticals extends Function {
     private boolean bagaTimer;
 

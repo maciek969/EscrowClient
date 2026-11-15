@@ -25,10 +25,10 @@ public class CameraTweaks extends Function {
     boolean isZoomActive = false;
 
     final BooleanSetting aspectRatio = new BooleanSetting("Aspect ratio", false);
-    final SliderSetting aspectRatioValue = new SliderSetting("Значение ширины экрана", 1.55f, 1f, 2f, 0.01f);
-    final BooleanSetting clipSetting = new BooleanSetting("Камера клип", false);
-    final SliderSetting distanceSetting = new SliderSetting("Дистанция камеры от ф5", 4f, 2f, 4f, 0.1f);
-    final BindSetting zoomSetting = new BindSetting("Приближение", GLFW.GLFW_KEY_C);
+    final SliderSetting aspectRatioValue = new SliderSetting("Screen width value", 1.55f, 1f, 2f, 0.01f);
+    final BooleanSetting clipSetting = new BooleanSetting("Camera clip", false);
+    final SliderSetting distanceSetting = new SliderSetting("Camera distance in F5", 4f, 2f, 4f, 0.1f);
+    final BindSetting zoomSetting = new BindSetting("Zoom", GLFW.GLFW_KEY_C);
 
     public CameraTweaks() {
         addSettings(aspectRatio, aspectRatioValue, clipSetting, distanceSetting, zoomSetting);

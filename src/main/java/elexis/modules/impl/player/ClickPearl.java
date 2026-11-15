@@ -22,13 +22,13 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 @FunctionAdd(name = "ClickPearl", alias = "Click Pearl", category = Category.Player,
-        description = "Кидает эндер-жемчуг по нажатию клавиши")
+        description = "Throws an ender pearl on key press")
 public final class ClickPearl extends Function {
-    private static final String NORMAL = "Обычный";
-    private static final String LEGIT = "Легитный";
+    private static final String NORMAL = "Default";
+    private static final String LEGIT = "Legit";
     private static final int MIDDLE_MOUSE_BIND = -3;
 
-    private final ModeSetting mode = new ModeSetting("Режим", NORMAL, NORMAL, LEGIT);
+    private final ModeSetting mode = new ModeSetting("Mode", NORMAL, NORMAL, LEGIT);
     private final BindSetting pearlBind = new BindSetting("Pearl Bind", MIDDLE_MOUSE_BIND);
     private final Deque<ScheduledTask> tasks = new ArrayDeque<>();
     private ThrowFlow flow;

@@ -17,7 +17,7 @@ public final class ModelVisuals {
     private static final Map<LivingEntityRenderState,Integer> TINTS=new WeakHashMap<>();
     private ModelVisuals() {}
 
-    @FunctionAdd(name="ImpactNova",alias="Impact Nova",category=Category.Render,description="Цветовой импульс на модели после удара")
+    @FunctionAdd(name="ImpactNova",alias="Impact Nova",category=Category.Render,description="Color pulse on the model after a hit")
     public static final class ImpactNova extends Function {
         private final Map<UUID,Long> hits=new HashMap<>();
         public final SliderSetting duration=new SliderSetting("Duration (ms)",1000f,200f,3000f,100f);
@@ -34,7 +34,7 @@ public final class ModelVisuals {
         @Override public void onDisable() { hits.clear(); super.onDisable(); }
     }
 
-    @FunctionAdd(name="KillSpray",alias="Kill Spray",category=Category.Render,description="Логотип в месте смерти атакованной цели")
+    @FunctionAdd(name="KillSpray",alias="Kill Spray",category=Category.Render,description="Logo at the death spot of the attacked target")
     public static final class KillSpray extends Function {
         private record Candidate(LivingEntity entity,long time) {}
         private record Spray(Vec3d position,long time) {}

@@ -17,7 +17,7 @@ public class NoRenderEntityMixin {
     private void noRender$invisible(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
 
-        if (NoRneder.is("Стрелы в игроке") && self instanceof PersistentProjectileEntity arrow) {
+        if (NoRneder.is("Arrows in player") && self instanceof PersistentProjectileEntity arrow) {
             if (arrow.getOwner() != null
                     && MinecraftClient.getInstance().player != null
                     && arrow.getOwner().getId() != MinecraftClient.getInstance().player.getId()
@@ -27,7 +27,7 @@ public class NoRenderEntityMixin {
             }
         }
 
-        if (NoRneder.is("Арморстенды") && self instanceof ArmorStandEntity) {
+        if (NoRneder.is("Armor stands") && self instanceof ArmorStandEntity) {
             cir.setReturnValue(true);
         }
     }

@@ -111,7 +111,7 @@ public class PlayerUtils implements IMinecraft {
                             .addTickStep(2, PlayerUtils::enableMoveKeys);
                     return;
                 }
-                case "Р В РЎв„ўР В Р’В°Р РЋР С“Р РЋРІР‚С™Р В РЎвЂўР В РЎВ" -> {
+                case "Custom" -> {
                     script.cleanup().addTickStep(0, ()-> {
                                 PlayerUtils.disableMoveKeys();
                             }).addTickStep(ServerAssistant.tickToRunAction.get().intValue(), task::run)
@@ -119,7 +119,7 @@ public class PlayerUtils implements IMinecraft {
                     return;
                 }
 
-                case "Р В РІР‚ВР В Р’ВµР В Р’В· Р РЋР вЂљР В Р’В°Р В Р’В·Р В Р вЂ¦Р В РЎвЂР РЋРІР‚В Р РЋРІР‚в„–" -> {
+                case "Any" -> {
                     script.cleanup().addTickStep(0, task::run);
                     return;
                 }
@@ -585,7 +585,7 @@ public class PlayerUtils implements IMinecraft {
         if (input == null || input.isEmpty()) return input;
 
         String cleanedInput = input
-                .replace("В§", "")
+                .replace("§", "")
                 .replaceAll("(?i)&[0-9A-FK-OR]", "")
                 .replaceAll("\\s+", " ")
                 .trim();

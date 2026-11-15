@@ -7,7 +7,7 @@ import java.nio.IntBuffer;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 /**
- * Снимок и восстановление критичных GL-состояний, чтобы не ломать пайплайн игры.
+ * Snapshot and restore of critical GL states to avoid breaking the game pipeline.
  */
 public final class GlState {
 

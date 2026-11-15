@@ -18,9 +18,9 @@ import java.util.List;
  * Old mode excludes player entities absent from the server's player list.
  * New mode excludes players whose names contain "Bot"/"bot" or start with "Reserved".
  */
-@FunctionAdd(name = "AntiBot", alias = "AntiBot", category = Category.Combat, description = "Фильтрует ботов из списка целей")
+@FunctionAdd(name = "AntiBot", alias = "AntiBot", category = Category.Combat, description = "Filters bots out of the target list")
 public class AntiBot extends Function {
-    private final ModeSetting mode = new ModeSetting("Выбор режима", "Новый", "Старый", "Новый");
+    private final ModeSetting mode = new ModeSetting("Mode select", "New", "Old", "New");
     /** Player entities excluded by the selected filter. */
     public static List<Entity> bot = new ArrayList<>();
 
@@ -31,9 +31,9 @@ public class AntiBot extends Function {
     @EventHandler
     public void onUpdate(EventUpdate.Fast event) {
         if (mc.world == null || mc.player == null) return;
-        if (mode.is("Новый")) {
+        if (mode.is("New")) {
             newMatrix();
-        } else if (mode.is("Старый")) {
+        } else if (mode.is("Old")) {
             oldMatrix();
         }
     }

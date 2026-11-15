@@ -34,7 +34,7 @@ import net.minecraft.world.RaycastContext;
 import org.jetbrains.annotations.Nullable;
 
 @FunctionAdd(name = "TargetPearl", alias = "Target Pearl", category = Category.Combat,
-        description = "Следует за перлом цели с расчётом приземления и собственной траектории из Javelin")
+        description = "Follows the target pearl with landing calc and own trajectory from Javelin")
 public final class TargetPearl extends Function {
     private static PearlRotation movementRotation;
     private static ClientWorld rotationLevel;

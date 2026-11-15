@@ -25,12 +25,12 @@ import java.util.ArrayDeque;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
-@FunctionAdd(name = "DamagePop", alias = "DamagePop", category = Category.Render, description = "Всплывающие числа фактически полученного урона")
+@FunctionAdd(name = "DamagePop", alias = "DamagePop", category = Category.Render, description = "Popup numbers of actually taken damage")
 public final class DamagePop extends Function {
     private static final long LIFE = 1_100_000_000L;
-    private final ModeSetting style = new ModeSetting("Шрифт", "Обычный", "Обычный", "Minecraft");
-    private final BooleanSetting glow = new BooleanSetting("Свечение", true);
-    private final SliderSetting strength = new SliderSetting("Сила свечения", 1, .25f, 2, .05f);
+    private final ModeSetting style = new ModeSetting("Font", "Default", "Default", "Minecraft");
+    private final BooleanSetting glow = new BooleanSetting("Glow", true);
+    private final SliderSetting strength = new SliderSetting("Glow strength", 1, .25f, 2, .05f);
     private final DecimalFormat format = new DecimalFormat("0.##", DecimalFormatSymbols.getInstance(Locale.ROOT));
     private final ArrayDeque<Pop> pops = new ArrayDeque<>();
     private Int2FloatOpenHashMap last = new Int2FloatOpenHashMap(), next = new Int2FloatOpenHashMap();

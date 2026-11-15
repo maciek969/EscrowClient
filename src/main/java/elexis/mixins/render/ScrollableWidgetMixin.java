@@ -32,7 +32,7 @@ public abstract class ScrollableWidgetMixin implements ScrollableWidgetManipulat
 
     @Unique
     public void Elexis$manipulateScrollAmount(float delta) {
-        renderSmooth = BetterGameplay.list.isSelected("Скролл") && Elexis.getFunctionManager().getBetterGameplay().isState();
+        renderSmooth = BetterGameplay.list.isSelected("Scroll") && Elexis.getFunctionManager().getBetterGameplay().isState();
         checkOutOfBounds(delta);
 
         if (Math.abs(ScrollMath.scrollbarVelocity(animationTimer, scrollStartVelocity)) < 1.0) return;

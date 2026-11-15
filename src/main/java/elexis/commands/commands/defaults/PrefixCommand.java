@@ -26,7 +26,7 @@ public class PrefixCommand extends Command implements ILogger {
         String arg = args.hasAny() ? args.getString().toLowerCase(Locale.US) : "list";
         if (arg.equals("set")) {
             args.requireMin(1);
-            logDirect("Установлен префикс '" + Formatting.RED + (CommandDispatcher.prefix = args.getString()) + Formatting.GRAY + "'", Formatting.GRAY);
+            logDirect("Prefix set '" + Formatting.RED + (CommandDispatcher.prefix = args.getString()) + Formatting.GRAY + "'", Formatting.GRAY);
         }
     }
 
@@ -45,17 +45,17 @@ public class PrefixCommand extends Command implements ILogger {
 
     @Override
     public String getShortDesc() {
-        return "Позволяет менять префикс команд в моде";
+        return "Lets you change the command prefix in the client";
     }
 
     
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "С помощью этой команды можно изменить префикс команд в моде",
+                "This command lets you change the command prefix in the client",
                 "",
-                "Использование:",
-                "> prefix set <name> - устанавливает префикс команд"
+                "Usage:",
+                "> prefix set <name> - sets the command prefix"
         );
     }
 }

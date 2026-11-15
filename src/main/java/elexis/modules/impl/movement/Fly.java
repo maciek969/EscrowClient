@@ -10,7 +10,7 @@ import elexis.modules.api.settings.impl.SliderSetting;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@FunctionAdd(name = "Fly", alias = "Fly", category = Category.Movement, description = "Полет")
+@FunctionAdd(name = "Fly", alias = "Fly", category = Category.Movement, description = "Fly")
 @Environment(EnvType.CLIENT)
 public class Fly extends Function {
     private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla");

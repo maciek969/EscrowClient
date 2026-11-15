@@ -24,12 +24,12 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 
-@FunctionAdd(name = "AutoExplosion", alias = "AutoExplosion", category = Category.Combat, description = "Автоматически ставит и взрывает кристалл после обсидиана")
+@FunctionAdd(name = "AutoExplosion", alias = "AutoExplosion", category = Category.Combat, description = "Automatically places and detonates a crystal after obsidian")
 public class AutoExplosion extends Function {
-    private final BooleanSetting safeYourSelf = new BooleanSetting("Не взрывать себя", true);
-    private final BooleanSetting safeFriend = new BooleanSetting("Не взрывать друзей", true);
-    private final SliderSetting radius = new SliderSetting("Радиус", 5.0f, 1.0f, 10.0f, 0.1f);
-    private final BooleanSetting onlyPvP = new BooleanSetting("Только в PvP", false);
+    private final BooleanSetting safeYourSelf = new BooleanSetting("Do not detonate self", true);
+    private final BooleanSetting safeFriend = new BooleanSetting("Do not detonate friends", true);
+    private final SliderSetting radius = new SliderSetting("Radius", 5.0f, 1.0f, 10.0f, 0.1f);
+    private final BooleanSetting onlyPvP = new BooleanSetting("Only in PvP", false);
 
     private BlockPos obsidianPos;
     private int ticksAction;

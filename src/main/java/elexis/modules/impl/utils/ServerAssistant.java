@@ -19,28 +19,28 @@ import java.util.List;
 
 @FunctionAdd(name = "ServerAssistant", alias = "Server Assistant", category = Category.Utilities)
 public class ServerAssistant extends Function {
-    public static ModeSetting server = new ModeSetting("Ваш сервер", "FunTime",
-            "FunTime", "HolyWorld", "SpookyTime", "ReallyWorld", "Кастом", "Без разницы");
-    public static BooleanSetting multiActionBypass = new BooleanSetting("Обход MultiAction", false);
-    public static SliderSetting tickToRunAction = new SliderSetting("Тики до выполнения", 3, 1, 5, 1).setVisible(() -> server.is("Кастом"));
-    public static SliderSetting tickToReturnKeys = new SliderSetting("Тики до включения клавиш", 4, 1, 8, 1).setVisible(() -> server.is("Кастом"));;
+    public static ModeSetting server = new ModeSetting("Your server", "FunTime",
+            "FunTime", "HolyWorld", "SpookyTime", "ReallyWorld", "Custom", "Any");
+    public static BooleanSetting multiActionBypass = new BooleanSetting("MultiAction bypass", false);
+    public static SliderSetting tickToRunAction = new SliderSetting("Ticks until action", 3, 1, 5, 1).setVisible(() -> server.is("Custom"));
+    public static SliderSetting tickToReturnKeys = new SliderSetting("Ticks until keys enabled", 4, 1, 8, 1).setVisible(() -> server.is("Custom"));;
 
     List<KeyBind> keyBindings = new ArrayList<>();
 
     public void initialize() {
-        keyBindings.add(new KeyBind(Items.FIREWORK_STAR, new BindSetting("Анти-полёт", -1).setVisible(ServerUtil::isReallyWorld), 0));
-        keyBindings.add(new KeyBind(Items.FLOWER_BANNER_PATTERN, new BindSetting("Свиток опыта", -1).setVisible(ServerUtil::isReallyWorld), 0));
-        keyBindings.add(new KeyBind(Items.PRISMARINE_SHARD, new BindSetting("Взрывная трапка", -1).setVisible(ServerUtil::isHolyWorld), 5));
-        keyBindings.add(new KeyBind(Items.POPPED_CHORUS_FRUIT, new BindSetting("Обычная трапка", -1).setVisible(ServerUtil::isHolyWorld), 0));
-        keyBindings.add(new KeyBind(Items.NETHER_STAR, new BindSetting("Стан", -1).setVisible(ServerUtil::isHolyWorld), 30));
-        keyBindings.add(new KeyBind(Items.FIRE_CHARGE, new BindSetting("Взрывная штучка", -1).setVisible(ServerUtil::isHolyWorld), 0));
-        keyBindings.add(new KeyBind(Items.SNOWBALL, new BindSetting("Снежок", -1).setVisible(() -> ServerUtil.isCopyTime() || ServerUtil.isHolyWorld()), 0));
-        keyBindings.add(new KeyBind(Items.PHANTOM_MEMBRANE, new BindSetting("Божья аура", -1).setVisible(ServerUtil::isCopyTime), 0));
-        keyBindings.add(new KeyBind(Items.NETHERITE_SCRAP, new BindSetting("Трапка", -1).setVisible(ServerUtil::isCopyTime), 0));
-        keyBindings.add(new KeyBind(Items.DRIED_KELP, new BindSetting("Пласт", -1).setVisible(ServerUtil::isCopyTime), 0));
-        keyBindings.add(new KeyBind(Items.SUGAR, new BindSetting("Явная пыль", -1).setVisible(ServerUtil::isCopyTime), 10));
-        keyBindings.add(new KeyBind(Items.FIRE_CHARGE, new BindSetting("Огненный смерч", -1).setVisible(ServerUtil::isCopyTime), 10));
-        keyBindings.add(new KeyBind(Items.ENDER_EYE, new BindSetting("Дезориентация", -1).setVisible(ServerUtil::isCopyTime), 10));
+        keyBindings.add(new KeyBind(Items.FIREWORK_STAR, new BindSetting("Anti Fly", -1).setVisible(ServerUtil::isReallyWorld), 0));
+        keyBindings.add(new KeyBind(Items.FLOWER_BANNER_PATTERN, new BindSetting("XP scroll", -1).setVisible(ServerUtil::isReallyWorld), 0));
+        keyBindings.add(new KeyBind(Items.PRISMARINE_SHARD, new BindSetting("Explosive trap", -1).setVisible(ServerUtil::isHolyWorld), 5));
+        keyBindings.add(new KeyBind(Items.POPPED_CHORUS_FRUIT, new BindSetting("Normal trap", -1).setVisible(ServerUtil::isHolyWorld), 0));
+        keyBindings.add(new KeyBind(Items.NETHER_STAR, new BindSetting("Stun", -1).setVisible(ServerUtil::isHolyWorld), 30));
+        keyBindings.add(new KeyBind(Items.FIRE_CHARGE, new BindSetting("Explosive gadget", -1).setVisible(ServerUtil::isHolyWorld), 0));
+        keyBindings.add(new KeyBind(Items.SNOWBALL, new BindSetting("Snowball", -1).setVisible(() -> ServerUtil.isCopyTime() || ServerUtil.isHolyWorld()), 0));
+        keyBindings.add(new KeyBind(Items.PHANTOM_MEMBRANE, new BindSetting("God aura", -1).setVisible(ServerUtil::isCopyTime), 0));
+        keyBindings.add(new KeyBind(Items.NETHERITE_SCRAP, new BindSetting("Trap", -1).setVisible(ServerUtil::isCopyTime), 0));
+        keyBindings.add(new KeyBind(Items.DRIED_KELP, new BindSetting("Slab", -1).setVisible(ServerUtil::isCopyTime), 0));
+        keyBindings.add(new KeyBind(Items.SUGAR, new BindSetting("Visible dust", -1).setVisible(ServerUtil::isCopyTime), 10));
+        keyBindings.add(new KeyBind(Items.FIRE_CHARGE, new BindSetting("Firestorm", -1).setVisible(ServerUtil::isCopyTime), 10));
+        keyBindings.add(new KeyBind(Items.ENDER_EYE, new BindSetting("Disorientation", -1).setVisible(ServerUtil::isCopyTime), 10));
         keyBindings.forEach(bind -> addSettings(bind.setting));
         addSettings();
     }

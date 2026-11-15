@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-@FunctionAdd(name = "AutoDuel", alias = "AutoDuel", category = Category.Utilities, description = "Автоматически кидает дуэль и выбирает режим")
+@FunctionAdd(name = "AutoDuel", alias = "AutoDuel", category = Category.Utilities, description = "Automatically sends a duel and picks the mode")
 @Environment(EnvType.CLIENT)
 public class AutoDuel extends Function {
     private final SliderSetting delay = new SliderSetting("Delay", 25.0F, 5.0F, 80.0F, 1.0F);
@@ -71,7 +71,7 @@ public class AutoDuel extends Function {
 
     private boolean clickDuelMode(GenericContainerScreenHandler container) {
         String[][] modes = {
-                {"тотем", "totem"},
+                {"totem", "totem"},
                 {"читерский рай", "cheat", "читер"},
                 {"но дебаф", "no debuff", "nodebuff", "debuff"}
         };

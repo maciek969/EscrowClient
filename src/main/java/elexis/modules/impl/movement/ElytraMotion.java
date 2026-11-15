@@ -9,7 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 @FunctionAdd(name = "ElytraMotion", alias = "Elytra Motion", category = Category.Movement,
-        description = "Останавливает полёт рядом с наземной целью, как в Javelin")
+        description = "Stops flight near a grounded target, like Javelin")
 public final class ElytraMotion extends Function {
     public boolean active;
 

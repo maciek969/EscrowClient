@@ -44,7 +44,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
-@FunctionAdd(name = "Interface", alias = "Interface", category = Category.Render, description = "Новый HUD Elexis. Открой чат, чтобы двигать элементы")
+@FunctionAdd(name = "Interface", alias = "Interface", category = Category.Render, description = "New Elexis HUD. Open chat to move elements")
 public final class Interface extends Function {
     private static final String WATERMARK_LOGO = "\uE000";
     private static final String WATERMARK_NAME = "Elexis Client";
@@ -53,26 +53,26 @@ public final class Interface extends Function {
     private static final int WHITE = 0xFFF5F2FC, MUTED = 0xFFB7ADC8;
     private static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
     private static final long NOTIFICATION_ANIMATION = 200_000_000L;
-    private final SliderSetting theme = new SliderSetting("Насыщенность", .45f, 0, 1, .01f);
-    public final SliderSetting size = new SliderSetting("Размер интерфейса", 1, .5f, 2, .05f);
-    public final MultiBooleanSetting elements = new MultiBooleanSetting("Элементы", new BooleanSetting("Ватермарка", true),
-            new BooleanSetting("Цель", true), new BooleanSetting("Бинды", true), new BooleanSetting("Персонал", true),
-            new BooleanSetting("Эффекты", true), new BooleanSetting("Бинды предметов", true), new BooleanSetting("Кулдауны", true),
-            new BooleanSetting("Броня", true), new BooleanSetting("Тотемы", true), new BooleanSetting("Уведомления", true),
-            new BooleanSetting("Аррайлист", true));
-    private final ModeSetting targetStyle = new ModeSetting("Стиль цели", "Elexis", "Elexis", "Обычный");
-    private final ModeSetting armorStyle = new ModeSetting("Ориентация брони", "Горизонтально", "Горизонтально", "Вертикально");
-    private final ModeSetting totemStyle = new ModeSetting("Стиль тотемов", "Счётчик", "Счётчик", "Ряд", "Колонка");
-    private final BooleanSetting listVisuals = new BooleanSetting("Визуалы в аррайлисте", false);
-    private final BooleanSetting coordinates = new BooleanSetting("Координаты", true);
-    private final BooleanSetting speed = new BooleanSetting("Скорость", true);
+    private final SliderSetting theme = new SliderSetting("Saturation", .45f, 0, 1, .01f);
+    public final SliderSetting size = new SliderSetting("UI size", 1, .5f, 2, .05f);
+    public final MultiBooleanSetting elements = new MultiBooleanSetting("Elements", new BooleanSetting("Watermark", true),
+            new BooleanSetting("Target", true), new BooleanSetting("Binds", true), new BooleanSetting("Staff", true),
+            new BooleanSetting("Effects", true), new BooleanSetting("Item binds", true), new BooleanSetting("Cooldowns", true),
+            new BooleanSetting("Armor", true), new BooleanSetting("Totems", true), new BooleanSetting("Notifications", true),
+            new BooleanSetting("Arraylist", true));
+    private final ModeSetting targetStyle = new ModeSetting("Target style", "Elexis", "Elexis", "Default");
+    private final ModeSetting armorStyle = new ModeSetting("Armor orientation", "Horizontal", "Horizontal", "Vertical");
+    private final ModeSetting totemStyle = new ModeSetting("Totem style", "Counter", "Counter", "Row", "Column");
+    private final BooleanSetting listVisuals = new BooleanSetting("Visuals in arraylist", false);
+    private final BooleanSetting coordinates = new BooleanSetting("Coordinates", true);
+    private final BooleanSetting speed = new BooleanSetting("Speed", true);
     private final BooleanSetting serverTps = new BooleanSetting("TPS", true);
     private final Map<String, Anchor> positions = new LinkedHashMap<>();
     private final LinkedHashMap<String, Rect> bounds = new LinkedHashMap<>();
     private final ArrayDeque<Notice> notices = new ArrayDeque<>();
     private final List<Row> cooldowns = new ArrayList<>();
     private final Map<Identifier, ItemStack> knownCooldownItems = new HashMap<>();
-    private final StringSetting layout = new StringSetting("Позиции HUD", "") {
+    private final StringSetting layout = new StringSetting("HUD positions", "") {
         @Override public String get() { return saveLayout(); }
         @Override public void set(String json) { super.set(json); loadLayout(json); }
     };
@@ -97,15 +97,15 @@ public final class Interface extends Function {
 
     public Interface() {
         layout.setVisible(() -> false);
-        targetStyle.setVisible(() -> elements.get("Цель"));
-        armorStyle.setVisible(() -> elements.get("Броня"));
-        totemStyle.setVisible(() -> elements.get("Тотемы"));
-        listVisuals.setVisible(() -> elements.get("Аррайлист"));
-        coordinates.setVisible(() -> elements.get("Ватермарка"));
-        speed.setVisible(() -> elements.get("Ватермарка"));
-        serverTps.setVisible(() -> elements.get("Ватермарка"));
+        targetStyle.setVisible(() -> elements.get("Target"));
+        armorStyle.setVisible(() -> elements.get("Armor"));
+        totemStyle.setVisible(() -> elements.get("Totems"));
+        listVisuals.setVisible(() -> elements.get("Arraylist"));
+        coordinates.setVisible(() -> elements.get("Watermark"));
+        speed.setVisible(() -> elements.get("Watermark"));
+        serverTps.setVisible(() -> elements.get("Watermark"));
         addSettings(theme, size, elements, targetStyle, armorStyle, totemStyle, listVisuals,
-                coordinates, speed, serverTps, new ButtonSetting("Сбросить позиции", positions::clear), layout);
+                coordinates, speed, serverTps, new ButtonSetting("Reset positions", positions::clear), layout);
     }
 
     public static Interface active() {
@@ -123,7 +123,7 @@ public final class Interface extends Function {
             return;
         }
         var module = active();
-        if (module == null || !module.elements.get("Уведомления")) return;
+        if (module == null || !module.elements.get("Notifications")) return;
         long now = System.nanoTime();
         if (module.notices.size() >= 8) module.notices.removeFirst();
         module.notices.addLast(new Notice(message, color, now, now + duration * 1_000_000L, item));
@@ -134,7 +134,7 @@ public final class Interface extends Function {
         if (nullCheck()) return;
         float bps = (float)Math.hypot(mc.player.getX()-mc.player.lastX, mc.player.getZ()-mc.player.lastZ)*20;
         speedSample = MathHelper.lerp(.22f, speedSample, bps);
-        if (elements.get("Кулдауны")) updateCooldowns();
+        if (elements.get("Cooldowns")) updateCooldowns();
         else cooldowns.clear();
         notices.removeIf(n -> System.nanoTime() >= n.end);
     }
@@ -170,7 +170,7 @@ public final class Interface extends Function {
             var item = knownCooldownItems.computeIfAbsent(group, id -> Registries.ITEM.containsId(id)
                     ? new ItemStack(Registries.ITEM.get(id)) : ItemStack.EMPTY);
             String name = item.isEmpty() ? group.getPath().replace('_', ' ') : item.getName().getString();
-            cooldowns.add(new Row(name, String.format(Locale.ROOT,"%.1fс",ticks/20f), MUTED, item, null));
+            cooldowns.add(new Row(name, String.format(Locale.ROOT,"%.1fs",ticks/20f), MUTED, item, null));
         }
     }
 
@@ -181,15 +181,15 @@ public final class Interface extends Function {
 
     public void collectItems(Consumer<ItemStack> add) {
         if (nullCheck()) return;
-        if (elements.get("Цель")) {
+        if (elements.get("Target")) {
             var target = target();
             if (target == null) target = displayedTarget;
             if (target != null) equipment(target).forEach(add);
         }
-        if (elements.get("Броня")) for (var slot : ARMOR) add.accept(mc.player.getEquippedStack(slot));
-        if (elements.get("Тотемы")) add.accept(TOTEM);
-        if (elements.get("Кулдауны")) for (var row : cooldowns) add.accept(row.item);
-        if (elements.get("Уведомления")) for (var notice : notices) add.accept(notice.item);
+        if (elements.get("Armor")) for (var slot : ARMOR) add.accept(mc.player.getEquippedStack(slot));
+        if (elements.get("Totems")) add.accept(TOTEM);
+        if (elements.get("Cooldowns")) for (var row : cooldowns) add.accept(row.item);
+        if (elements.get("Notifications")) for (var notice : notices) add.accept(notice.item);
     }
 
     private static List<ItemStack> equipment(LivingEntity entity) {
@@ -212,20 +212,20 @@ public final class Interface extends Function {
         previousFrame = now;
         r.pushScale(scale);
         try {
-            if (elements.get("Ватермарка")) watermark(r);
-            if (elements.get("Аррайлист")) array(r, editor);
+            if (elements.get("Watermark")) watermark(r);
+            if (elements.get("Arraylist")) array(r, editor);
             float left = below("watermark2", below("watermark", 8));
             float right = below("arraylist", 8);
-            if (elements.get("Бинды")) list(r, "binds", "Бинды", IconUse.INFO, binds(), editor, false, left);
+            if (elements.get("Binds")) list(r, "binds", "Binds", IconUse.INFO, binds(), editor, false, left);
             left = below("binds", left);
-            if (elements.get("Бинды предметов")) list(r, "itembinds", "Бинды предметов", IconUse.INFO, itemBinds(), editor, false, left);
-            if (elements.get("Кулдауны")) list(r, "cooldowns", "Кулдауны", IconUse.INFO, cooldowns, editor, false, below("itembinds", left));
-            if (elements.get("Персонал")) list(r, "staff", "Персонал", IconUse.INFO, staff(), editor, true, right);
-            if (elements.get("Эффекты")) list(r, "effects", "Эффекты", IconUse.POTION, effects(), editor, true, below("staff", right));
-            if (elements.get("Броня")) armor(r, editor);
-            if (elements.get("Тотемы")) totems(r, editor);
-            if (elements.get("Цель")) target(r, dt);
-            if (elements.get("Уведомления")) notifications(r, now, editor);
+            if (elements.get("Item binds")) list(r, "itembinds", "Item binds", IconUse.INFO, itemBinds(), editor, false, left);
+            if (elements.get("Cooldowns")) list(r, "cooldowns", "Cooldowns", IconUse.INFO, cooldowns, editor, false, below("itembinds", left));
+            if (elements.get("Staff")) list(r, "staff", "Staff", IconUse.INFO, staff(), editor, true, right);
+            if (elements.get("Effects")) list(r, "effects", "Effects", IconUse.POTION, effects(), editor, true, below("staff", right));
+            if (elements.get("Armor")) armor(r, editor);
+            if (elements.get("Totems")) totems(r, editor);
+            if (elements.get("Target")) target(r, dt);
+            if (elements.get("Notifications")) notifications(r, now, editor);
         } finally { r.popScale(); }
     }
 
@@ -366,15 +366,15 @@ public final class Interface extends Function {
         var hw = manager.getHwHelper();
         var rw = manager.getRwHelper();
         if (hw.isState()) {
-            addBind(rows,"Взрывная трапка",hw.trapKey);
-            addBind(rows,"Ком снега",hw.snowKey);
-            addBind(rows,"Стан",hw.stanKey);
-            addBind(rows,"Взрывная штучка",hw.explosionKey);
+            addBind(rows,"Explosive trap",hw.trapKey);
+            addBind(rows,"Snowball",hw.snowKey);
+            addBind(rows,"Stun",hw.stanKey);
+            addBind(rows,"Explosive gadget",hw.explosionKey);
         }
         if (rw.isState()) {
-            addBind(rows,"Анти-полёт",rw.antiFlyKey);
-            addBind(rows,"Свиток опыта",rw.scrollKey);
-            addBind(rows,"Ловушка",rw.trapKey);
+            addBind(rows,"Anti Fly",rw.antiFlyKey);
+            addBind(rows,"XP scroll",rw.scrollKey);
+            addBind(rows,"Trap",rw.trapKey);
         }
         return rows;
     }
@@ -391,7 +391,7 @@ public final class Interface extends Function {
 
     private void list(Renderer2D r, String id, String title, IconUse icon, List<Row> data, boolean editor, boolean right, float y) {
         if (data.isEmpty() && !editor) return;
-        List<Row> rows = data.isEmpty() ? List.of(new Row("Нет данных","",MUTED)) : data;
+        List<Row> rows = data.isEmpty() ? List.of(new Row("No data","",MUTED)) : data;
         float w = Math.max(103,36+width(r,title,11));
         for (Row row : rows) w = Math.max(w,26+width(r,row.title,10)+width(r,row.value,9)+(row.hasIcon()?16:0));
         w = Math.min(w,246);
@@ -425,11 +425,11 @@ public final class Interface extends Function {
     private void armor(Renderer2D r, boolean editor) {
         var stacks = Arrays.stream(ARMOR).map(mc.player::getEquippedStack).toList();
         if (!editor && stacks.stream().allMatch(ItemStack::isEmpty)) return;
-        boolean vertical = armorStyle.is("Вертикально");
+        boolean vertical = armorStyle.is("Vertical");
         float w = vertical ? 78 : 108, h = vertical ? 24+4*23 : 55;
         Rect p = place("armor",w,h,screenWidth-w-8,screenHeight-h-42);
         card(r,p);
-        header(r,p,"Броня",IconUse.INFO);
+        header(r,p,"Armor",IconUse.INFO);
         for (int i=0;i<4;i++) {
             ItemStack stack = stacks.get(i);
             float x=p.x+4+(vertical?0:i*25), y=p.y+22+(vertical?i*23:0);
@@ -446,7 +446,7 @@ public final class Interface extends Function {
         var inventory = mc.player.getInventory();
         for (int i=0;i<inventory.size();i++) if (inventory.getStack(i).isOf(Items.TOTEM_OF_UNDYING)) total+=inventory.getStack(i).getCount();
         if (total == 0 && !editor) return;
-        boolean row = !totemStyle.is("Счётчик"), vertical = totemStyle.is("Колонка");
+        boolean row = !totemStyle.is("Counter"), vertical = totemStyle.is("Column");
         int shown = row ? Math.min(13,Math.max(1,total)) : 1;
         float w = vertical ? 31 : row ? 12+shown*16 : 48;
         float h = vertical ? 9+shown*16 : 29;
@@ -462,7 +462,7 @@ public final class Interface extends Function {
         var active = Elexis.getFunctionManager().getFunctions().stream().filter(f -> f!=this && f.isState() && (listVisuals.get() || f.getCategory()!=Category.Render))
                 .map(Function::getAlias).sorted(Comparator.comparingDouble((String name)->width(r,name,10)).reversed()).limit(16).toList();
         if (active.isEmpty() && !editor) return;
-        List<String> names = active.isEmpty() ? List.of("Аррайлист") : active;
+        List<String> names = active.isEmpty() ? List.of("Arraylist") : active;
         float w = 18+width(r,names.getFirst(),10);
         Rect p = place("arraylist",w,names.size()*16,screenWidth-w-8,8);
         for (int i=0;i<names.size();i++) {
@@ -477,7 +477,7 @@ public final class Interface extends Function {
 
     private void notifications(Renderer2D r, long now, boolean editor) {
         if (notices.isEmpty() && !editor) return;
-        List<Notice> visible = notices.isEmpty() ? List.of(new Notice(Text.literal("Уведомления"),accent(),
+        List<Notice> visible = notices.isEmpty() ? List.of(new Notice(Text.literal("Notifications"),accent(),
                 now-NOTIFICATION_ANIMATION,now+NOTIFICATION_ANIMATION,ItemStack.EMPTY)) : List.copyOf(notices);
         float w = 140;
         for (Notice n : visible) w = Math.max(w,35+width(r,NameProtect.display(n.text).getString(),11));

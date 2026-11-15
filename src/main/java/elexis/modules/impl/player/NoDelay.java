@@ -9,7 +9,7 @@ import elexis.modules.api.FunctionAdd;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@FunctionAdd(name = "NoDelay", alias = "NoDelay", category = Category.Player, description = "Быстрая постановка блоков")
+@FunctionAdd(name = "NoDelay", alias = "NoDelay", category = Category.Player, description = "Fast block placement")
 @Environment(EnvType.CLIENT)
 public class NoDelay extends Function {
     @EventHandler

@@ -2,90 +2,90 @@ package elexis.modules.impl.render;
 
 import elexis.client.utils.render.color.basic.ThemeColorUtils;
 import elexis.modules.api.*;
-import elexis.modules.api.settings.api.Setting;           // <-- правильный пакет
+import elexis.modules.api.settings.api.Setting;           // <-- correct package
 import elexis.modules.api.settings.impl.*;
 import elexis.modules.impl.render.javelin.crystalhands.*;
 
-import java.util.function.Supplier;                       // <-- Supplier<Boolean>, не BooleanSupplier
+import java.util.function.Supplier;                       // <-- Supplier<Boolean>, not BooleanSupplier
 
 /** Javelin first-person hand fill, shaders, mirror, glass, bloom and temporal trails. */
-@FunctionAdd(name="Hands", alias="Hands", category=Category.Render, description="Эффекты рук Javelin")
+@FunctionAdd(name="Hands", alias="Hands", category=Category.Render, description="Javelin hands effects")
 public final class Hands extends Function {
-   public final ModeSetting effect = new ModeSetting("Эффект рук", "Hands", "Hands", "BagaRuki", "ShaderHands");
+   public final ModeSetting effect = new ModeSetting("Hands effect", "Hands", "Hands", "BagaRuki", "ShaderHands");
    public final HandsGlassSettings glass = new HandsGlassSettings();
    public long startTime;
-   public final ModeSetting mode = new ModeSetting("Режим", "Nothing", "Nothing", "Заливка", "Шейдер", "Зеркало", "Шейдер + Зеркало");
+   public final ModeSetting mode = new ModeSetting("Mode", "Nothing", "Nothing", "Fill", "Shader", "Mirror", "Shader + Mirror");
 
-   public final BooleanSetting themeColor = new BooleanSetting("Авто цвет под тему", true);
-   public final BooleanSetting itemColor = new BooleanSetting("Авто цвет под предмет", false);
-   public final SliderSetting mirrorMix = new SliderSetting("Смешивание", 0.5F, 0.0F, 1.0F, 0.01F);
-   public final SliderSetting mirrorDistortion = new SliderSetting("Искажение зеркала", 0.0F, 0.0F, 1.0F, 0.05F);
-   public final SliderSetting mirrorBlur = new SliderSetting("Сила размытия", 1.0F, 0.1F, 3.0F, 0.05F);
-   public final BooleanSetting rainbow = new BooleanSetting("Радужная", false);
-   public final SliderSetting rainbowSpeed = new SliderSetting("Скорость радуги", 0.4F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting rainbowScale = new SliderSetting("Масштаб радуги", 1.0F, 0.2F, 3.0F, 0.1F);
-   public final ColorSetting fillColor = new ColorSetting("Цвет заливки", -48060);
-   public final SliderSetting fillAlpha = new SliderSetting("Прозрачность заливки", 0.8F, 0.0F, 1.0F, 0.05F);
-   public final BooleanSetting fillShading = new BooleanSetting("Сохранить тени", true);
-   public final SliderSetting fillShadow = new SliderSetting("Сила теней", 0.3F, 0.0F, 1.0F, 0.05F);
-   public final ModeSetting shaderStyle = new ModeSetting("Стиль шейдера", "Шейдер", "Шейдер", "HandShader", "Туманность", "Космос", "Градиент", "Homie");
-   public final ColorSetting shaderColor = new ColorSetting("Цвет шейдера 1", -3632385);
-   public final BooleanSetting secondColor = new BooleanSetting("Второй цвет", false);
-   public final ColorSetting shaderColor2 = new ColorSetting("Цвет шейдера 2", -11534136);
-   public final SliderSetting shaderSpeed = new SliderSetting("Скорость шейдера", 1.5F, 0.05F, 2.5F, 0.05F);
-   public final SliderSetting shaderScale = new SliderSetting("Масштаб шейдера", 1.5F, 0.2F, 5.0F, 0.1F);
-   public final SliderSetting shaderGlow = new SliderSetting("Свечение шейдера", 1.2F, 0.0F, 3.0F, 0.05F);
-   public final SliderSetting quality = new SliderSetting("Качество шейдера", 2.0F, 1.0F, 3.0F, 1.0F);
-   public final BooleanSetting stars = new BooleanSetting("Звёзды", true);
-   public final SliderSetting shaderAlpha = new SliderSetting("Прозрачность шейдера", 1.0F, 0.0F, 1.0F, 0.05F);
-   public final BooleanSetting shaderShading = new BooleanSetting("Сохранить тени шейдера", false);
-   public final SliderSetting shaderShadow = new SliderSetting("Сила теней шейдера", 0.5F, 0.0F, 1.0F, 0.05F);
-   public final BooleanSetting glow = new BooleanSetting("Глов", true);
-   public final SliderSetting glowBlur = new SliderSetting("Размытие", 3.0F, 1.0F, 5.0F, 1.0F);
-   public final SliderSetting brightness = new SliderSetting("Яркость", 1.0F, 0.5F, 5.0F, 0.1F);
-   public final ColorSetting glowColor = new ColorSetting("Цвет глова 1", -11713);
-   public final ColorSetting glowColor2 = new ColorSetting("Цвет глова 2", -54784);
-   public final SliderSetting innerGlow = new SliderSetting("Внутреннее свечение", 0.65F, 0.0F, 1.5F, 0.05F);
-   public final BooleanSetting outline = new BooleanSetting("Обводка", true);
-   public final ColorSetting outlineColor = new ColorSetting("Цвет обводки", -1);
-   public final SliderSetting outlineThickness = new SliderSetting("Толщина обводки", 1.0F, 0.5F, 2.0F, 0.5F);
-   public final BooleanSetting trail = new BooleanSetting("Шлейф", true);
-   public final ModeSetting trailMode = new ModeSetting("Режим шлейфа", "Обычный", "Обычный", "Энергия", "Ленты");
-   public final SliderSetting energyLifetime = new SliderSetting("Длина энергии", 1.0F, 0.4F, 2.0F, 0.05F);
-   public final SliderSetting energyThickness = new SliderSetting("Яркость энергии", 1.35F, 0.5F, 2.5F, 0.05F);
-   public final SliderSetting energyTurbulence = new SliderSetting("Движение энергии", 1.3F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting energySmoothness = new SliderSetting("Пульсация энергии", 1.0F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting energyInertia = new SliderSetting("Шлейф за камерой", 0.05F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting ribbonLifetime = new SliderSetting("Длина лент", 0.3F, 0.15F, 3.0F, 0.05F);
-   public final SliderSetting ribbonWidth = new SliderSetting("Ширина лент", 0.55F, 0.25F, 1.5F, 0.05F);
-   public final SliderSetting ribbonIntensity = new SliderSetting("Яркость лент", 1.0F, 0.0F, 2.5F, 0.05F);
-   public final SliderSetting ribbonInertia = new SliderSetting("Сила лент за камерой", 0.1F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting ribbonRise = new SliderSetting("Подъём лент", 0.32F, 0.0F, 1.0F, 0.01F);
-   public final SliderSetting ribbonWobble = new SliderSetting("Изгиб лент", 2.0F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting ribbonSpeed = new SliderSetting("Скорость волн", 1.5F, 0.0F, 3.0F, 0.05F);
-   public final BooleanSetting ribbonSwingResponse = new BooleanSetting("Ленты при ударе", true);
-   public final SliderSetting ribbonSwingLifetime = new SliderSetting("Длина при ударе", 0.0F, 0.15F, 3.0F, 0.05F);
-   public final SliderSetting ribbonSwingPower = new SliderSetting("Сила при ударе", 1.15F, 0.0F, 2.5F, 0.05F);
-   public final BooleanSetting ribbonEatingResponse = new BooleanSetting("Ленты при еде", true);
-   public final SliderSetting ribbonEatingLifetime = new SliderSetting("Длина при еде", 0.65F, 0.15F, 3.0F, 0.05F);
-   public final SliderSetting ribbonEatingPower = new SliderSetting("Сила при еде", 0.7F, 0.0F, 2.5F, 0.05F);
-   public final SliderSetting normalFade = new SliderSetting("Скорость затухания", 0.04F, 0.002F, 0.2F, 0.002F);
-   public final SliderSetting normalRise = new SliderSetting("Подъём", 0.2F, 0.0F, 1.5F, 0.05F);
-   public final SliderSetting normalSway = new SliderSetting("Качание", 0.0F, 0.0F, 0.2F, 0.005F);
-   public final SliderSetting normalInertia = new SliderSetting("Шлейф от камеры", 0.0F, 0.0F, 2.0F, 0.05F);
-   public final SliderSetting normalTurbulence = new SliderSetting("Турбулентность", 0.02F, 0.0F, 0.6F, 0.01F);
-   public final SliderSetting normalFlicker = new SliderSetting("Мерцание", 0.2F, 0.0F, 0.2F, 0.01F);
-   public final BooleanSetting hitFade = new BooleanSetting("Сдув при ударе", false);
-   public final SliderSetting hitFadeMul = new SliderSetting("Сила сдува", 4.0F, 1.0F, 10.0F, 0.5F);
+   public final BooleanSetting themeColor = new BooleanSetting("Auto color by theme", true);
+   public final BooleanSetting itemColor = new BooleanSetting("Auto color by item", false);
+   public final SliderSetting mirrorMix = new SliderSetting("Blending", 0.5F, 0.0F, 1.0F, 0.01F);
+   public final SliderSetting mirrorDistortion = new SliderSetting("Mirror distortion", 0.0F, 0.0F, 1.0F, 0.05F);
+   public final SliderSetting mirrorBlur = new SliderSetting("Blur strength", 1.0F, 0.1F, 3.0F, 0.05F);
+   public final BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
+   public final SliderSetting rainbowSpeed = new SliderSetting("Rainbow speed", 0.4F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting rainbowScale = new SliderSetting("Rainbow scale", 1.0F, 0.2F, 3.0F, 0.1F);
+   public final ColorSetting fillColor = new ColorSetting("Fill color", -48060);
+   public final SliderSetting fillAlpha = new SliderSetting("Fill opacity", 0.8F, 0.0F, 1.0F, 0.05F);
+   public final BooleanSetting fillShading = new BooleanSetting("Keep shadows", true);
+   public final SliderSetting fillShadow = new SliderSetting("Shadow strength", 0.3F, 0.0F, 1.0F, 0.05F);
+   public final ModeSetting shaderStyle = new ModeSetting("Shader style", "Shader", "Shader", "HandShader", "Nebula", "Space", "Gradient", "Homie");
+   public final ColorSetting shaderColor = new ColorSetting("Shader color 1", -3632385);
+   public final BooleanSetting secondColor = new BooleanSetting("Second color", false);
+   public final ColorSetting shaderColor2 = new ColorSetting("Shader color 2", -11534136);
+   public final SliderSetting shaderSpeed = new SliderSetting("Shader speed", 1.5F, 0.05F, 2.5F, 0.05F);
+   public final SliderSetting shaderScale = new SliderSetting("Shader scale", 1.5F, 0.2F, 5.0F, 0.1F);
+   public final SliderSetting shaderGlow = new SliderSetting("Shader glow", 1.2F, 0.0F, 3.0F, 0.05F);
+   public final SliderSetting quality = new SliderSetting("Shader quality", 2.0F, 1.0F, 3.0F, 1.0F);
+   public final BooleanSetting stars = new BooleanSetting("Stars", true);
+   public final SliderSetting shaderAlpha = new SliderSetting("Shader opacity", 1.0F, 0.0F, 1.0F, 0.05F);
+   public final BooleanSetting shaderShading = new BooleanSetting("Keep shader shadows", false);
+   public final SliderSetting shaderShadow = new SliderSetting("Shader shadow strength", 0.5F, 0.0F, 1.0F, 0.05F);
+   public final BooleanSetting glow = new BooleanSetting("Glow", true);
+   public final SliderSetting glowBlur = new SliderSetting("Blur", 3.0F, 1.0F, 5.0F, 1.0F);
+   public final SliderSetting brightness = new SliderSetting("Brightness", 1.0F, 0.5F, 5.0F, 0.1F);
+   public final ColorSetting glowColor = new ColorSetting("Glow color 1", -11713);
+   public final ColorSetting glowColor2 = new ColorSetting("Glow color 2", -54784);
+   public final SliderSetting innerGlow = new SliderSetting("Inner glow", 0.65F, 0.0F, 1.5F, 0.05F);
+   public final BooleanSetting outline = new BooleanSetting("Border", true);
+   public final ColorSetting outlineColor = new ColorSetting("Border color", -1);
+   public final SliderSetting outlineThickness = new SliderSetting("Border thickness", 1.0F, 0.5F, 2.0F, 0.5F);
+   public final BooleanSetting trail = new BooleanSetting("Trail", true);
+   public final ModeSetting trailMode = new ModeSetting("Trail mode", "Default", "Default", "Energy", "Ribbons");
+   public final SliderSetting energyLifetime = new SliderSetting("Energy length", 1.0F, 0.4F, 2.0F, 0.05F);
+   public final SliderSetting energyThickness = new SliderSetting("Energy brightness", 1.35F, 0.5F, 2.5F, 0.05F);
+   public final SliderSetting energyTurbulence = new SliderSetting("Energy motion", 1.3F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting energySmoothness = new SliderSetting("Energy pulse", 1.0F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting energyInertia = new SliderSetting("Trail behind camera", 0.05F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting ribbonLifetime = new SliderSetting("Ribbon length", 0.3F, 0.15F, 3.0F, 0.05F);
+   public final SliderSetting ribbonWidth = new SliderSetting("Ribbon width", 0.55F, 0.25F, 1.5F, 0.05F);
+   public final SliderSetting ribbonIntensity = new SliderSetting("Ribbon brightness", 1.0F, 0.0F, 2.5F, 0.05F);
+   public final SliderSetting ribbonInertia = new SliderSetting("Ribbon strength behind camera", 0.1F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting ribbonRise = new SliderSetting("Ribbon rise", 0.32F, 0.0F, 1.0F, 0.01F);
+   public final SliderSetting ribbonWobble = new SliderSetting("Ribbon curve", 2.0F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting ribbonSpeed = new SliderSetting("Wave speed", 1.5F, 0.0F, 3.0F, 0.05F);
+   public final BooleanSetting ribbonSwingResponse = new BooleanSetting("Ribbons on hit", true);
+   public final SliderSetting ribbonSwingLifetime = new SliderSetting("Length on hit", 0.0F, 0.15F, 3.0F, 0.05F);
+   public final SliderSetting ribbonSwingPower = new SliderSetting("Strength on hit", 1.15F, 0.0F, 2.5F, 0.05F);
+   public final BooleanSetting ribbonEatingResponse = new BooleanSetting("Ribbons while eating", true);
+   public final SliderSetting ribbonEatingLifetime = new SliderSetting("Length while eating", 0.65F, 0.15F, 3.0F, 0.05F);
+   public final SliderSetting ribbonEatingPower = new SliderSetting("Strength while eating", 0.7F, 0.0F, 2.5F, 0.05F);
+   public final SliderSetting normalFade = new SliderSetting("Fade speed", 0.04F, 0.002F, 0.2F, 0.002F);
+   public final SliderSetting normalRise = new SliderSetting("Rise", 0.2F, 0.0F, 1.5F, 0.05F);
+   public final SliderSetting normalSway = new SliderSetting("Sway", 0.0F, 0.0F, 0.2F, 0.005F);
+   public final SliderSetting normalInertia = new SliderSetting("Trail from camera", 0.0F, 0.0F, 2.0F, 0.05F);
+   public final SliderSetting normalTurbulence = new SliderSetting("Turbulence", 0.02F, 0.0F, 0.6F, 0.01F);
+   public final SliderSetting normalFlicker = new SliderSetting("Flicker", 0.2F, 0.0F, 0.2F, 0.01F);
+   public final BooleanSetting hitFade = new BooleanSetting("Blow-off on hit", false);
+   public final SliderSetting hitFadeMul = new SliderSetting("Blow-off strength", 4.0F, 1.0F, 10.0F, 0.5F);
 
    public Hands() {
       addSettings(effect, mode, themeColor, itemColor, mirrorMix, mirrorDistortion, mirrorBlur, rainbow, rainbowSpeed, rainbowScale, fillColor, fillAlpha, fillShading, fillShadow, shaderStyle, shaderColor, secondColor, shaderColor2, shaderSpeed, shaderScale, shaderGlow, quality, stars, shaderAlpha, shaderShading, shaderShadow, glow, glowBlur, brightness, glowColor, glowColor2, innerGlow, outline, outlineColor, outlineThickness, trail, trailMode, energyLifetime, energyThickness, energyTurbulence, energySmoothness, energyInertia, ribbonLifetime, ribbonWidth, ribbonIntensity, ribbonInertia, ribbonRise, ribbonWobble, ribbonSpeed, ribbonSwingResponse, ribbonSwingLifetime, ribbonSwingPower, ribbonEatingResponse, ribbonEatingLifetime, ribbonEatingPower, normalFade, normalRise, normalSway, normalInertia, normalTurbulence, normalFlicker, hitFade, hitFadeMul);
       addSettings(glass.settings());
 
-      // Задаём видимость каждой настройки ОДИН раз, с учётом:
-      //  - glass-режима (BagaRuki) — все обычные настройки скрыты;
-      //  - legacy shader (ShaderHands) — скрыты mode и shaderStyle;
-      //  - базового условия конкретной настройки.
+      // Set the visibility of each setting ONCE, considering:
+      //  - glass mode (BagaRuki) — all normal settings hidden;
+      //  - legacy shader (ShaderHands) — mode and shaderStyle hidden;
+      //  - the base condition of the specific setting.
       for (var setting : getSettings()) {
          if (setting == effect || glass.contains(setting)) continue;
          Supplier<Boolean> base = baseVisible(setting);
@@ -99,7 +99,7 @@ public final class Hands extends Function {
       }
    }
 
-   /** Исходное (базовое) условие видимости настройки, без учёта glass/legacy-режимов. */
+   /** The original (base) visibility condition of the setting, ignoring glass/legacy modes. */
    private Supplier<Boolean> baseVisible(Setting<?> setting) {
       if (setting == mirrorMix || setting == mirrorDistortion || setting == mirrorBlur) return this::isMirrorMode;
       if (setting == rainbow) return this::isFillMode;
@@ -120,7 +120,7 @@ public final class Hands extends Function {
               || setting == stars || setting == shaderAlpha || setting == shaderShading)
          return this::isShaderMode;
       if (setting == quality)
-         return () -> this.isShaderMode() && !this.shaderStyle.is("Градиент");
+         return () -> this.isShaderMode() && !this.shaderStyle.is("Gradient");
       if (setting == shaderShadow)
          return () -> this.isShaderMode() && this.shaderShading.getValue();
       if (setting == glowBlur || setting == brightness || setting == innerGlow)
@@ -149,7 +149,7 @@ public final class Hands extends Function {
          return this::isNormalTrail;
       if (setting == hitFadeMul)
          return () -> this.isNormalTrail() && this.hitFade.getValue();
-      // mode, themeColor, itemColor и все прочие — всегда видимы (кроме glass/legacy-гейтов выше).
+      // mode, themeColor, itemColor and all others — always visible (except glass/legacy gates above).
       return () -> true;
    }
 
@@ -206,7 +206,7 @@ public final class Hands extends Function {
       } else if (this.isNothingMode()) {
          return 4;
       } else {
-         return this.isFillMode() ? 0 : (this.mode.is("Шейдер") ? 1 : (this.mode.is("Зеркало") ? 2 : 3));
+         return this.isFillMode() ? 0 : (this.mode.is("Shader") ? 1 : (this.mode.is("Mirror") ? 2 : 3));
       }
    }
 
@@ -235,7 +235,7 @@ public final class Hands extends Function {
    }
 
    public boolean isFillMode() {
-      return !this.isLegacyShaderMode() && this.mode.is("Заливка");
+      return !this.isLegacyShaderMode() && this.mode.is("Fill");
    }
 
    public boolean isNothingMode() {
@@ -247,7 +247,7 @@ public final class Hands extends Function {
    }
 
    public boolean isShaderMode() {
-      return this.isLegacyShaderMode() || this.mode.is("Шейдер") || this.isShaderMirrorMode();
+      return this.isLegacyShaderMode() || this.mode.is("Shader") || this.isShaderMirrorMode();
    }
 
    public boolean isShaderShading() {
@@ -259,7 +259,7 @@ public final class Hands extends Function {
    }
 
    public boolean isEnergyTrail() {
-      return this.isTrailEnabled() && this.trailMode.is("Энергия");
+      return this.isTrailEnabled() && this.trailMode.is("Energy");
    }
 
    public float getEnergyThickness() {
@@ -321,7 +321,7 @@ public final class Hands extends Function {
    }
 
    public boolean isMirrorMode() {
-      return !this.isLegacyShaderMode() && (this.mode.is("Зеркало") || this.isShaderMirrorMode());
+      return !this.isLegacyShaderMode() && (this.mode.is("Mirror") || this.isShaderMirrorMode());
    }
 
    public float getShaderSpeed() {
@@ -329,7 +329,7 @@ public final class Hands extends Function {
    }
 
    public boolean isRibbonTrail() {
-      return this.isTrailEnabled() && this.trailMode.is("Ленты");
+      return this.isTrailEnabled() && this.trailMode.is("Ribbons");
    }
 
    public int getOutlineColor() {
@@ -353,11 +353,11 @@ public final class Hands extends Function {
          return 4;
       } else if (this.shaderStyle.is("HandShader")) {
          return 4;
-      } else if (this.shaderStyle.is("Туманность")) {
+      } else if (this.shaderStyle.is("Nebula")) {
          return 1;
-      } else if (this.shaderStyle.is("Космос")) {
+      } else if (this.shaderStyle.is("Space")) {
          return 2;
-      } else if (this.shaderStyle.is("Градиент")) {
+      } else if (this.shaderStyle.is("Gradient")) {
          return 3;
       } else {
          return this.shaderStyle.is("Homie") ? 5 : 0;
@@ -385,7 +385,7 @@ public final class Hands extends Function {
    }
 
    public boolean isNormalTrail() {
-      return this.isTrailEnabled() && this.trailMode.is("Обычный");
+      return this.isTrailEnabled() && this.trailMode.is("Default");
    }
 
    public int getGlowColor() {
@@ -417,7 +417,7 @@ public final class Hands extends Function {
    }
 
    public boolean isShaderMirrorMode() {
-      return !this.isLegacyShaderMode() && this.mode.is("Шейдер + Зеркало");
+      return !this.isLegacyShaderMode() && this.mode.is("Shader + Mirror");
    }
 
    public float getRibbonInertia() {

@@ -44,11 +44,11 @@ public class FriendCommand extends Command {
         String name = args.getString();
 
         if (friendRepository.exists(name)) {
-            logDirect("Этот ник уже есть в списке!", Formatting.RED);
+            logDirect("This nickname is already in the list!", Formatting.RED);
             return;
         }
 
-        logDirect("Добавлен ник " + name, Formatting.GRAY);
+        logDirect("Nickname added " + name, Formatting.GRAY);
         friendRepository.add(name);
     }
 
@@ -56,10 +56,10 @@ public class FriendCommand extends Command {
         args.requireMax(1);
         String name = args.getString();
         if (friendRepository.exists(name)) {
-            logDirect(Formatting.GREEN + "Ник " + Formatting.RED + name + Formatting.GREEN + " был убран из списка!");
+            logDirect(Formatting.GREEN + "Nickname " + Formatting.RED + name + Formatting.GREEN + " was removed from the list!");
             friendRepository.remove(name);
         } else {
-            logDirect("Игрок с никнеймом '" + name + "' не найден!");
+            logDirect("Player with nickname '" + name + "' not found!");
         }
     }
 
@@ -68,7 +68,7 @@ public class FriendCommand extends Command {
 
         Paginator.paginate(
                 args, new Paginator<>(Elexis.getInstance().getFriendStorage().getFriends()),
-                () -> logDirect("Список никнеймов друзей:"),
+                () -> logDirect("Friend nickname list:"),
                 friend -> {
                     String names = friend.getName();
                     MutableText namesComponent = Text.literal(names);
@@ -82,7 +82,7 @@ public class FriendCommand extends Command {
     void handleClear(IArgConsumer args) throws CommandException {
         args.requireMax(1);
         friendRepository.clear();
-        logDirect(Formatting.GREEN + "Все ники друзей были удалены.");
+        logDirect(Formatting.GREEN + "All friend nicknames removed.");
     }
 
     @Override
@@ -108,20 +108,20 @@ public class FriendCommand extends Command {
     
     @Override
     public String getShortDesc() {
-        return "Позволяет управлять списком друзей";
+        return "Lets you manage the friends list";
     }
 
     
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "С помощью этой команды можно добавлять/удалять друзей в список",
+                "This command lets you add/remove friends from the list",
                 "",
-                "Использование:",
-                "> friend add <name> - Добавляет имя в список друзей.",
-                "> friend remove <name> - Удаляет имя из списка друзей.",
-                "> friend list - Возвращает список друзей",
-                "> friend clear - Очищает список друзей."
+                "Usage:",
+                "> friend add <name> - Adds a name to the friends list.",
+                "> friend remove <name> - Removes a name from the friends list.",
+                "> friend list - Returns the friends list",
+                "> friend clear - Clears the friends list."
         );
     }
 }

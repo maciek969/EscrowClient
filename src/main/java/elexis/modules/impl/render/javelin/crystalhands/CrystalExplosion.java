@@ -1,13 +1,13 @@
 package elexis.modules.impl.render.javelin.crystalhands;
 
 public enum CrystalExplosion {
-   RISE("Подъём"),
-   SCATTER("Разлёт"),
-   IMPULSE("Импульс"),
-   COLLAPSE("Схлопывание"),
-   VORTEX("Воронка"),
-   SPLIT("Расслоение"),
-   TRAIL("Шлейф");
+   RISE("Rise"),
+   SCATTER("Scatter"),
+   IMPULSE("Impulse"),
+   COLLAPSE("Collapse"),
+   VORTEX("Funnel"),
+   SPLIT("Layering"),
+   TRAIL("Trail");
 
    public final String label;
 

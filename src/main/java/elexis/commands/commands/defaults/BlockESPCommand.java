@@ -38,7 +38,7 @@ public class BlockESPCommand extends Command {
             case "add" -> handleAdd(args);
             case "remove" -> handleRemove(args);
             case "list" -> handleList(label);
-            default -> logDirect(Formatting.RED + "Неизвестная подкоманда. Используй: add, remove, list");
+            default -> logDirect(Formatting.RED + "Unknown subcommand. Use: add, remove, list");
         }
     }
 
@@ -48,17 +48,17 @@ public class BlockESPCommand extends Command {
 
         Block block = findBlockByName(input);
         if (block == null) {
-            logDirect(Formatting.RED + "Блок \"" + input + "\" не существует!");
+            logDirect(Formatting.RED + "Block \"" + input + "\" does not exist!");
             return;
         }
 
         if (blockESPStorage.getBlocks().contains(block)) {
-            logDirect(Formatting.GRAY + "Блок \"" + Formatting.RED + getBlockName(block) + Formatting.GRAY + "\" уже в списке!");
+            logDirect(Formatting.GRAY + "Block \"" + Formatting.RED + getBlockName(block) + Formatting.GRAY + "\" is already in the list!");
             return;
         }
 
         blockESPStorage.add(block);
-        logDirect("Блок \"" + Formatting.GREEN + getBlockName(block) + Formatting.WHITE + "\" добавлен в BlockESP!");
+        logDirect("Block \"" + Formatting.GREEN + getBlockName(block) + Formatting.WHITE + "\" added to BlockESP!");
     }
 
     private void handleRemove(IArgConsumer args) throws CommandException {
@@ -67,31 +67,31 @@ public class BlockESPCommand extends Command {
 
         Block block = findBlockByName(input);
         if (block == null) {
-            logDirect(Formatting.RED + "Блок \"" + input + "\" не существует!");
+            logDirect(Formatting.RED + "Block \"" + input + "\" does not exist!");
             return;
         }
 
         if (!blockESPStorage.getBlocks().contains(block)) {
-            logDirect(Formatting.GRAY + "Блок \"" + Formatting.RED + getBlockName(block) + Formatting.GRAY + "\" и так не в списке!");
+            logDirect(Formatting.GRAY + "Block \"" + Formatting.RED + getBlockName(block) + Formatting.GRAY + "\" is not in the list!");
             return;
         }
 
         blockESPStorage.remove(block);
-        logDirect("Блок \"" + Formatting.GREEN + getBlockName(block) + Formatting.WHITE + "\" удалён из BlockESP!");
+        logDirect("Block \"" + Formatting.GREEN + getBlockName(block) + Formatting.WHITE + "\" removed from BlockESP!");
     }
 
     private void handleList(String label) throws CommandException {
         List<Block> blocks = blockESPStorage.getBlocks();
 
         if (blocks.isEmpty()) {
-            logDirect(Formatting.GRAY + "Нет пользовательских блоков в BlockESP.");
-            logDirect(Formatting.DARK_GRAY + "Автоматически подсвечиваются: камни, руды, обсидиан.");
+            logDirect(Formatting.GRAY + "No custom blocks in BlockESP.");
+            logDirect(Formatting.DARK_GRAY + "Automatically highlighted: stones, ores, obsidian.");
             return;
         }
 
         Paginator.paginate(
                 null, new Paginator<>(blocks),
-                () -> logDirect(Formatting.DARK_AQUA + "BlockESP — пользовательские блоки:"),
+                () -> logDirect(Formatting.DARK_AQUA + "BlockESP — custom blocks:"),
                 block -> Text.literal("§7• §f" + getBlockName(block)),
                 FORCE_COMMAND_PREFIX + label
         );
@@ -147,18 +147,18 @@ public class BlockESPCommand extends Command {
 
     @Override
     public String getShortDesc() {
-        return "Управление подсветкой блоков (BlockESP)";
+        return "Manage block highlighting (BlockESP)";
     }
 
     @Override
     public List<String> getLongDesc() {
         return List.of(
-                "Позволяет добавлять и удалять блоки для подсветки в мире",
+                "Lets you add and remove blocks for highlighting in the world",
                 "",
-                "Использование:",
-                "> boxesp add <block> — добавить блок",
-                "> boxesp remove <block> — удалить блок",
-                "> boxesp list — показать список добавленных блоков"
+                "Usage:",
+                "> boxesp add <block> — add a block",
+                "> boxesp remove <block> — remove a block",
+                "> boxesp list — show the list of added blocks"
         );
     }
 }

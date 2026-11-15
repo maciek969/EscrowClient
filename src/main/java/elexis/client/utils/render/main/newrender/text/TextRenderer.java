@@ -113,7 +113,7 @@ public final class TextRenderer {
                 if (width > 0f && height > 0f) {
                     backend.enqueueMsdfGlyph(texture, pxRange,
                             x0, y0, width, height,
-                            // После flip в MsdfFont нужно поменять v0 и v1 местами
+                            // After flip in MsdfFont, v0 and v1 must be swapped
                             glyph.u0, glyph.v1, glyph.u1, glyph.v0,
                             color, matrix);
                 }

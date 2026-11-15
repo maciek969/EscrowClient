@@ -78,7 +78,7 @@ public class Elexis implements ModInitializer, IMinecraft {
 
     @Override
     public void onInitialize() {
-        log("запуск...");
+        log("starting...");
 
         eventBus.registerLambdaFactory("elexis",
                 (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));

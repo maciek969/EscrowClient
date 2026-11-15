@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.util.math.Vec3d;
 
-@FunctionAdd(name = "AirStuck", alias = "AirStuck", category = Category.Movement, description = "Зависание в воздухе")
+@FunctionAdd(name = "AirStuck", alias = "AirStuck", category = Category.Movement, description = "AirStuck")
 @Environment(EnvType.CLIENT)
 public class AirStuck extends Function {
     private Vec3d stuckPosition;

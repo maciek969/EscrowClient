@@ -7,7 +7,7 @@ import elexis.modules.api.settings.impl.BooleanSetting;
 import elexis.modules.api.settings.impl.ModeSetting;
 import elexis.modules.api.settings.impl.NumberSetting;
 
-@FunctionAdd(name = "Cosmetics", alias = "Cosmetics", category = Category.Render, description = "Косметические визуальные элементы")
+@FunctionAdd(name = "Cosmetics", alias = "Cosmetics", category = Category.Render, description = "Cosmetic visual elements")
 public final class Cosmetics extends Function {
     private final ModeSetting wingMode = new ModeSetting("Wings", "Classic", "Classic", "Butterfly");
     private final BooleanSetting halo = new BooleanSetting("Halo", false);

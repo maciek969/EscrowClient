@@ -55,7 +55,7 @@ public class GpsCommand extends Command implements ILogger {
             x = Integer.parseInt(firstArg);
             z = args.getAs(Integer.class);
         } catch (NumberFormatException exception) {
-            logDirect("Использование: .gps <x> <z>", Formatting.RED);
+            logDirect("Usage: .gps <x> <z>", Formatting.RED);
             return;
         }
 
@@ -66,7 +66,7 @@ public class GpsCommand extends Command implements ILogger {
             wayRepository.remove(name);
         }
         wayRepository.add(name, x, y, z);
-        logDirect("GPS метка поставлена: (" + x + ", " + z + ")", Formatting.GRAY);
+        logDirect("GPS marker set: (" + x + ", " + z + ")", Formatting.GRAY);
     }
 
     void handleAddWay(IArgConsumer args) throws CommandException {
@@ -77,12 +77,12 @@ public class GpsCommand extends Command implements ILogger {
         int z = args.getArgs().get(2).getAs(Integer.class);
 
         if (wayRepository.exists(name)) {
-            logDirect("Метка с таким именем уже есть в списке!", Formatting.RED);
+            logDirect("A marker with this name is already in the list!", Formatting.RED);
             return;
         }
 
         wayRepository.add(name, x, y, z);
-        logDirect("Добавлена метка " + name + ", координаты: (" + x + ", " + y + ", " + z + ")", Formatting.GRAY);
+        logDirect("Marker added " + name + ", coords: (" + x + ", " + y + ", " + z + ")", Formatting.GRAY);
     }
 
     void handleRemoveWay(IArgConsumer args) throws CommandException {
@@ -90,25 +90,25 @@ public class GpsCommand extends Command implements ILogger {
         String name = args.getString();
         if (wayRepository.exists(name)) {
             wayRepository.remove(name);
-            logDirect("Метка " + name + " удалена.", Formatting.GREEN);
+            logDirect("Marker " + name + " removed.", Formatting.GREEN);
         } else {
-            logDirect("Метка с названием '" + name + "' не найдена.", Formatting.RED);
+            logDirect("Marker named '" + name + "' not found.", Formatting.RED);
         }
     }
 
     void handleListWays(String label, IArgConsumer args) throws CommandException {
         args.requireMax(1);
         Paginator.paginate(args, new Paginator<>(wayRepository.getPoints()),
-                () -> logDirect("Список меток:"),
-                way -> Text.literal("Название: " + way.getName()).formatted(Formatting.GRAY)
-                        .append(Text.literal(" Координаты: (" + way.getX() + ", " + way.getY() + ", " + way.getZ() + ")").formatted(Formatting.WHITE)),
+                () -> logDirect("Marker list:"),
+                way -> Text.literal("Name: " + way.getName()).formatted(Formatting.GRAY)
+                        .append(Text.literal(" Coords: (" + way.getX() + ", " + way.getY() + ", " + way.getZ() + ")").formatted(Formatting.WHITE)),
                 FORCE_COMMAND_PREFIX + label);
     }
 
     void handleClearWays(IArgConsumer args) throws CommandException {
         args.requireMax(1);
         wayRepository.clear();
-        logDirect("Все GPS метки удалены.", Formatting.GREEN);
+        logDirect("All GPS markers removed.", Formatting.GREEN);
     }
 
     @Override
@@ -124,20 +124,20 @@ public class GpsCommand extends Command implements ILogger {
 
     @Override
     public String getShortDesc() {
-        return "Позволяет ставить GPS метки в мире";
+        return "Lets you set GPS markers in the world";
     }
 
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "С помощью этой команды можно ставить GPS метку или управлять списком меток",
+                "This command lets you set a GPS marker or manage the marker list",
                 "",
-                "Использование:",
-                "> gps <x> <z> - ставит быструю GPS метку",
-                "> gps add <name> <x> <y> <z> - добавляет метку",
-                "> gps remove <name> - удаляет метку",
-                "> gps list - список меток",
-                "> gps clear - очищает список меток."
+                "Usage:",
+                "> gps <x> <z> - sets a quick GPS marker",
+                "> gps add <name> <x> <y> <z> - adds a marker",
+                "> gps remove <name> - removes a marker",
+                "> gps list - marker list",
+                "> gps clear - clears the marker list."
         );
     }
 }

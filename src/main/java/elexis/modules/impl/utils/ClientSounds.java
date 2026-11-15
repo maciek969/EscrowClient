@@ -7,11 +7,11 @@ import elexis.modules.api.settings.impl.SliderSetting;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@FunctionAdd(name = "ClientSounds", alias = "ClientSounds", category = Category.Utilities, description = "Настройка громкости и тона звуков клиента")
+@FunctionAdd(name = "ClientSounds", alias = "ClientSounds", category = Category.Utilities, description = "Volume and tone tuning for client sounds")
 @Environment(EnvType.CLIENT)
 public class ClientSounds extends Function {
-    private final SliderSetting volume = new SliderSetting("Громкость", 1.0F, 0.0F, 1.0F, 0.05F);
-    private final SliderSetting pitch = new SliderSetting("Тон", 1.0F, 0.5F, 2.0F, 0.05F);
+    private final SliderSetting volume = new SliderSetting("Volume", 1.0F, 0.0F, 1.0F, 0.05F);
+    private final SliderSetting pitch = new SliderSetting("Tone", 1.0F, 0.5F, 2.0F, 0.05F);
 
     public ClientSounds() {
         addSettings(volume, pitch);

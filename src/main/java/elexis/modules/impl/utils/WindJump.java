@@ -11,10 +11,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.Items;
 
-@FunctionAdd(name = "WindJump", alias = "WindJump", category = Category.Utilities, description = "Использует заряд ветра по бинду")
+@FunctionAdd(name = "WindJump", alias = "WindJump", category = Category.Utilities, description = "Uses a wind charge on bind")
 @Environment(EnvType.CLIENT)
 public class WindJump extends Function {
-    private final BindSetting windChargeBind = new BindSetting("Заряд ветра", -1);
+    private final BindSetting windChargeBind = new BindSetting("Wind charge", -1);
 
     public WindJump() {
         addSettings(windChargeBind);

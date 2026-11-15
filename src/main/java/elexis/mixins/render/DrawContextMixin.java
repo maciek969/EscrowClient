@@ -14,7 +14,7 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
     @Unique
     public void Elexis$drawGuiTexture(RenderPipeline pipeline, Identifier texture, float x, float y, int width, int height) {
         if (width == 0 || height == 0) return;
-        if (!BetterGameplay.list.isSelected("РџСЂРёС†РµР»") && !Elexis.getFunctionManager().getBetterGameplay().isState()) return;
+        if (!BetterGameplay.list.isSelected("Crosshair") && !Elexis.getFunctionManager().getBetterGameplay().isState()) return;
 
         ((DrawContext) (Object) this).drawGuiTexture(pipeline, texture, Math.round(x), Math.round(y), width, height);
     }

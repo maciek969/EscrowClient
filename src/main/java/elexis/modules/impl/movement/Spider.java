@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d;
 @FunctionAdd(name = "Spider", alias = "Spider", category = Category.Movement, description = "Wall climb")
 @Environment(EnvType.CLIENT)
 public class Spider extends Function {
-    private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla", "AresMine", "Grim", "CakeWorld");
+    private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla", "AresMine", "Grim", "CakeWorld", "GrimClassic");
     private final SliderSetting speed = new SliderSetting("Speed", 0.24F, 0.05F, 0.6F, 0.01F)
             .hidden(() -> !mode.is("Vanilla"));
     private final SliderSetting grimSpeed = new SliderSetting("Grim Speed", 0.18F, 0.08F, 0.32F, 0.01F)
@@ -98,8 +98,13 @@ public class Spider extends Function {
         }
     }
 
-    // ── AresMine / Grim packet spider ─────────────────────────────────────
+    // ── AresMine / Grim / GrimClassic packet spider ───────────────────────
     private void handlePacketSpider() {
+        if (mode.is("GrimClassic")) {
+            handleGrimClassic();
+            return;
+        }
+
         Vec3d velocity = mc.player.getVelocity();
         double climb = mode.is("Grim")
                 ? grimSpeed.get()
@@ -116,5 +121,27 @@ public class Spider extends Function {
         sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
                 mc.player.getX(), packetY, mc.player.getZ(),
                 false, mc.player.horizontalCollision));
+    }
+
+    // ── GrimClassic: hand-written steady-step climb ───────────────────────
+    // Climb at a constant speed and feed the server a matching "stepped up"
+    // position every other tick so the vertical delta stays inside Grim's
+    // predicted movement envelope instead of spiking in a single tick.
+    private void handleGrimClassic() {
+        Vec3d velocity = mc.player.getVelocity();
+        double climb = Math.min(grimSpeed.get(), 0.26D);
+        mc.player.setVelocity(velocity.x, climb, velocity.z);
+        mc.player.fallDistance = 0.0F;
+
+        if (mc.getNetworkHandler() == null) return;
+
+        packetTicks++;
+        if (packetTicks % 2 != 0) return;
+
+        double x = mc.player.getX();
+        double y = mc.player.getY();
+        double z = mc.player.getZ();
+        sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + climb * 0.5D, z, true, mc.player.horizontalCollision));
+        sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false, mc.player.horizontalCollision));
     }
 }

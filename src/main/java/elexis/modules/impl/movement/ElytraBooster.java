@@ -32,9 +32,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 
 @FunctionAdd(name = "ElytraBooster", alias = "Elytra Booster", category = Category.Movement,
-        description = "Буст элитры из Javelin с расчётом импульса фейерверка")
+        description = "Elytra boost from Javelin with firework impulse calculation")
 public final class ElytraBooster extends Function {
-    public final ModeSetting mode = new ModeSetting("Режим", "Grim", "Grim", "GroundedGrim", "ReallyWorld", "Bravo");
+    public final ModeSetting mode = new ModeSetting("Mode", "Grim", "Grim", "GroundedGrim", "ReallyWorld", "Bravo", "GrimClassic");
     private Object groundedLevel;
     private boolean groundedWasGliding;
     private int groundedGlideStart = Integer.MIN_VALUE;
@@ -106,6 +106,7 @@ public final class ElytraBooster extends Function {
                 : grimBoost(look, lastLook, pitch);
         if (mode.is("ReallyWorld")) boosted = limitReallyWorldBoost(boosted, vanillaVelocity);
         if (mode.is("Bravo")) boosted = limitBravoBoost(boosted, vanillaVelocity);
+        if (mode.is("GrimClassic")) boosted = limitGrimClassicBoost(boosted, vanillaVelocity);
         if (boosted == null || !Double.isFinite(boosted.x) || !Double.isFinite(boosted.y) || !Double.isFinite(boosted.z)) return vanillaVelocity;
         if (!mode.is("GroundedGrim") && aura.isState() && HitAura.target != null && HitAura.target.isAlive()) {
             Vec3d delta = HitAura.target.getEyePos().subtract(mc.player.getEyePos().add(mc.player.getVelocity()));
@@ -194,6 +195,27 @@ public final class ElytraBooster extends Function {
       }
 
       return boosted;
+   }
+
+   // ── GrimClassic: hand-written conservative boost ──────────────────────
+   // Take the raw Grim boost and ease it toward the vanilla velocity, capping
+   // the per-call gain to ~35% over the current speed. This keeps the boost
+   // comfortably inside Grim's firework impulse envelope on stricter setups at
+   // the cost of a little top speed.
+   public Vec3d limitGrimClassicBoost(Vec3d boosted, Vec3d vanillaVelocity) {
+      if (boosted == null) {
+         return null;
+      }
+
+      Vec3d eased = vanillaVelocity.add(boosted.subtract(vanillaVelocity).multiply(0.65));
+
+      double speedCap = Math.max(vanillaVelocity.length() * 1.35, vanillaVelocity.length() + 0.1);
+      double speed = eased.length();
+      if (speed > speedCap && speed > 1.0e-6) {
+         eased = eased.multiply(speedCap / speed);
+      }
+
+      return eased;
    }
 
    public Vec3d limitBravoBoost(Vec3d boosted, Vec3d vanillaVelocity) {

@@ -122,12 +122,12 @@ public final class SpringFloatAnimator implements AnimationSystem.Animated {
         if (value < minValue) {
             value = minValue;
             velocity = 0.0f;
-            // Останавливаем анимацию при достижении minValue
+            // Stop the animation when minValue is reached
             return false;
         } else if (value > maxValue) {
             value = maxValue;
             velocity = 0.0f;
-            // Останавливаем анимацию при достижении maxValue
+            // Stop the animation when maxValue is reached
             return false;
         }
 

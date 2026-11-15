@@ -9,7 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.scoreboard.ScoreboardDisplaySlot;
 
 @FunctionAdd(name = "ScoreboardHealth", alias = "ScoreboardHealth", category = Category.Utilities,
-        description = "Здоровье ближайших игроков по счёту под именем")
+        description = "Health of nearby players by score under the name")
 public final class ScoreboardHealth extends Function {
     public static float read(LivingEntity entity, float vanilla) {
         if (!(entity instanceof AbstractClientPlayerEntity player) || player == mc.player || vanilla <= 0f

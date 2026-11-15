@@ -16,7 +16,7 @@ public final class SceneVisuals {
         return type.isInstance(f) && f.isState()?type.cast(f):null;
     }
 
-    @FunctionAdd(name="Saturation",alias="Saturation",category=Category.Render,description="Цветокоррекция мира")
+    @FunctionAdd(name="Saturation",alias="Saturation",category=Category.Render,description="World color grading")
     public static final class Saturation extends Function {
         public final SliderSetting strength=new SliderSetting("Strength",1f,0f,1f,0.05f);
         public final SliderSetting exposure=new SliderSetting("Exposure",0f,-2f,2f,0.05f);
@@ -28,13 +28,13 @@ public final class SceneVisuals {
         public Saturation() { addSettings(strength,exposure,contrast,saturation,gamma,temperature,vignette); }
     }
 
-    @FunctionAdd(name="MotionBlur",alias="Motion Blur",category=Category.Render,description="Размытие движения камеры по глубине сцены")
+    @FunctionAdd(name="MotionBlur",alias="Motion Blur",category=Category.Render,description="Camera motion blur by scene depth")
     public static final class MotionBlur extends Function {
         public final SliderSetting strength=new SliderSetting("Strength",0.35f,0.05f,1f,0.05f);
         public MotionBlur() { addSettings(strength); }
     }
 
-    @FunctionAdd(name="FogAtmosphere",alias="Fog Atmosphere",category=Category.Render,description="Объёмный туман с учётом глубины и высоты")
+    @FunctionAdd(name="FogAtmosphere",alias="Fog Atmosphere",category=Category.Render,description="Volumetric fog based on depth and height")
     public static final class FogAtmosphere extends Function {
         public final SliderSetting density=new SliderSetting("Density",0.025f,0.001f,0.1f,0.001f);
         public final SliderSetting height=new SliderSetting("Height",70f,-64f,320f,1f);
@@ -42,7 +42,7 @@ public final class SceneVisuals {
         public FogAtmosphere() { addSettings(density,height,color); }
     }
 
-    @FunctionAdd(name="ShaderMist",alias="Shader Mist",category=Category.Render,description="Анимированное небо Pulsar")
+    @FunctionAdd(name="ShaderMist",alias="Shader Mist",category=Category.Render,description="Animated Pulsar sky")
     public static final class ShaderMist extends Function {
         public final SliderSetting speed=new SliderSetting("Speed",1f,0.1f,3f,0.1f);
         public final SliderSetting intensity=new SliderSetting("Intensity",0.6f,0f,1f,0.05f);
@@ -50,7 +50,7 @@ public final class SceneVisuals {
         public ShaderMist() { addSettings(speed,intensity,color); }
     }
 
-    @FunctionAdd(name="Rain",alias="Rain",category=Category.Render,description="Мокрые поверхности и отражения в пространстве экрана")
+    @FunctionAdd(name="Rain",alias="Rain",category=Category.Render,description="Wet surfaces and screen-space reflections")
     public static final class Rain extends Function {
         public final BooleanSetting customRain=new BooleanSetting("Custom rain",true);
         public final SliderSetting density=new SliderSetting("Rain density",1f,0.1f,2f,0.1f);
@@ -70,7 +70,7 @@ public final class SceneVisuals {
         @Override public void onDisable() {weather.clear();super.onDisable();}
     }
 
-    @FunctionAdd(name="Beautiful",alias="Beautiful",category=Category.Render,description="Мокрый мир, отражения и частицы дождя")
+    @FunctionAdd(name="Beautiful",alias="Beautiful",category=Category.Render,description="Wet world, reflections and rain particles")
     public static final class Beautiful extends Function {
         public final SliderSetting reflections=new SliderSetting("Reflections",0.3f,0f,1f,0.05f);
         private final Random random=new Random();
@@ -84,7 +84,7 @@ public final class SceneVisuals {
         }
     }
 
-    @FunctionAdd(name="Ambience",alias="Ambience",category=Category.Render,description="Локальная погода, время и атмосферные частицы")
+    @FunctionAdd(name="Ambience",alias="Ambience",category=Category.Render,description="Local weather, time and atmospheric particles")
     public static final class Ambience extends Function {
         public final ModeSetting weather=new ModeSetting("Weather","Rain","Rain","Snow","Clear","Thunder");
         public final SliderSetting time=new SliderSetting("Time",18000f,0f,24000f,100f);

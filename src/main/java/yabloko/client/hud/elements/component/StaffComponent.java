@@ -37,7 +37,7 @@ import yabloko.utility.render.display.shader.DrawUtil;
 
 public class StaffComponent extends DraggableHudElement {
    private final Map<String, StaffComponent.StaffModule> modules = new LinkedHashMap();
-   private final Set<String> staffPrefix = Set.of(new String[]{"helper", "ᴀдмин", "moder", "staff", "admin", "curator", "стажёр", "сотрудник", "помощник", "админ", "модер", "ꔗ", "ꔥ", "ꔡ", "ꔳ"});
+   private final Set<String> staffPrefix = Set.of(new String[]{"helper", "ᴀdmin", "moder", "staff", "admin", "curator", "trainee", "staff", "helper", "admin", "mod", "ꔗ", "ꔥ", "ꔡ", "ꔳ"});
    private final Map<String, Identifier> skinTextureCache = new HashMap();
    private long lastStaffUpdate = 0L;
    private long lastSkinCacheClear = 0L;

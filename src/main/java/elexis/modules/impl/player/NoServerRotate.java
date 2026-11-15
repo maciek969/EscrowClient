@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 
-@FunctionAdd(name = "NoServerRotate", alias = "NoServerRotate", category = Category.Player, description = "Блокирует принудительный поворот камеры сервером")
+@FunctionAdd(name = "NoServerRotate", alias = "NoServerRotate", category = Category.Player, description = "Blocks forced camera rotation by the server")
 @Environment(EnvType.CLIENT)
 public class NoServerRotate extends Function {
     @EventHandler

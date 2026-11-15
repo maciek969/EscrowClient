@@ -9,9 +9,9 @@ import elexis.modules.api.FunctionAdd;
 import elexis.modules.api.settings.impl.ModeSetting;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 
-@FunctionAdd(name = "AutoSprint", alias = "Auto Sprint", category = Category.Movement, description = "Автоматически бежит при движении")
+@FunctionAdd(name = "AutoSprint", alias = "Auto Sprint", category = Category.Movement, description = "Automatically sprints while moving")
 public class AutoSprint extends Function {
-    public static ModeSetting mode = new ModeSetting("Mode", "Обычный", "Обычный", "Пакетный", "Легитный");
+    public static ModeSetting mode = new ModeSetting("Mode", "Default", "Default", "Packet", "Legit");
     private boolean sentPacketSprint;
     private int legitWarmupTicks;
 
@@ -28,11 +28,11 @@ public class AutoSprint extends Function {
             this.legitWarmupTicks = 0;
             return;
         }
-        if (mode.is("Пакетный")) {
+        if (mode.is("Packet")) {
             this.handlePacketSprint();
             return;
         }
-        if (mode.is("Легитный")) {
+        if (mode.is("Legit")) {
             this.handleLegitSprint();
             return;
         }

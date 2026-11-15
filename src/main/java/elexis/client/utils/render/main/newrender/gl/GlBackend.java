@@ -1007,7 +1007,7 @@ public final class GlBackend {
     }
 
     /**
-     * Захват региона экрана в текстуру (RGBA8). Координаты в пикселях, с верхним левым началом.
+     * Capture a screen region into a texture (RGBA8). Coordinates in pixels, top-left origin.
      */
     public int captureRegionToTexture(int x, int y, int w, int h) {
         return captureRegionToTexture(x, y, w, h, true);
@@ -1050,7 +1050,7 @@ public final class GlBackend {
     }
 
     // --- PostFX helpers ---
-    /** Захватывает экран и подготавливает размытую текстуру (dual-pass Kawase). Вызывать 1 раз в кадре перед отрисовкой блюр-регионов. */
+    /** Captures the screen and prepares a blurred texture (dual-pass Kawase). Call once per frame before drawing blur regions. */
     public void prepareScreenBlur(int screenW, int screenH, float radiusPx) {
         if (screenW <= 0 || screenH <= 0) {
             preparedBlurTex = 0;
@@ -1152,7 +1152,7 @@ public final class GlBackend {
 
     // Remove Kawase; keep only Gaussian mip path
 
-    /** Рисует прямоугольник с закруглением, заполненный заранее подготовленной размытой текстурой экрана. */
+    /** Draws a rounded rectangle filled with a pre-prepared blurred screen texture. */
     public void drawPreparedBlurRounded(float x, float y, float w, float h, float rounding, float alpha, float[] transform) {
         if (preparedBlurTex == 0) return;
         ensureInstanceCapacity();

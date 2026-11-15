@@ -22,6 +22,12 @@ public abstract class CobwebBlockMixin {
                     // Keep the vanilla vertical slowdown and any stronger Weaving bonus.
                     entity.slowMovement(state, new Vec3d(
                             Math.max(slowdown.x, 0.40D), slowdown.y, Math.max(slowdown.z, 0.40D)));
+                } else if (noWeb.isGrimClassic()) {
+                    // Hand-written: apply a light, symmetric horizontal slowdown so a
+                    // small movement delta is still reported each tick (keeps Grim's
+                    // friction prediction happy) while the web barely holds the player.
+                    entity.slowMovement(state, new Vec3d(
+                            Math.max(slowdown.x, 0.75D), Math.max(slowdown.y, 0.95D), Math.max(slowdown.z, 0.75D)));
                 }
                 return;
             }

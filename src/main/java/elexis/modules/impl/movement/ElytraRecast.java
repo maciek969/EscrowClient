@@ -8,7 +8,7 @@ import elexis.modules.api.FunctionAdd;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 
-@FunctionAdd(name = "ElytraRecast", alias = "Elytra Recast", category = Category.Movement, description = "Повторно включает полёт на элитрах")
+@FunctionAdd(name = "ElytraRecast", alias = "Elytra Recast", category = Category.Movement, description = "Re-enables elytra flight")
 public final class ElytraRecast extends Function {
     @EventHandler
     public void onUpdate(EventUpdate.Slow event) {

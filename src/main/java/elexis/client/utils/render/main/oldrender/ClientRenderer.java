@@ -97,7 +97,7 @@ public class ClientRenderer implements IMinecraft {
     }
 
     /**
-     * Р В Р С‘РЎРѓРЎС“Р ВµРЎвЂљ РЎвЂљР ВµР С”РЎРѓРЎвЂљ РЎРѓ Р С–Р С•РЎР‚Р С‘Р В·Р С•Р Р…РЎвЂљР В°Р В»РЎРЉР Р…РЎвЂ№Р С Р С–РЎР‚Р В°Р Т‘Р С‘Р ВµР Р…РЎвЂљР С•Р С (РЎРѓР В»Р ВµР Р†Р В° Р Р…Р В°Р С—РЎР‚Р В°Р Р†Р С•).
+     * Draws text with a horizontal gradient (left to right).
      */
     public void textGradient(String text, float x, float y, TextureUse font, float size, Color colorLeft, Color colorRight) {
         MsdfFont msdfFont = fonts.get(font);
@@ -123,8 +123,8 @@ public class ClientRenderer implements IMinecraft {
     }
 
     /**
-     * Р В Р С‘РЎРѓРЎС“Р ВµРЎвЂљ РЎвЂљР ВµР С”РЎРѓРЎвЂљ РЎРѓ Р В°Р Р…Р С‘Р СР С‘РЎР‚Р С•Р Р†Р В°Р Р…Р Р…РЎвЂ№Р С Р В±Р ВµР С–РЎС“РЎвЂ°Р С‘Р С Р С–РЎР‚Р В°Р Т‘Р С‘Р ВµР Р…РЎвЂљР С•Р С.
-     * offset РІР‚вЂќ Р В·Р Р…Р В°РЎвЂЎР ВµР Р…Р С‘Р Вµ 0..1, Р Т‘Р Р†Р С‘Р С–Р В°Р ВµРЎвЂљ Р Р†Р С•Р В»Р Р…РЎС“ Р С—Р С• РЎвЂљР ВµР С”РЎРѓРЎвЂљРЎС“.
+     * Draws text with an animated running gradient.
+     * offset — value 0..1, moves the wave across the text.
      */
     public void textAnimatedGradient(String text, float x, float y, TextureUse font, float size,
                                      Color[] colors, float offset) {
@@ -144,7 +144,7 @@ public class ClientRenderer implements IMinecraft {
             if (kerning != null) {
                 curX += kerning.getOrDefault((int) ch, 0.0f) * size;
             }
-            // t РІР‚вЂќ Р С—Р С•Р В·Р С‘РЎвЂ Р С‘РЎРЏ РЎРѓР С‘Р СР Р†Р С•Р В»Р В° + РЎРѓР СР ВµРЎвЂ°Р ВµР Р…Р С‘Р Вµ Р В°Р Р…Р С‘Р СР В°РЎвЂ Р С‘Р С‘, Р В·Р В°РЎвЂ Р С‘Р С”Р В»Р ВµР Р…Р С• 0..1
+            // t — character position + animation offset, looped 0..1
             float t = ((curX - x) / totalWidth + offset) % 1.0f;
             if (t < 0) t += 1.0f;
             float scaled = t * (n - 1);
@@ -243,7 +243,7 @@ public class ClientRenderer implements IMinecraft {
     public void backIcon(IconUse icon, float x, float y, float rectSize, float iconXOff, float iconYOff, float iconSize, Color color1, Color color2) {
         float rectX = Math.round(x + 4f);
         float rectY = Math.round(y + 4f);
-        // No background rect РІР‚вЂќ icon only
+        // No background rect — icon only
         float centerX = rectX + rectSize / 2f + iconXOff;
         float centerY = rectY + rectSize / 2f + iconYOff;
         textCenteredPixelPerfect(icon.glyph, centerX, centerY, TextureUse.ICONS, iconSize, color1);
