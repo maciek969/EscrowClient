@@ -1,0 +1,101 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    flatDir { dirs 'libs', 'performance-libs' }
+    // Add repositories to retrieve artifacts from in here.
+    // You should only use this when depending on other mods because
+    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+    // for more information about repositories.
+
+    maven {
+        name = "meteor-maven"
+        url = "https://maven.meteordev.org/releases"
+    }
+    maven {
+        name = "firstdark-maven"
+        url = "https://maven.firstdark.dev/releases"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    // Pinned, checksum-verified Fabric builds for this exact Minecraft version.
+    // These optimize the engine itself and are included in the distributed client.
+    // Optional performance mods are packaged separately when their local archives are available.
+    // Keeping them outside modImplementation lets the client compile from a clean checkout.
+    // To change the versions see the gradle.properties file
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    testCompileOnly 'org.projectlombok:lombok:1.18.38'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    implementation "dev.firstdark.discordrpc:discord-rpc:1.0.4"
+    include "dev.firstdark.discordrpc:discord-rpc:1.0.4"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // Loom needs module metadata when nesting local jars with Gradle 9.6.
+    fileTree(dir: 'libs', include: ['*.jar']).files.each { localJar ->
+        include "elexis.local:${localJar.name.substring(0, localJar.name.length() - 4)}:1.0.0"
+    }
+}
+
+processResources {
+    from('performance-libs/manifest.json') {
+        into 'META-INF'
+        rename { 'performance-dependencies.json' }
+    }
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+    it.options.compilerArgs += [
+            "-processor",
+            "lombok.launch.AnnotationProcessorHider\$AnnotationProcessor"
+    ]
+}
+
+java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/elexis.accesswidener")
+
+    runs {
+        client {
+            vmArgs "-Xmx2G", "-Xms512M", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=50",
+                   "--add-opens", "java.base/java.nio.file=ALL-UNNAMED"
+        }
+    }
+}
