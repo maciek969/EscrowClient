@@ -1,0 +1,22 @@
+accessWidener v2 named
+
+accessible class net/minecraft/client/gui/render/GuiRenderer$Draw
+accessible method net/minecraft/client/render/GameRenderer getFov (Lnet/minecraft/client/render/Camera;FZ)F
+accessible class net/minecraft/client/gui/hud/InGameHud$BarType
+accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/client/util/InputUtil$Key;
+accessible field net/minecraft/client/gui/hud/BossBarHud bossBars Ljava/util/Map;
+accessible class net/minecraft/entity/player/ItemCooldownManager$Entry
+accessible field net/minecraft/entity/player/ItemCooldownManager$Entry endTick I
+accessible field net/minecraft/entity/player/ItemCooldownManager entries Ljava/util/Map;
+accessible field net/minecraft/entity/player/ItemCooldownManager tick I
+accessible field net/minecraft/client/render/GameRenderer guiRenderer Lnet/minecraft/client/gui/render/GuiRenderer;
+accessible field net/minecraft/client/render/GameRenderer fogRenderer Lnet/minecraft/client/render/fog/FogRenderer;
+accessible field net/minecraft/client/gui/render/GuiRenderer draws Ljava/util/List;
+accessible class net/minecraft/client/gui/render/GuiRenderer$Preparation
+accessible field net/minecraft/client/gui/render/GuiRenderer$Draw indexCount I
+accessible field net/minecraft/client/gui/render/GuiRenderer guiProjectionMatrix Lnet/minecraft/client/render/ProjectionMatrix2;
+accessible method net/minecraft/client/gui/render/GuiRenderer render (Lnet/minecraft/client/gui/render/GuiRenderer$Draw;Lcom/mojang/blaze3d/systems/RenderPass;Lcom/mojang/blaze3d/buffers/GpuBuffer;Lcom/mojang/blaze3d/vertex/VertexFormat$IndexType;)V
+accessible method net/minecraft/client/network/ClientPlayerInteractionManager sendSequencedPacket (Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/client/network/SequencedPacketCreator;)V
+accessible method net/minecraft/client/gui/render/GuiRenderer finishPreparation ()V
+accessible field net/minecraft/client/util/InputUtil$Type map Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+accessible method net/minecraft/client/render/RenderLayer of (Ljava/lang/String;Lnet/minecraft/client/render/RenderSetup;)Lnet/minecraft/client/render/RenderLayer;

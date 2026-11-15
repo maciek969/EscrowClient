@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "yabloko.utility.mixin.client.render.gui.hud",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "InGameHudMixin",
+    "GameOverlayRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": false
+  },
+  "priority": 1500
+}
