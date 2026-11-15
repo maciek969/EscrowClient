@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "elexis",
+  "version": "${version}",
+  "name": "Elexis",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "elexis.Elexis"
+    ]
+  },
+  "mixins": [
+    "elexis.mixins.json"
+  ],
+  "accessWidener": "elexis.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/client/gui/DrawContext": ["elexis/client/utils/client/tweaks/crosshair/DrawContextFloatDrawTexture"],
+      "net/minecraft/client/gui/widget/ScrollableWidget": ["elexis/client/utils/client/tweaks/scroll/ScrollableWidgetManipulator"]
+    }
+  }
+}
