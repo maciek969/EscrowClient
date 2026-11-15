@@ -105,7 +105,7 @@ public class HitAura extends Function {
             super.set("SpookyTime");
         }
     };
-    public static ModeSetting antiCheat = new ModeSetting("AntiCheat", "None", "None", "Grim", "SlotAC").hidden(() -> true);
+    public static ModeSetting antiCheat = new ModeSetting("AntiCheat", "None", "None", "Grim", "GrimClassic", "SlotAC").hidden(() -> true);
     public static MultiBooleanSetting targets = new MultiBooleanSetting("Targets", new BooleanSetting(T_PLAYERS, true), new BooleanSetting(T_NAKED, true), new BooleanSetting(T_MOBS, true));
     public static ModeSetting attackDelay = new ModeSetting("Attack timing", "Fast", "Fast", "Dynamic");
     public static MultiBooleanSetting misc = new MultiBooleanSetting("Other before hit", new BooleanSetting(M_THROUGH_WALLS, false), new BooleanSetting(M_ONLY_WEAPON, false), new BooleanSetting(M_NO_EATING, true), new BooleanSetting(M_NO_CONTAINERS, false), new BooleanSetting(M_BREAK_SHIELD, false), new BooleanSetting(M_PRESS_SHIELD, false), new BooleanSetting(M_HIT_AND_EAT, false));
@@ -505,7 +505,7 @@ public class HitAura extends Function {
     }
 
     private boolean isStrictElytraServer() {
-        return antiCheat.is("Grim");
+        return antiCheat.is("Grim") || antiCheat.is("GrimClassic");
     }
 
     private boolean isAttackCooldownReady() {

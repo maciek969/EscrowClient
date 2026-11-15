@@ -11,8 +11,9 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 
 @FunctionAdd(name = "NoVelocity", alias = "NoVelocity", category = Category.Combat, description = "Removes knockback")
 public final class NoVelocity extends Function {
-    private final ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Vanilla", "Grim", "Grim Air");
+    private final ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Vanilla", "Grim", "Grim Air", "GrimClassic");
     private int skipTicks;
+    private boolean classicToggle;
 
     public NoVelocity() {
         addSettings(mode);
@@ -52,6 +53,19 @@ public final class NoVelocity extends Function {
             return;
         }
 
+        if (mode.is("GrimClassic")) {
+            // hand-written: drop every other knockback packet while grounded so
+            // Grim still sees periodic velocity applied (no "no knockback" flag)
+            // but the net push the player takes is roughly halved
+            if (mc.player.isOnGround()) {
+                classicToggle = !classicToggle;
+                if (classicToggle) {
+                    event.cancel();
+                }
+            }
+            return;
+        }
+
         if (mode.is("Grim Air")
                 && !mc.player.isOnGround()
                 && !mc.player.isGliding()
@@ -65,12 +79,14 @@ public final class NoVelocity extends Function {
     @Override
     public void onEnable() {
         skipTicks = 0;
+        classicToggle = false;
         super.onEnable();
     }
 
     @Override
     public void onDisable() {
         skipTicks = 0;
+        classicToggle = false;
         super.onDisable();
     }
 }

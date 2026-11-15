@@ -14,7 +14,8 @@ import net.fabricmc.api.Environment;
 @FunctionAdd(name = "Strafe", alias = "Strafe", category = Category.Movement, description = "Speeds up and aligns strafe")
 @Environment(EnvType.CLIENT)
 public class Strafe extends Function {
-    private final ModeSetting mode = new ModeSetting("Mode", "Matrix", "Matrix", "Grim");
+    private final ModeSetting mode = new ModeSetting("Mode", "Matrix", "Matrix", "Grim", "GrimClassic");
+    private int classicTick;
     private final SliderSetting speed = new SliderSetting("Speed", 0.42F, 0.0F, 1.0F, 0.01F);
 
     public Strafe() {
@@ -34,6 +35,22 @@ public class Strafe extends Function {
             return;
         }
         double direction = MoveUtil.direction(mc.player.getYaw(), movement[0], movement[1]);
+
+        if (mode.is("GrimClassic")) {
+            // hand-written: ramp into the set speed and let vanilla friction run
+            // every third tick, so the per-tick acceleration never exceeds what
+            // Grim predicts from ground friction
+            classicTick++;
+            if (classicTick % 3 == 0) {
+                return;
+            }
+            double current = mc.player.getVelocity().horizontalLength();
+            double target = speed.get();
+            double motion = Math.min(target, current + 0.08D);
+            mc.player.setVelocity(-Math.sin(direction) * motion, mc.player.getVelocity().y, Math.cos(direction) * motion);
+            return;
+        }
+
         double motion = speed.get() * (mode.is("Matrix") ? 1.5D : 1.0D);
         mc.player.setVelocity(-Math.sin(direction) * motion, mc.player.getVelocity().y, Math.cos(direction) * motion);
     }

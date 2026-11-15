@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 @FunctionAdd(name = "NoSlow", alias = "NoSlow", category = Category.Movement, description = "Removes slowdown while using items")
 @Environment(EnvType.CLIENT)
 public class NoSlow extends Function {
-    private final ModeSetting mode = new ModeSetting("Mode", "New Grim", "New Grim", "Old Grim", "Grim", "Grim ticks");
+    private final ModeSetting mode = new ModeSetting("Mode", "New Grim", "New Grim", "Old Grim", "Grim", "Grim ticks", "GrimClassic");
     private final BooleanSetting ignoreGaps = new BooleanSetting("Do not work on gapples and chorus", false)
             .hidden(() -> !mode.is("Grim") && !mode.is("Grim ticks"));
     private float ticks;
@@ -67,6 +67,15 @@ public class NoSlow extends Function {
                     mc.player.getHorizontalFacing()
             ));
         }
+
+        if (mode.is("GrimClassic") && mc.player.getItemUseTime() >= 2 && mc.getNetworkHandler() != null) {
+            sendPacket(new PlayerActionC2SPacket(
+                    PlayerActionC2SPacket.Action.RELEASE_USE_ITEM,
+                    BlockPos.ORIGIN,
+                    mc.player.getHorizontalFacing()
+            ));
+            PlayerUtils.interactItem(mc.player.getActiveHand());
+        }
     }
 
     public boolean shouldCancelSlowdown() {
@@ -104,6 +113,10 @@ public class NoSlow extends Function {
 
         if (mode.is("Grim")) {
             return mc.player.getActiveHand() != Hand.OFF_HAND && mc.player.getItemUseTime() > 4;
+        }
+
+        if (mode.is("GrimClassic")) {
+            return mc.player.getItemUseTime() >= 2;
         }
 
         return false;
