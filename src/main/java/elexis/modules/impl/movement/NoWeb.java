@@ -1,0 +1,19 @@
+package elexis.modules.impl.movement;
+
+import elexis.modules.api.Category;
+import elexis.modules.api.Function;
+import elexis.modules.api.FunctionAdd;
+import elexis.modules.api.settings.impl.ModeSetting;
+
+@FunctionAdd(name = "NoWeb", alias = "No Web", category = Category.Movement, description = "Убирает замедление в паутине")
+public class NoWeb extends Function {
+    private final ModeSetting mode = new ModeSetting("Режим", "Обычный", "Обычный", "Grim Test");
+
+    public NoWeb() {
+        addSettings(mode);
+    }
+
+    public boolean isGrimTest() {
+        return mode.is("Grim Test");
+    }
+}
