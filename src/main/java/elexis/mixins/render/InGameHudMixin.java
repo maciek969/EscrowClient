@@ -101,7 +101,7 @@ public abstract class InGameHudMixin {
                 }
 
                 var hud = elexis.modules.impl.render.Interface.active();
-                if (hud == null || !hud.elements.get("Эффекты") || client.inGameHud.getDebugHud().shouldShowDebugHud())
+                if (hud == null || !hud.elements.get("Effects") || client.inGameHud.getDebugHud().shouldShowDebugHud())
                     this.renderStatusEffectOverlay(context, tickCounter);
                 this.renderBossBarHud(context, tickCounter);
             }

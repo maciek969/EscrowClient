@@ -270,7 +270,7 @@ public final class Attack implements IMinecraft {
                || mc.player.isSubmergedIn(FluidTags.LAVA)
                || isInWeb;
             return badLiquidMoment
-               || !mc.player.isJumping() && mc.player.age > 6 && HitAura.extraSettings.get("Р Р€Р СР Р…РЎвЂ№Р Вµ Р С”РЎР‚Р С‘РЎвЂљРЎвЂ№")
+               || !mc.player.isJumping() && mc.player.age > 6 && HitAura.extraSettings.get("Smart crits")
                || mc.player.isClimbing()
                || mc.player.hasVehicle()
                || mc.player.hasStatusEffect(StatusEffects.BLINDNESS)
@@ -317,7 +317,7 @@ public final class Attack implements IMinecraft {
          float maxDeviation = 0.2F;
          long msCooldown2 = (long)(1.0 / attackSpeed * 1000.0 * (1.0F - Math.min(maxDeviation, 1.0F)));
          long msCooldown;
-         if (HitAura.attackDelay.is("Р вЂќР С‘Р Р…Р В°Р СР С‘РЎвЂЎР Р…РЎвЂ№Р в„–")) {
+         if (HitAura.attackDelay.is("Dynamic")) {
             msCooldown = msCooldown2 + ThreadLocalRandom.current().nextLong(10L, 50L);
          } else {
             msCooldown = msCooldown2 + 40L;

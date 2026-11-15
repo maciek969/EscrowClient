@@ -16,7 +16,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
 @FunctionAdd(name = "TriggerBot", alias = "TriggerBot", category = Category.Combat,
-        description = "Критические удары по цели под прицелом при полном восстановлении")
+        description = "Critical hits on the aimed target at full recovery")
 public final class TriggerBot extends Function {
     private final SliderSetting range = new SliderSetting("Range", 3f, 1f, 3f, 0.1f);
     private final BooleanSetting instantHit = new BooleanSetting("Instant hit", true);

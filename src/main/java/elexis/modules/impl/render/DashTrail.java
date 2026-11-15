@@ -26,24 +26,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-@FunctionAdd(name = "DashTrail", alias = "DashTrail", category = Category.Render, description = "Движущийся шлейф осколков Javelin")
+@FunctionAdd(name = "DashTrail", alias = "DashTrail", category = Category.Render, description = "Moving shard trail from Javelin")
 public final class DashTrail extends Function {
     private static final String ROOT = "textures/modules/dashtrail/";
     private static final Identifier BLOOM = Identifier.of("javelin", ROOT + "dashbloomsample.png");
     private static final Identifier[][] TEXTURES = textures();
-    private final BooleanSetting self = new BooleanSetting("Себя", true);
-    private final BooleanSetting firstPerson = new BooleanSetting("В первом лице", true);
-    private final BooleanSetting players = new BooleanSetting("Другие игроки", false);
-    private final BooleanSetting friends = new BooleanSetting("Друзья", true);
-    private final SliderSetting range = new SliderSetting("Дистанция", 25, 8, 100, 1);
-    private final ModeSetting quality = new ModeSetting("Качество", "Баланс", "Производительность", "Баланс", "Максимум");
-    private final SliderSetting length = new SliderSetting("Длина", .75f, .3f, 1.5f, .05f);
-    private final SliderSetting glow = new SliderSetting("Свечение", 1, .3f, 2, .05f);
-    private final BooleanSetting sparks = new BooleanSetting("Искры", true);
-    private final BooleanSetting smoothing = new BooleanSetting("Сглаживание", false);
-    private final ModeSetting colorMode = new ModeSetting("Цвет", "Палитра", "Палитра", "Theme", "Custom", "Радуга");
-    private final ColorSetting customColor = new ColorSetting("Свой цвет", -5625601);
-    private final SliderSetting rainbowSpeed = new SliderSetting("Скорость радуги", 2, .5f, 10, .5f);
+    private final BooleanSetting self = new BooleanSetting("Self", true);
+    private final BooleanSetting firstPerson = new BooleanSetting("First person", true);
+    private final BooleanSetting players = new BooleanSetting("Other players", false);
+    private final BooleanSetting friends = new BooleanSetting("Friends", true);
+    private final SliderSetting range = new SliderSetting("Distance", 25, 8, 100, 1);
+    private final ModeSetting quality = new ModeSetting("Quality", "Balance", "Performance", "Balance", "Maximum");
+    private final SliderSetting length = new SliderSetting("Length", .75f, .3f, 1.5f, .05f);
+    private final SliderSetting glow = new SliderSetting("Glow", 1, .3f, 2, .05f);
+    private final BooleanSetting sparks = new BooleanSetting("Sparks", true);
+    private final BooleanSetting smoothing = new BooleanSetting("Antialiasing", false);
+    private final ModeSetting colorMode = new ModeSetting("Color", "Palette", "Palette", "Theme", "Custom", "Rainbow");
+    private final ColorSetting customColor = new ColorSetting("Custom color", -5625601);
+    private final SliderSetting rainbowSpeed = new SliderSetting("Rainbow speed", 2, .5f, 10, .5f);
     private final List<Shard> shards = new ArrayList<>();
     private final List<Shard> sparkParticles = new ArrayList<>();
     private final Map<AbstractClientPlayerEntity, Vec3d> previousPositions = new HashMap<>();
@@ -61,7 +61,7 @@ public final class DashTrail extends Function {
     public DashTrail() {
         firstPerson.setVisible(self::get);
         customColor.setVisible(() -> colorMode.is("Custom"));
-        rainbowSpeed.setVisible(() -> colorMode.is("Радуга"));
+        rainbowSpeed.setVisible(() -> colorMode.is("Rainbow"));
         addSettings(self, firstPerson, players, friends, range, quality, length, glow, sparks, smoothing, colorMode, customColor, rainbowSpeed);
     }
 
@@ -112,8 +112,8 @@ public final class DashTrail extends Function {
     }
 
     private void spawn(AbstractClientPlayerEntity player, Vec3d pos, Vec3d movement, ThreadLocalRandom random) {
-        float countMultiplier = quality.is("Максимум") ? 3 : quality.is("Производительность") ? .34f : 1;
-        float sizeMultiplier = quality.is("Максимум") ? .55f : quality.is("Производительность") ? 1.35f : 1;
+        float countMultiplier = quality.is("Maximum") ? 3 : quality.is("Performance") ? .34f : 1;
+        float sizeMultiplier = quality.is("Maximum") ? .55f : quality.is("Performance") ? 1.35f : 1;
         int count = Math.clamp((int)(movement.length() / .08 * countMultiplier), 1, (int)(16 * countMultiplier));
         for (int i = 0; i < count && shards.size() < 900; i++) {
             var shard = new Shard();
@@ -124,7 +124,7 @@ public final class DashTrail extends Function {
             shard.color = switch (colorMode.get()) {
                 case "Theme" -> ThemeColorUtils.getIconColor(0, 0);
                 case "Custom" -> customColor.get();
-                case "Радуга" -> Color.HSBtoRGB((float)(System.nanoTime() % 60_000_000_000L) * 1e-9f * rainbowSpeed.get() / 6, .8f, 1);
+                case "Rainbow" -> Color.HSBtoRGB((float)(System.nanoTime() % 60_000_000_000L) * 1e-9f * rainbowSpeed.get() / 6, .8f, 1);
                 default -> Color.HSBtoRGB(random.nextFloat(), 1, 1);
             };
             shard.life = Math.max(4, Math.round(random.nextInt(11, 17) * length.get()));

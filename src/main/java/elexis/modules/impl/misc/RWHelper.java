@@ -38,18 +38,18 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-@FunctionAdd(name = "RWHelper", alias = "RWHelper", category = Category.Utilities, description = "Предметы, сферы и GPS ReallyWorld")
+@FunctionAdd(name = "RWHelper", alias = "RWHelper", category = Category.Utilities, description = "ReallyWorld items, orbs and GPS")
 public final class RWHelper extends Function {
     private static final Pattern COORDINATES = Pattern.compile("(?i)x[:\\s]*(-?\\d+).*?z[:\\s]*(-?\\d+)");
-    public final BindSetting antiFlyKey = new BindSetting("Бинд анти-полёта", 0);
-    public final BindSetting scrollKey = new BindSetting("Бинд свитка", 0);
-    public final BindSetting trapKey = new BindSetting("Бинд трапки", 0);
-    private final MultiBooleanSetting options = new MultiBooleanSetting("Действия",
-            new BooleanSetting("Авто-GPS на ивенты", true), new BooleanSetting("Игнор друзей в /pvp", true));
-    private final BooleanSetting autoOrb = new BooleanSetting("Авто-свап сферы", false);
-    private final MultiBooleanSetting conditions = new MultiBooleanSetting("Условия свапа",
-            new BooleanSetting("Ниже здоровья", false), new BooleanSetting("Враг ест", false),
-            new BooleanSetting("Враг отступает", false), new BooleanSetting("Враг потерял тотем", false));
+    public final BindSetting antiFlyKey = new BindSetting("Anti Fly bind", 0);
+    public final BindSetting scrollKey = new BindSetting("Scroll bind", 0);
+    public final BindSetting trapKey = new BindSetting("Trap bind", 0);
+    private final MultiBooleanSetting options = new MultiBooleanSetting("Actions",
+            new BooleanSetting("Auto-GPS to events", true), new BooleanSetting("Ignore friends in /pvp", true));
+    private final BooleanSetting autoOrb = new BooleanSetting("Auto-swap orb", false);
+    private final MultiBooleanSetting conditions = new MultiBooleanSetting("Swap conditions",
+            new BooleanSetting("Below health", false), new BooleanSetting("Enemy eating", false),
+            new BooleanSetting("Enemy retreating", false), new BooleanSetting("Enemy lost totem", false));
     private ClientWorld world;
     private BlockPos gps;
     private int swapSlot = -1;
@@ -69,7 +69,7 @@ public final class RWHelper extends Function {
         if (event.isKeyReleased(scrollKey.get())) scrollHeld = false;
         else if (event.isKeyDown(antiFlyKey.get())) useAntiFlight();
         else if (event.isKeyDown(scrollKey.get())) scrollHeld = true;
-        else if (event.isKeyDown(trapKey.get())) HelperItems.use(HelperItems.find(Items.HEART_OF_THE_SEA, "Ловушка", true));
+        else if (event.isKeyDown(trapKey.get())) HelperItems.use(HelperItems.find(Items.HEART_OF_THE_SEA, "Trap", true));
     }
 
     @EventHandler public void tick(EventUpdate.Fast event) {
@@ -84,7 +84,7 @@ public final class RWHelper extends Function {
         if (nullCheck()) return;
         if (mc.currentScreen != null) scrollHeld = false;
         if (scrollHeld) {
-            int slot = HelperItems.find(Items.FLOWER_BANNER_PATTERN, "Свиток опыта", false);
+            int slot = HelperItems.find(Items.FLOWER_BANNER_PATTERN, "XP scroll", false);
             if (slot < 0) scrollHeld = false;
             else HelperItems.use(slot);
         }
@@ -103,12 +103,12 @@ public final class RWHelper extends Function {
 
     private boolean shouldSwap(LivingEntity target) {
         return conditions.get().stream().noneMatch(BooleanSetting::get)
-                || conditions.get("Ниже здоровья") && target.getHealth() + target.getAbsorptionAmount()
+                || conditions.get("Below health") && target.getHealth() + target.getAbsorptionAmount()
                         < mc.player.getHealth() + mc.player.getAbsorptionAmount()
-                || conditions.get("Враг ест") && target.isUsingItem() && target.getActiveItem().contains(DataComponentTypes.FOOD)
-                || conditions.get("Враг отступает") && target.getEntityPos().subtract(mc.player.getEntityPos()).multiply(1,0,1)
+                || conditions.get("Enemy eating") && target.isUsingItem() && target.getActiveItem().contains(DataComponentTypes.FOOD)
+                || conditions.get("Enemy retreating") && target.getEntityPos().subtract(mc.player.getEntityPos()).multiply(1,0,1)
                         .dotProduct(target.getVelocity().subtract(mc.player.getVelocity())) > .01
-                || conditions.get("Враг потерял тотем") && target == poppedTarget && System.nanoTime() - poppedAt < 3_000_000_000L;
+                || conditions.get("Enemy lost totem") && target == poppedTarget && System.nanoTime() - poppedAt < 3_000_000_000L;
     }
 
     private void equipBetterOrb(LivingEntity target) {
@@ -143,10 +143,10 @@ public final class RWHelper extends Function {
     }
 
     private void useAntiFlight() {
-        int slot = HelperItems.find(Items.FIREWORK_STAR, "Анти Полет", false);
+        int slot = HelperItems.find(Items.FIREWORK_STAR, "Anti Fly", false);
         if (slot < 0) return;
         if (mc.player.getItemCooldownManager().isCoolingDown(mc.player.getInventory().getStack(slot))) {
-            mc.player.sendMessage(Text.literal("Анти-полёт в кулдауне"), true);
+            mc.player.sendMessage(Text.literal("Anti Fly on cooldown"), true);
             return;
         }
         if (!JavelinCombat.swapInventory(slot, 40)) return;
@@ -163,7 +163,7 @@ public final class RWHelper extends Function {
     }
 
     public boolean protectFriend(int syncId, int slot) {
-        if (!options.get("Игнор друзей в /pvp") || !(mc.currentScreen instanceof GenericContainerScreen screen)
+        if (!options.get("Ignore friends in /pvp") || !(mc.currentScreen instanceof GenericContainerScreen screen)
                 || !screen.getTitle().getString().equals("PVP » Ожидание...")) return false;
         var handler = screen.getScreenHandler();
         return handler.syncId == syncId && slot >= 0 && slot < handler.slots.size()
@@ -180,7 +180,7 @@ public final class RWHelper extends Function {
                     && status.getEntity(mc.world) instanceof LivingEntity living && living == HudRenderUtil.currentHudTarget()) {
                 poppedTarget = living;
                 poppedAt = System.nanoTime();
-            } else if (options.get("Авто-GPS на ивенты") && event.getPacket() instanceof BossBarS2CPacket boss) {
+            } else if (options.get("Auto-GPS to events") && event.getPacket() instanceof BossBarS2CPacket boss) {
                 boss.accept(new BossBarS2CPacket.Consumer() {
                     @Override public void add(UUID id, Text name, float progress, BossBar.Color color, BossBar.Style style,
                                               boolean darkenSky, boolean dragonMusic, boolean thickenFog) { updateName(id, name); }
@@ -191,7 +191,7 @@ public final class RWHelper extends Function {
                             var pos = new BlockPos(Integer.parseInt(matcher.group(1)), 0, Integer.parseInt(matcher.group(2)));
                             if (pos.equals(gps)) return;
                             gps = pos;
-                            mc.player.sendMessage(Text.literal("RWHelper: GPS установлен на X: " + pos.getX() + " Z: " + pos.getZ()), false);
+                            mc.player.sendMessage(Text.literal("RWHelper: GPS set to X: " + pos.getX() + " Z: " + pos.getZ()), false);
                         } catch (NumberFormatException ignored) {}
                     }
                 });
@@ -200,13 +200,13 @@ public final class RWHelper extends Function {
     }
 
     @EventHandler public void render(EventRender.Screen.Hud event) {
-        if (nullCheck() || gps == null || world != mc.world || !options.get("Авто-GPS на ивенты") || mc.options.hudHidden) return;
+        if (nullCheck() || gps == null || world != mc.world || !options.get("Auto-GPS to events") || mc.options.hudHidden) return;
         double dx = gps.getX() + .5 - mc.player.getX(), dz = gps.getZ() + .5 - mc.player.getZ();
         double distance = Math.hypot(dx, dz);
         double angle = Math.atan2(dz, dx) - Math.toRadians(mc.gameRenderer.getCamera().getYaw() + 90);
         float x = event.getViewportWidth() / 2f + (float)Math.sin(angle) * 65;
         float y = event.getViewportHeight() / 2f - (float)Math.cos(angle) * 65;
-        String label = "◆ " + Math.round(distance) + " м";
+        String label = "◆ " + Math.round(distance) + " m";
         float size = 12;
         var renderer = event.getRenderer();
         var font = event.getDefaultFont();

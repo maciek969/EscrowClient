@@ -26,11 +26,11 @@ public abstract class JavelinPlayerListMixin {
     @Inject(method = "collectPlayerEntries", at = @At("RETURN"), cancellable = true)
     private void elexis$tabOrder(CallbackInfoReturnable<List<PlayerListEntry>> cir) {
         var protection = NameProtect.active();
-        if (protection == null || protection.tabPosition.is("Выкл")) return;
+        if (protection == null || protection.tabPosition.is("Off")) return;
         var entries = new ArrayList<>(cir.getReturnValue());
         var own = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
         if (own == null || !entries.remove(own)) return;
-        if (protection.tabPosition.is("Верх")) entries.addFirst(own);
+        if (protection.tabPosition.is("Top")) entries.addFirst(own);
         else entries.addLast(own);
         cir.setReturnValue(entries);
     }

@@ -35,7 +35,7 @@ public class HelpCommand extends Command {
         CommandRepository commandRepository = elexisInstance.getCommandRepository();
 
         if (!args.hasAny() || args.is(Integer.class)) {
-            logDirect("Доступные команды в чите:", Formatting.AQUA);
+            logDirect("Available commands in the client:", Formatting.AQUA);
 
             commandRepository.getRegistry().descendingStream()
                     .filter(command -> !command.hiddenFromHelp())
@@ -58,7 +58,7 @@ public class HelpCommand extends Command {
                                 .styled(style -> style
                                         .withColor(Formatting.GRAY)
                                         .withClickEvent(new ClickEvent.RunCommand(FORCE_COMMAND_PREFIX + "help " + name))
-                                        .withHoverEvent(new HoverEvent.ShowText(Text.literal("Нажмите, чтобы посмотреть подробную справку"))));
+                                        .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to view detailed help"))));
 
                         MutableText line = clickableName.copy().append(shortDescComponent);
 
@@ -78,11 +78,11 @@ public class HelpCommand extends Command {
             command.getLongDesc().forEach(this::logDirect);
             logDirect("");
 
-            MutableText returnComponent = Text.literal("Нажмите, чтобы вернуться к списку команд")
+            MutableText returnComponent = Text.literal("Click to return to the command list")
                     .styled(style -> style
                             .withColor(Formatting.AQUA)
                             .withClickEvent(new ClickEvent.RunCommand(FORCE_COMMAND_PREFIX + "help"))
-                            .withHoverEvent(new HoverEvent.ShowText(Text.literal("Вернуться к общему списку"))));
+                            .withHoverEvent(new HoverEvent.ShowText(Text.literal("Back to the full list"))));
 
             logDirect(returnComponent);
         }
@@ -101,17 +101,17 @@ public class HelpCommand extends Command {
 
     @Override
     public String getShortDesc() {
-        return "Просмотр всех доступных команд";
+        return "View all available commands";
     }
 
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "С помощью этой команды можно просмотреть подробную справочную информацию о том, как использовать определенные команды",
+                "This command lets you view detailed help on how to use specific commands",
                 "",
-                "Использование:",
-                "> help - Перечисляет все команды и их краткие описания.",
-                "> help <command> - Отображение справочной информации по конкретной команде."
+                "Usage:",
+                "> help - Lists all commands and their short descriptions.",
+                "> help <command> - Shows help information for a specific command."
         );
     }
 }

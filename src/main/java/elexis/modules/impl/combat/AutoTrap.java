@@ -10,7 +10,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
 
 /** Javelin's five-tick movement trap, using an available solid hotbar block. */
-@FunctionAdd(name="AutoTrap", alias="AutoTrap", category=Category.Combat, description="Перекрывает предсказанное движение цели блоком")
+@FunctionAdd(name="AutoTrap", alias="AutoTrap", category=Category.Combat, description="Blocks the target predicted movement with a block")
 public final class AutoTrap extends Function {
     private PlayerEntity target;
     private JavelinCombat.Placement rotation;

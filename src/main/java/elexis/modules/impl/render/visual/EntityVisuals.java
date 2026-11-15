@@ -25,7 +25,7 @@ public final class EntityVisuals {
         }
     }
 
-    @FunctionAdd(name="Tracers", alias="Tracers", category=Category.Render, description="Линии к игрокам и предметам")
+    @FunctionAdd(name="Tracers", alias="Tracers", category=Category.Render, description="Lines to players and items")
     public static final class Tracers extends Nearby {
         private final BooleanSetting items=new BooleanSetting("Items", false);
         public Tracers() { addSettings(items); }
@@ -39,7 +39,7 @@ public final class EntityVisuals {
         }
     }
 
-    @FunctionAdd(name="SkeletonESP", alias="Skeleton ESP", category=Category.Render, description="Скелеты игроков линиями")
+    @FunctionAdd(name="SkeletonESP", alias="Skeleton ESP", category=Category.Render, description="Player skeletons as lines")
     public static final class SkeletonESP extends Nearby {
         @EventHandler public void render(EventRender.World event) {
             if(nullCheck()) return;
@@ -63,7 +63,7 @@ public final class EntityVisuals {
         }
     }
 
-    @FunctionAdd(name="ArmorDurability", alias="Armor Durability", category=Category.Render, description="Прочность брони игрока и целей")
+    @FunctionAdd(name="ArmorDurability", alias="Armor Durability", category=Category.Render, description="Armor durability of the player and targets")
     public static final class ArmorDurability extends Nearby {
         private final BooleanSetting self=new BooleanSetting("Self",true), others=new BooleanSetting("Others",true);
         public ArmorDurability() { addSettings(self,others); }
@@ -91,7 +91,7 @@ public final class EntityVisuals {
         }
     }
 
-    @FunctionAdd(name="TNTTimer", alias="TNT Timer", category=Category.Render, description="Таймер взрыва динамита")
+    @FunctionAdd(name="TNTTimer", alias="TNT Timer", category=Category.Render, description="Dynamite explosion timer")
     public static final class TNTTimer extends Nearby {
         @EventHandler public void render(EventRender.Screen.Hud event) {
             if(nullCheck()) return;
@@ -101,7 +101,7 @@ public final class EntityVisuals {
         }
     }
 
-    @FunctionAdd(name="FireworkESP", alias="Firework ESP", category=Category.Render, description="Метки запуска фейерверков")
+    @FunctionAdd(name="FireworkESP", alias="Firework ESP", category=Category.Render, description="Firework launch markers")
     public static final class FireworkESP extends Nearby {
         private record Launch(Vec3d pos,long created) {}
         private final Map<UUID,Launch> launches=new HashMap<>();

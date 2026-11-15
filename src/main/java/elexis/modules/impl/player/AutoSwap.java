@@ -14,12 +14,12 @@ import net.minecraft.item.Items;
 import net.minecraft.item.PlayerHeadItem;
 import net.minecraft.screen.slot.SlotActionType;
 
-@FunctionAdd(name = "AutoSwap", alias = "AutoSwap", category = Category.Combat, description = "Свап предметов в левой руке")
+@FunctionAdd(name = "AutoSwap", alias = "AutoSwap", category = Category.Combat, description = "Swaps items in the left hand")
 @Environment(EnvType.CLIENT)
 public class AutoSwap extends Function {
     private final BindSetting swapBind = new BindSetting("Swap Bind", -1);
-    private final ModeSetting firstItem = new ModeSetting("First Item", "Талик", "Талик", "Шары", "Щит");
-    private final ModeSetting secondItem = new ModeSetting("Second Item", "Шары", "Талик", "Шары", "Щит");
+    private final ModeSetting firstItem = new ModeSetting("First Item", "Totem", "Totem", "Orbs", "Shield");
+    private final ModeSetting secondItem = new ModeSetting("Second Item", "Orbs", "Totem", "Orbs", "Shield");
 
     public AutoSwap() {
         this.addSettings(this.swapBind, this.firstItem, this.secondItem);
@@ -54,13 +54,13 @@ public class AutoSwap extends Function {
             return false;
         }
 
-        if (mode.equalsIgnoreCase("Талик")) {
+        if (mode.equalsIgnoreCase("Totem")) {
             return stack.isOf(Items.TOTEM_OF_UNDYING);
         }
-        if (mode.equalsIgnoreCase("Шары")) {
+        if (mode.equalsIgnoreCase("Orbs")) {
             return stack.getItem() instanceof PlayerHeadItem;
         }
-        if (mode.equalsIgnoreCase("Щит")) {
+        if (mode.equalsIgnoreCase("Shield")) {
             return stack.isOf(Items.SHIELD);
         }
 

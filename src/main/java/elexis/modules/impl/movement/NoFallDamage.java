@@ -10,10 +10,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.util.math.BlockPos;
 
-@FunctionAdd(name = "NoFallDamage", alias = "NoFallDamage", category = Category.Movement, description = "Останавливает падение, чтобы снизить урон")
+@FunctionAdd(name = "NoFallDamage", alias = "NoFallDamage", category = Category.Movement, description = "Stops the fall to reduce damage")
 @Environment(EnvType.CLIENT)
 public class NoFallDamage extends Function {
-    private final ModeSetting mode = new ModeSetting("Режим", "SpookyTime", "SpookyTime");
+    private final ModeSetting mode = new ModeSetting("Mode", "SpookyTime", "SpookyTime");
 
     public NoFallDamage() {
         addSettings(mode);

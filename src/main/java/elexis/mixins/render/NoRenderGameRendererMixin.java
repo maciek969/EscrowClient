@@ -13,6 +13,6 @@ public class NoRenderGameRendererMixin {
 
     @Inject(method = "bobView", at = @At("HEAD"), cancellable = true, require = 0)
     private void noRender$screenShake(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        if (NoRneder.is("Тряска экрана")) ci.cancel();
+        if (NoRneder.is("Screen shake")) ci.cancel();
     }
 }

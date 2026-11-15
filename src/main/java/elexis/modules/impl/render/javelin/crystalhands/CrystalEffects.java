@@ -8,7 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.model.*;
 import net.minecraft.client.render.entity.state.EndCrystalEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;                       // исправлено: было net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity;                       // fixed: was net.minecraft.world.entity.Entity
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.util.Identifier;
@@ -128,7 +128,7 @@ public final class CrystalEffects {
                   begin(options.throughWalls(), texture);
                   int rendered = 0;
 
-                  for (Entity entity : MC.world.getEntities()) {              // исправлено: net.minecraft.entity.Entity
+                  for (Entity entity : MC.world.getEntities()) {              // fixed: net.minecraft.entity.Entity
                      if (entity instanceof EndCrystalEntity crystal && !crystal.isRemoved()) {
                         Vec3d position = crystal.getLerpedPos(partial);
                         if (!(camera.squaredDistanceTo(position) > 9216.0)) {
@@ -251,7 +251,7 @@ public final class CrystalEffects {
       model.innerGlass.rotate(ROTATION.rotationY(motion.innerYaw()).rotateX(motion.innerTilt()));
       float modelScale = motion.scale();
       model.outerGlass.xScale *= modelScale;
-      model.outerGlass.yScale *= modelScale;                     // исправлено: originYScale -> yScale
+      model.outerGlass.yScale *= modelScale;                     // fixed: originYScale -> yScale
       model.outerGlass.zScale *= modelScale;
       POSE.push();
       POSE.translate(x - camera.x, y - camera.y, z - camera.z);
@@ -272,7 +272,7 @@ public final class CrystalEffects {
          default:
             break;
          case VORTEX:
-            model.outerGlass.yScale *= 1.25F;                    // исправлено: originYScale -> yScale
+            model.outerGlass.yScale *= 1.25F;                    // fixed: originYScale -> yScale
             model.outerGlass.rotate(ROTATION.rotationY(phase * 0.65F).rotateZ(0.22F));
             model.innerGlass.rotate(ROTATION.rotationY(-phase * 1.3F));
             model.innerGlass.yScale *= 0.8F;
@@ -286,7 +286,7 @@ public final class CrystalEffects {
             model.outerGlass.originY = 24.0F;
             break;
          case FACETS:
-            model.outerGlass.yScale *= 1.15F;                    // исправлено: originYScale -> yScale
+            model.outerGlass.yScale *= 1.15F;                    // fixed: originYScale -> yScale
             model.innerGlass.rotate(ROTATION.rotationY(phase * 0.7F));
             model.cube.rotate(ROTATION.rotationZ(-phase * 0.45F));
             break;

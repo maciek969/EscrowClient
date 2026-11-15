@@ -11,7 +11,7 @@ public class CommandNotFoundException extends CommandException implements ILogge
     public final String command;
 
     public CommandNotFoundException(String command) {
-        super(String.format("Команда не найдена: %s", command));
+        super(String.format("Command not found: %s", command));
         this.command = command;
     }
 

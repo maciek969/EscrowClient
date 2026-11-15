@@ -17,7 +17,7 @@ public class EntryListWidgetMixin {
             at = @At("HEAD")
     )
     public void manipulateScrollAmount(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (!BetterGameplay.list.isSelected("Скролл") && !Elexis.getFunctionManager().getBetterGameplay().isState()) return;
+        if (!BetterGameplay.list.isSelected("Scroll") && !Elexis.getFunctionManager().getBetterGameplay().isState()) return;
 
         ((ScrollableWidget) (Object) this).Elexis$manipulateScrollAmount(delta);
     }

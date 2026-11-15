@@ -5,9 +5,9 @@ import elexis.modules.api.Function;
 import elexis.modules.api.FunctionAdd;
 import elexis.modules.api.settings.impl.ModeSetting;
 
-@FunctionAdd(name = "NoWeb", alias = "No Web", category = Category.Movement, description = "Убирает замедление в паутине")
+@FunctionAdd(name = "NoWeb", alias = "No Web", category = Category.Movement, description = "Removes slowdown in cobweb")
 public class NoWeb extends Function {
-    private final ModeSetting mode = new ModeSetting("Режим", "Обычный", "Обычный", "Grim Test");
+    private final ModeSetting mode = new ModeSetting("Mode", "Default", "Default", "Grim Test");
 
     public NoWeb() {
         addSettings(mode);

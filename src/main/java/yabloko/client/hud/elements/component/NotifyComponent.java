@@ -83,7 +83,7 @@ public class NotifyComponent extends DraggableHudElement {
             ctx.drawText(iconFont, icon, x + (14.5F - iconFont.width(icon)) / 2.0F, y + 0.25F + (notificationHeight - iconFont.height()) / 2.0F, color.withAlpha(255.0F * this.toggleAnimation.getValue()));
          }
 
-         ctx.drawText(textFont, "Пример уведомления", x + 17.0F, y + (12.0F - textFont.height()) / 2.0F, ColorRGBA.WHITE.withAlpha(255.0F * this.toggleAnimation.getValue()));
+         ctx.drawText(textFont, "Example notification", x + 17.0F, y + (12.0F - textFont.height()) / 2.0F, ColorRGBA.WHITE.withAlpha(255.0F * this.toggleAnimation.getValue()));
       }
 
       NotifyComponent.BaseNotification n;
@@ -131,7 +131,7 @@ public class NotifyComponent extends DraggableHudElement {
          ColorRGBA textColor = this.enabled ? new ColorRGBA(76, 255, 76, this.alphaAnimation.getValue() * 255.0F) : new ColorRGBA(255, 76, 76, this.alphaAnimation.getValue() * 255.0F);
          String var10000 = this.module.getName();
          String moduleName = " " + var10000;
-         String statusText = this.enabled ? " включена" : " выключена";
+         String statusText = this.enabled ? " enabled" : " disabled";
          float moduleNameWidth = Fonts.REGULAR.getWidth(moduleName, 7.25F);
          float statusTextWidth = textFont.width(statusText);
          float width = iconBgWidth + 4.0F + moduleNameWidth + statusTextWidth;
@@ -198,7 +198,7 @@ public class NotifyComponent extends DraggableHudElement {
          }
 
          float iconBgWidth = 32.0F;
-         String moduleName = "Игрок %s потерял тотем, зачарован: ".formatted(new Object[]{this.name});
+         String moduleName = "Player %s lost totem, enchanted: ".formatted(new Object[]{this.name});
          float moduleNameWidth = textFont.width(moduleName);
          float width = iconBgWidth + 4.0F + moduleNameWidth;
          x -= width / 2.0F;

@@ -27,26 +27,26 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /** Javelin's procedural target models, rendered by the native 1.21.11 backend. */
 @FunctionAdd(name="TargetESP", alias="TargetESP", category=Category.Render,
-        description="Модели, кометы, лезвия и молнии вокруг выбранной цели")
+        description="Models, comets, blades and lightning around the selected target")
 public final class TargetESP extends Function {
    public static TargetESP instance;
-   public final ModeSetting mode = new ModeSetting("Режим", "Ring", "Ring", "Crystals", "Bord", "Blades", "Маркер", "Спермо", "Lightning");
-   public final SliderSetting markerSize = new SliderSetting("Размер маркера", 0.4875F, 0.2F, 1.6F, 0.0125F);
-   public final SliderSetting markerBright = new SliderSetting("Яркость маркера", 2.0F, 1.0F, 4.0F, 0.25F);
-   public final ModeSetting markerStyle = new ModeSetting("Стиль маркера", "Обычный", "Обычный", "Шевроны", "Уголки");
-   public final ModeSetting bordPath = new ModeSetting("Траектория", "Орбита", "Орбита", "Спираль");
-   public final ModeSetting bordCount = new ModeSetting("Комет", "3", "2", "3", "4", "5");
-   public final SliderSetting bordSpeed = new SliderSetting("Скорость комет", 1.0F, 0.2F, 3.0F, 0.1F);
-   public final BooleanSetting motionTrail = new BooleanSetting("Следовать", true);
-   public final SliderSetting orbitTrailLength = new SliderSetting("Длина следа", 63.0F, 6.0F, 63.0F, 1.0F);
-   public final ModeSetting bladesStyle = new ModeSetting("Стиль лезвий", "Tilted", "Tilted", "Flat", "Grinder", "Gyro");
-   public final ModeSetting bladeCount = new ModeSetting("Лезвия", "4", "3", "4");
-   public final SliderSetting bladeSpeed = new SliderSetting("Скорость лезвий", 1.0F, 0.2F, 4.0F, 0.1F);
-   public final BooleanSetting throughWalls = new BooleanSetting("Через стены", false);
-   public final ModeSetting lightningDepth = new ModeSetting("Глубина молний", "Авто", "Авто", "С глубиной", "Через стены");
-   public final BooleanSetting sharpCrystals = new BooleanSetting("Острые кристаллы", false);
-   public final ModeSetting colorMode = new ModeSetting("Цвет", "White", "Theme", "White", "Custom");
-   public final ColorSetting customColor = new ColorSetting("Свой цвет", -7504649);
+   public final ModeSetting mode = new ModeSetting("Mode", "Ring", "Ring", "Crystals", "Bord", "Blades", "Marker", "Spermo", "Lightning");
+   public final SliderSetting markerSize = new SliderSetting("Marker size", 0.4875F, 0.2F, 1.6F, 0.0125F);
+   public final SliderSetting markerBright = new SliderSetting("Marker brightness", 2.0F, 1.0F, 4.0F, 0.25F);
+   public final ModeSetting markerStyle = new ModeSetting("Marker style", "Default", "Default", "Chevrons", "Corners");
+   public final ModeSetting bordPath = new ModeSetting("Trajectory", "Orbit", "Orbit", "Spiral");
+   public final ModeSetting bordCount = new ModeSetting("Comets", "3", "2", "3", "4", "5");
+   public final SliderSetting bordSpeed = new SliderSetting("Comet speed", 1.0F, 0.2F, 3.0F, 0.1F);
+   public final BooleanSetting motionTrail = new BooleanSetting("Follow", true);
+   public final SliderSetting orbitTrailLength = new SliderSetting("Trail length", 63.0F, 6.0F, 63.0F, 1.0F);
+   public final ModeSetting bladesStyle = new ModeSetting("Blade style", "Tilted", "Tilted", "Flat", "Grinder", "Gyro");
+   public final ModeSetting bladeCount = new ModeSetting("Blades", "4", "3", "4");
+   public final SliderSetting bladeSpeed = new SliderSetting("Blade speed", 1.0F, 0.2F, 4.0F, 0.1F);
+   public final BooleanSetting throughWalls = new BooleanSetting("Through walls", false);
+   public final ModeSetting lightningDepth = new ModeSetting("Lightning depth", "Auto", "Auto", "With depth", "Through walls");
+   public final BooleanSetting sharpCrystals = new BooleanSetting("Sharp crystals", false);
+   public final ModeSetting colorMode = new ModeSetting("Color", "White", "Theme", "White", "Custom");
+   public final ColorSetting customColor = new ColorSetting("Custom color", -7504649);
    public final Animation showAnim = new Animation(400L, Easing.EASE_OUT_EXPO);
    public Entity lastTarget;
    public final BeginShapeImpl dissolve = new BeginShapeImpl();
@@ -56,11 +56,11 @@ public final class TargetESP extends Function {
    public boolean targetPresent;
    public boolean captureShape;
    public long lastFrameTime;
-   public static final String MARKER_CLASSIC = "Обычный";
-   public static final String MARKER_CHEVRONS = "Шевроны";
-   public static final String MARKER_CORNERS = "Уголки";
-   public static final String BORD_ORBIT = "Орбита";
-   public static final String BORD_SPIRAL = "Спираль";
+   public static final String MARKER_CLASSIC = "Default";
+   public static final String MARKER_CHEVRONS = "Chevrons";
+   public static final String MARKER_CORNERS = "Corners";
+   public static final String BORD_ORBIT = "Orbit";
+   public static final String BORD_SPIRAL = "Spiral";
    public static final Identifier MARKER_TEX_CLASSIC = Identifier.of("javelin", "images/target.png");
    public static final Identifier MARKER_TEX_CHEVRONS = Identifier.of("javelin", "images/markers/chev_out6.png");
    public static final Identifier MARKER_TEX_CORNERS = Identifier.of("javelin", "images/markers/corners_diag.png");
@@ -97,9 +97,9 @@ public final class TargetESP extends Function {
       instance = this;
       for (int i = 0; i < 5; i++) orbitTrails.add(new ArrayList<>());
       addSettings(mode, markerSize, markerBright, markerStyle, bordPath, bordCount, bordSpeed, motionTrail, orbitTrailLength, bladesStyle, bladeCount, bladeSpeed, throughWalls, lightningDepth, sharpCrystals, colorMode, customColor);
-      markerStyle.setVisible(() -> mode.is("Маркер"));
-      markerSize.setVisible(() -> mode.is("Маркер"));
-      markerBright.setVisible(() -> mode.is("Маркер"));
+      markerStyle.setVisible(() -> mode.is("Marker"));
+      markerSize.setVisible(() -> mode.is("Marker"));
+      markerBright.setVisible(() -> mode.is("Marker"));
       sharpCrystals.setVisible(() -> mode.is("Crystals"));
       bordPath.setVisible(() -> mode.is("Bord"));
       bordCount.setVisible(() -> mode.is("Bord"));
@@ -168,7 +168,7 @@ public final class TargetESP extends Function {
          try { renderSelectedMode(living, lastTargetPosition.x, lastTargetPosition.y, lastTargetPosition.z, now, dt, show); }
          finally { captureShape = false; }
       }
-      dissolve.render(now, mode.is("Маркер") || throughWalls.get());
+      dissolve.render(now, mode.is("Marker") || throughWalls.get());
       if (show <= 0.005f && !targetPresent && !dissolve.hasActive()) reset();
    }
 
@@ -178,8 +178,8 @@ public final class TargetESP extends Function {
          case "Crystals" -> renderCrystals(target,x,y,z,mc.getRenderTickCounter().getTickProgress(true),show);
          case "Bord" -> renderBord(target,x,y,z,dt,show);
          case "Blades" -> renderBlades(target,x,y,z,now,dt,show);
-         case "Маркер" -> renderMarker(target,x,y,z,now,dt,show);
-         case "Спермо" -> renderSpermo(target,x,y,z,now,dt,show);
+         case "Marker" -> renderMarker(target,x,y,z,now,dt,show);
+         case "Spermo" -> renderSpermo(target,x,y,z,now,dt,show);
          case "Lightning" -> renderLightning(target,x,y,z,mc.getRenderTickCounter().getTickProgress(true),dt,show);
          default -> renderRing(target,x,y,z,now,dt,show);
       }
@@ -189,7 +189,7 @@ public final class TargetESP extends Function {
       return switch(mode.get()) {
          case "Blades" -> 1200;
          case "Ring" -> 1100;
-         case "Маркер" -> 768;
+         case "Marker" -> 768;
          case "Bord" -> 640;
          default -> 512;
       };
@@ -257,9 +257,9 @@ public final class TargetESP extends Function {
    }
 
    public boolean lightningThroughWalls(LivingEntity target) {
-      if (this.lightningDepth.is("Через стены")) {
+      if (this.lightningDepth.is("Through walls")) {
          return true;
-      } else if (!this.lightningDepth.is("С глубиной")) {
+      } else if (!this.lightningDepth.is("With depth")) {
          Vec3d eye = mc.player.getEyePos();
          Box box = target.getBoundingBox();
          Vec3d closest = new Vec3d(MathHelper.clamp(eye.x, box.minX, box.maxX), MathHelper.clamp(eye.y, box.minY, box.maxY), MathHelper.clamp(eye.z, box.minZ, box.maxZ));
@@ -374,10 +374,10 @@ public final class TargetESP extends Function {
    }
 
    public Identifier markerTexture() {
-      if (this.markerStyle.is("Шевроны")) {
+      if (this.markerStyle.is("Chevrons")) {
          return MARKER_TEX_CHEVRONS;
       } else {
-         return this.markerStyle.is("Уголки") ? MARKER_TEX_CORNERS : MARKER_TEX_CLASSIC;
+         return this.markerStyle.is("Corners") ? MARKER_TEX_CORNERS : MARKER_TEX_CLASSIC;
       }
    }
 
@@ -663,7 +663,7 @@ public final class TargetESP extends Function {
    }
 
    public Vec3d bordOffset(String path, int i, int comets, double radian, float r, float height) {
-      if (path.equals("Спираль")) {
+      if (path.equals("Spiral")) {
          double plane = i * Math.PI * 2.0 / comets;
          double climb = Math.sin(radian * 0.22 + plane);
          return new Vec3d(Math.sin(radian) * r, climb * height * 0.42, Math.cos(radian) * r);

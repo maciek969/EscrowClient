@@ -17,6 +17,6 @@ public class NoRenderLivingEntityRendererMixin {
             at = @At("HEAD"), cancellable = true, require = 0
     )
     private void noRender$shadows(EntityRenderState state, CallbackInfoReturnable<Float> cir) {
-        if (NoRneder.is("Тени")) cir.setReturnValue(0f);
+        if (NoRneder.is("Shadows")) cir.setReturnValue(0f);
     }
 }

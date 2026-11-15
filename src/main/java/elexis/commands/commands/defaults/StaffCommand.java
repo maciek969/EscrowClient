@@ -48,11 +48,11 @@ public class StaffCommand extends Command implements ILogger {
         String name = args.getString();
 
         if (staffRepository.exists(name)) {
-            logDirect("Этот модератор уже есть в списке!", Formatting.RED);
+            logDirect("This moderator is already in the list!", Formatting.RED);
             return;
         }
 
-        logDirect("Добавлен модератор " + name, Formatting.GRAY);
+        logDirect("Moderator added " + name, Formatting.GRAY);
         staffRepository.add(name);
     }
     
@@ -60,10 +60,10 @@ public class StaffCommand extends Command implements ILogger {
         args.requireMax(1);
         String name = args.getString();
         if (staffRepository.exists(name)) {
-            logDirect(Formatting.GREEN + "Модератор " + Formatting.RED + name + Formatting.GREEN + " был убран из списка!");
+            logDirect(Formatting.GREEN + "Moderator " + Formatting.RED + name + Formatting.GREEN + " was removed from the list!");
             staffRepository.remove(name);
         } else {
-            logDirect("Модератор с никнеймом '" + name + "' не найден!");
+            logDirect("Moderator with nickname '" + name + "' not found!");
         }
     }
     
@@ -72,7 +72,7 @@ public class StaffCommand extends Command implements ILogger {
 
         Paginator.paginate(
                 args, new Paginator<>(Elexis.getInstance().getStaffStorage().getStaffs()),
-                () -> logDirect("Список модераторов:"),
+                () -> logDirect("Moderator list:"),
                 staff -> {
                     String names = staff.getName();
                     MutableText namesComponent = Text.literal(names);
@@ -86,7 +86,7 @@ public class StaffCommand extends Command implements ILogger {
     void handleClearStaffs(IArgConsumer args) throws CommandException {
         args.requireMax(1);
         staffRepository.clear();
-        logDirect(Formatting.GREEN + "Все ники модераторов были удалены.");
+        logDirect(Formatting.GREEN + "All moderator nicknames removed.");
     }
 
     @Override
@@ -112,19 +112,19 @@ public class StaffCommand extends Command implements ILogger {
 
     @Override
     public String getShortDesc() {
-        return "Позволяет добавлять модераторов в список модерации";
+        return "Lets you add moderators to the moderation list";
     }
     
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "С помощью этой команды можно добавлять/удалять модераторов в список",
+                "This command lets you add/remove moderators from the list",
                 "",
-                "Использование:",
-                "> staff add <name> - Добавляет модератора",
-                "> staff remove <name> - Удаляет модератора из списка",
-                "> staff list - Возвращает список никнеймов модераторов",
-                "> staff clear - Очищает список модераторов."
+                "Usage:",
+                "> staff add <name> - Adds a moderator",
+                "> staff remove <name> - Removes a moderator from the list",
+                "> staff list - Returns the moderator nickname list",
+                "> staff clear - Clears the moderator list."
         );
     }
 }

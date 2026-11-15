@@ -23,24 +23,7 @@ public class RCTCommand extends Command implements ILogger {
     
     @Override
     public void execute(String label, IArgConsumer args) throws CommandException {
-        /*
-        if (!ServerUtil.isHolyWorld()) {
-            Notifications.warn("[RCT] Не работает на этом сервере ", "  сервере", 3000);
-            return;
-        }
-
-        if (ServerUtil.isPvp()) {
-            Notifications.warn("[RCT] Вы находитесь в режиме пвп  ", " пвп", 3000);
-            return;
-        }
-
-        if (args.hasAny()) {
-            args.requireMin(1);
-            int anarchy = args.getArgs().getFirst().getAs(Integer.class);
-            repository.reconnect(anarchy);
-        } else repository.reconnect(ServerUtil.getAnarchy());
-
-         */
+        /* */
     }
 
     @Override
@@ -51,18 +34,18 @@ public class RCTCommand extends Command implements ILogger {
 
     @Override
     public String getShortDesc() {
-        return "Перезаходит на анархию";
+        return "Rejoins the anarchy";
     }
 
 
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "Перезаходит на анархию",
+                "Rejoins the anarchy",
                 "",
-                "Использование:",
-                "> rct <anarchy> - Заходит на <anarchy>",
-                "> rct - Перезаходит на анархию где вы только что были"
+                "Usage:",
+                "> rct <anarchy> - Joins <anarchy>",
+                "> rct - Rejoins the anarchy you were just on"
         );
     }
 }

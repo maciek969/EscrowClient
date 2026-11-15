@@ -20,7 +20,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 
 @FunctionAdd(name = "AutoTool", alias = "Auto Tool", category = Category.Player,
-        description = "Выбирает инструмент для блока и возвращает прежний слот, как в Javelin")
+        description = "Picks a tool for the block and restores the previous slot, like Javelin")
 public final class AutoTool extends Function {
     private int lastActionAge = Integer.MIN_VALUE;
     private int miningSlot = -1;

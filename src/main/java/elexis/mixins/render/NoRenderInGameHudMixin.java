@@ -17,7 +17,7 @@ public class NoRenderInGameHudMixin {
 
     @Inject(method = "renderBossBarHud", at = @At("HEAD"), cancellable = true)
     private void noRender$bossBar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (NoRneder.is("Боссбар")) ci.cancel();
+        if (NoRneder.is("Boss bar")) ci.cancel();
     }
 
     @Inject(
@@ -25,29 +25,29 @@ public class NoRenderInGameHudMixin {
             at = @At("HEAD"), cancellable = true
     )
     private void noRender$scoreboard(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (NoRneder.is("Скорборд")) ci.cancel();
+        if (NoRneder.is("Scoreboard")) ci.cancel();
     }
 
     @Inject(method = "renderTitleAndSubtitle", at = @At("HEAD"), cancellable = true)
     private void noRender$titles(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (NoRneder.is("Тайтлы")) ci.cancel();
+        if (NoRneder.is("Titles")) ci.cancel();
     }
 
     @Inject(method = "renderVignetteOverlay", at = @At("HEAD"), cancellable = true, require = 0)
     private void noRender$vignette(DrawContext context, Entity entity, CallbackInfo ci) {
-        if (NoRneder.is("Виньетка")) ci.cancel();
+        if (NoRneder.is("Vignette")) ci.cancel();
     }
 
     @Inject(method = "renderAirBubbles", at = @At("HEAD"), cancellable = true, require = 0)
     private void noRender$airBubbles(DrawContext context, PlayerEntity player, int left, int top, int unused, CallbackInfo ci) {
-        if (NoRneder.is("Пузырьки воздуха")) ci.cancel();
+        if (NoRneder.is("Air bubbles")) ci.cancel();
     }
 
     @Inject(method = "renderOverlay", at = @At("HEAD"), cancellable = true, require = 0)
     private void noRender$overlay(DrawContext context, Identifier texture, float opacity, CallbackInfo ci) {
         if (texture == null) return;
         String path = texture.getPath();
-        if (NoRneder.is("Оверлей блоков") && (path.contains("pumpkin") || path.contains("powder_snow"))) {
+        if (NoRneder.is("Block overlay") && (path.contains("pumpkin") || path.contains("powder_snow"))) {
             ci.cancel();
         }
     }

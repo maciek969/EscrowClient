@@ -10,7 +10,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import org.lwjgl.glfw.GLFW;
 
 @FunctionAdd(name = "ItemScroller", alias = "ItemScroller", category = Category.Player,
-        description = "Перенос стаков через Shift + ЛКМ и выброс одного типа через Ctrl + Shift + Q")
+        description = "Moves stacks with Shift + LMB and drops one type with Ctrl + Shift + Q")
 public final class ItemScroller extends Function {
     private final SliderSetting delay = new SliderSetting("Delay", 80f, 0f, 500f, 1f);
     private Slot previous;

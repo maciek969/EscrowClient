@@ -15,13 +15,13 @@ import net.minecraft.util.math.MathHelper;
 import java.util.*;
 
 /** Javelin's Dart, Heads and Minimal markers, including frame-rate independent smoothing. */
-@FunctionAdd(name="Arrows",alias="Arrows",category=Category.Render,description="Стрелки Javelin с головами и плавной анимацией")
+@FunctionAdd(name="Arrows",alias="Arrows",category=Category.Render,description="Javelin arrows with heads and smooth animation")
 public final class Arrows extends Function {
-    public final ModeSetting mode = new ModeSetting("Режим","Dart","Dart","Heads","Minimal");
-    public final SliderSetting distance = new SliderSetting("Дистанция",55f,25f,140f,1f);
-    public final SliderSetting smoothing = new SliderSetting("Плавность",.6f,0f,1f,.05f);
-    public final ModeSetting colorMode = new ModeSetting("Цвет","Theme","Theme","Custom");
-    public final ColorSetting customColor = new ColorSetting("Свой цвет",-7504649);
+    public final ModeSetting mode = new ModeSetting("Mode","Dart","Dart","Heads","Minimal");
+    public final SliderSetting distance = new SliderSetting("Distance",55f,25f,140f,1f);
+    public final SliderSetting smoothing = new SliderSetting("Smoothness",.6f,0f,1f,.05f);
+    public final ModeSetting colorMode = new ModeSetting("Color","Theme","Theme","Custom");
+    public final ColorSetting customColor = new ColorSetting("Custom color",-7504649);
     private final Map<Integer,Marker> states = new HashMap<>();
     private Object world;
     private float radius;

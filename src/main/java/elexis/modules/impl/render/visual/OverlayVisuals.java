@@ -20,14 +20,14 @@ import java.util.UUID;
 public final class OverlayVisuals {
     private OverlayVisuals() {}
 
-    @FunctionAdd(name="AspectRatio",alias="Aspect Ratio",category=Category.Render,description="Соотношение сторон экрана")
+    @FunctionAdd(name="AspectRatio",alias="Aspect Ratio",category=Category.Render,description="Screen aspect ratio")
     public static final class AspectRatio extends Function {
         private final SliderSetting ratio=new SliderSetting("Ratio",1.78f,0.8f,3f,0.01f);
         public AspectRatio() { addSettings(ratio); }
         @EventHandler public void aspect(EventAspectRatio event) { event.setValue(ratio.get()); event.cancel(); }
     }
 
-    @FunctionAdd(name="PlayerAlert",alias="Player Alert",category=Category.Render,description="Дуга урона и лечения вокруг прицела")
+    @FunctionAdd(name="PlayerAlert",alias="Player Alert",category=Category.Render,description="Damage and heal arc around the crosshair")
     public static final class PlayerAlert extends Function {
         private float previousHealth=Float.NaN;
         private UUID player;
@@ -58,7 +58,7 @@ public final class OverlayVisuals {
         @Override public void onDisable() { previousHealth=Float.NaN; player=null; start=0; super.onDisable(); }
     }
 
-    @FunctionAdd(name="Picture",alias="Picture",category=Category.Render,description="Картинка над головой игрока")
+    @FunctionAdd(name="Picture",alias="Picture",category=Category.Render,description="Image above the player head")
     public static final class Picture extends Function {
         private final ModeSetting image=new ModeSetting("Image","Soca","Soca","Eagle");
         private final BooleanSetting others=new BooleanSetting("Others",false);
@@ -74,7 +74,7 @@ public final class OverlayVisuals {
         }
     }
 
-    @FunctionAdd(name="Cursor",alias="Cursor",category=Category.Render,description="Курсор из Visual в меню")
+    @FunctionAdd(name="Cursor",alias="Cursor",category=Category.Render,description="Cursor from Visual in the menu")
     public static final class Cursor extends Function {
         private final SliderSetting size=new SliderSetting("Size",24f,12f,48f,1f);
         private final NativeVisualCursor nativeCursor=new NativeVisualCursor();
@@ -87,7 +87,7 @@ public final class OverlayVisuals {
         public void refreshNativeCursor() {nativeCursor.apply(size.get().intValue());}
     }
 
-    @FunctionAdd(name="CatPet",alias="Cat Pet",category=Category.Render,description="Локальный кот-компаньон")
+    @FunctionAdd(name="CatPet",alias="Cat Pet",category=Category.Render,description="Local cat companion")
     public static final class CatPet extends Function {
         private CatEntity cat;
         private int spawnDelay;
@@ -112,7 +112,7 @@ public final class OverlayVisuals {
         @Override public void onDisable() { remove(); super.onDisable(); }
     }
 
-    @FunctionAdd(name="AntiAim",alias="Anti Aim",category=Category.Render,description="Визуальное вращение модели в третьем лице")
+    @FunctionAdd(name="AntiAim",alias="Anti Aim",category=Category.Render,description="Visual model rotation in third person")
     public static final class AntiAim extends Function {
         private final ModeSetting mode=new ModeSetting("Mode","Spin","Spin","Jitter","Static");
         private final SliderSetting speed=new SliderSetting("Speed",90f,10f,720f,10f);

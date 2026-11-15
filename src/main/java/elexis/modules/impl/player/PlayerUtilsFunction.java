@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @FunctionAdd(name = "PlayerUtils", alias = "Player Utils", category = Category.Player)
 public class PlayerUtilsFunction extends Function {
     public static BooleanSetting NoJumpDelay = new BooleanSetting("No Jump Delay", true);
-    BooleanSetting jumpRandomization = new BooleanSetting("Рандомизация прыжков", false).setVisible(() -> NoJumpDelay.get());
+    BooleanSetting jumpRandomization = new BooleanSetting("Jump randomization", false).setVisible(() -> NoJumpDelay.get());
     public static BooleanSetting NoPush = new BooleanSetting("No Push", true);
 
     public PlayerUtilsFunction() {

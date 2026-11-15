@@ -60,8 +60,8 @@ final class MsdfFont {
             this.planeTop = planeTop;
             this.u0 = atlasLeft / (float) atlasWidth;
             this.u1 = atlasRight / (float) atlasWidth;
-            // JSON задаёт координаты в системе с origin=bottom, а загруженная текстура в GPU
-            // имеет строку 0 вверху (STB без вертикального флипа). Поэтому отражаем V через 1.0.
+            // JSON sets coordinates with origin=bottom, while the loaded texture on the GPU
+            // has row 0 at the top (STB without vertical flip). So we mirror V through 1.0.
             float vBottom = atlasBottom / (float) atlasHeight;
             float vTop = atlasTop / (float) atlasHeight;
             this.v0 = 1.0f - vBottom; // bottom -> GPU V
@@ -181,7 +181,7 @@ final class MsdfFont {
             IntBuffer h = stack.mallocInt(1);
             IntBuffer comp = stack.mallocInt(1);
 
-            // Загружаем MSDF текстуру без флипа (в нативной ориентации)
+            // Load the MSDF texture without flip (in native orientation)
             ByteBuffer image = STBImage.stbi_load_from_memory(imageBuffer, w, h, comp, 4);
             if (image == null) {
                 throw new IllegalStateException("Failed to load MSDF atlas '" + textureResourcePath + "': " + STBImage.stbi_failure_reason());

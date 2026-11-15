@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 
-@FunctionAdd(name = "MaceTarget", alias = "Mace Target", category = Category.Combat, description = "Помогает атаковать булавой сверху")
+@FunctionAdd(name = "MaceTarget", alias = "Mace Target", category = Category.Combat, description = "Helps attack with a mace from above")
 public class MaceTarget extends Function {
     private final NumberSetting height = new NumberSetting("Height", 20.0F, 20.0F, 50.0F, 1.0F);
     private final BooleanSetting airStuck = new BooleanSetting("Air Stuck", false);

@@ -19,12 +19,12 @@ import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
-@FunctionAdd(name = "NoSlow", alias = "NoSlow", category = Category.Movement, description = "Убирает замедление при использовании предметов")
+@FunctionAdd(name = "NoSlow", alias = "NoSlow", category = Category.Movement, description = "Removes slowdown while using items")
 @Environment(EnvType.CLIENT)
 public class NoSlow extends Function {
-    private final ModeSetting mode = new ModeSetting("Режим", "Новый Грим", "Новый Грим", "Старый Грим", "Грим", "Грим тики");
-    private final BooleanSetting ignoreGaps = new BooleanSetting("Не работать на геплы и чарки", false)
-            .hidden(() -> !mode.is("Грим") && !mode.is("Грим тики"));
+    private final ModeSetting mode = new ModeSetting("Mode", "New Grim", "New Grim", "Old Grim", "Grim", "Grim ticks");
+    private final BooleanSetting ignoreGaps = new BooleanSetting("Do not work on gapples and chorus", false)
+            .hidden(() -> !mode.is("Grim") && !mode.is("Grim ticks"));
     private float ticks;
 
     public NoSlow() {
@@ -55,12 +55,12 @@ public class NoSlow extends Function {
             return;
         }
 
-        if (mode.is("Новый Грим") && mc.player.getItemUseTime() < 7) {
+        if (mode.is("New Grim") && mc.player.getItemUseTime() < 7) {
             PlayerInventoryUtil.updateSlots();
             PlayerInventoryUtil.closeScreen(true);
         }
 
-        if (mode.is("Грим") && mc.player.getItemUseTime() == 4 && mc.getNetworkHandler() != null) {
+        if (mode.is("Grim") && mc.player.getItemUseTime() == 4 && mc.getNetworkHandler() != null) {
             mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(
                     PlayerActionC2SPacket.Action.DROP_ALL_ITEMS,
                     BlockPos.ORIGIN,
@@ -75,11 +75,11 @@ public class NoSlow extends Function {
         }
 
         ItemStack activeStack = mc.player.getActiveItem();
-        if ((mode.is("Грим") || mode.is("Грим тики")) && ignoreGaps.get() && isGapple(activeStack)) {
+        if ((mode.is("Grim") || mode.is("Grim ticks")) && ignoreGaps.get() && isGapple(activeStack)) {
             return false;
         }
 
-        if (mode.is("Старый Грим")) {
+        if (mode.is("Old Grim")) {
             Hand first = mc.player.getActiveHand();
             Hand second = first == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
             if (mc.player.getOffHandStack().getUseAction() == UseAction.NONE || mc.player.getMainHandStack().getUseAction() == UseAction.NONE) {
@@ -90,11 +90,11 @@ public class NoSlow extends Function {
             return false;
         }
 
-        if (mode.is("Новый Грим")) {
+        if (mode.is("New Grim")) {
             return mc.player.getItemUseTime() >= 7;
         }
 
-        if (mode.is("Грим тики")) {
+        if (mode.is("Grim ticks")) {
             if (ticks > 4 && mc.player.getItemUseTime() > 3) {
                 ticks = 1.7f;
                 return true;
@@ -102,7 +102,7 @@ public class NoSlow extends Function {
             return false;
         }
 
-        if (mode.is("Грим")) {
+        if (mode.is("Grim")) {
             return mc.player.getActiveHand() != Hand.OFF_HAND && mc.player.getItemUseTime() > 4;
         }
 

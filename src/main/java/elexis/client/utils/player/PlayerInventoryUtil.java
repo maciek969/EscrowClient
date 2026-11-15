@@ -107,7 +107,7 @@ public class PlayerInventoryUtil implements IMinecraft {
         float cooldownProgress = PlayerUtils.getCooldownProgress(item);
 
         if (cooldownProgress > 0) {
-            String time = MathUtil.round(cooldownProgress, 0.1) + "СЃ";
+            String time = MathUtil.round(cooldownProgress, 0.1) + "s";
             return;
         }
 

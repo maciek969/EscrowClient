@@ -147,8 +147,8 @@ public class Notify {
             String first = value.substring(0, split);
             String last = value.substring(split + 1);
             boolean stateWord = last.equalsIgnoreCase("enabled") || last.equalsIgnoreCase("disabled") || last.equalsIgnoreCase("loaded")
-                    || last.equalsIgnoreCase("Р Р†Р С”Р В»РЎР‹РЎвЂЎРЎвЂР Р…") || last.equalsIgnoreCase("Р Р†Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…") || last.equalsIgnoreCase("Р Р†РЎвЂ№Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…")
-                    || last.equalsIgnoreCase("Р Р†РЎвЂ№Р С”Р В»РЎР‹РЎвЂЎРЎвЂР Р…") || last.equalsIgnoreCase("Р В·Р В°Р С–РЎР‚РЎС“Р В¶Р ВµР Р…");
+                    || last.equalsIgnoreCase("enabled") || last.equalsIgnoreCase("enabled") || last.equalsIgnoreCase("disabled")
+                    || last.equalsIgnoreCase("disabled") || last.equalsIgnoreCase("loaded");
             if (stateWord) {
                 Elexis.getInstance().testRender.text(first, x, y, TextureUse.SFMEDIUM, size, accentColor);
                 float firstWidth = Elexis.getInstance().testRender.textWidth(first + " ", TextureUse.SFMEDIUM, size);

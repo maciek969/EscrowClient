@@ -52,7 +52,7 @@ public final class AmbientVisuals {
         @Override public void onDisable() { particles.clear(); world=null; super.onDisable(); }
     }
 
-    @FunctionAdd(name="FireFly",alias="FireFly",category=Category.Render,description="Светлячки вокруг игрока")
+    @FunctionAdd(name="FireFly",alias="FireFly",category=Category.Render,description="Fireflies around the player")
     public static final class FireFly extends Field {
         @Override protected void draw(VisualGeometry.Frame f,Particle p,float age,int color) {
             Vec3d pos=p.position.add(Math.sin(age+p.phase)*0.5,Math.sin(age*1.5+p.phase)*0.3,Math.cos(age+p.phase)*0.5);
@@ -63,7 +63,7 @@ public final class AmbientVisuals {
         }
     }
 
-    @FunctionAdd(name="WorldParticles",alias="World Particles",category=Category.Render,description="Парящие частицы вокруг игрока")
+    @FunctionAdd(name="WorldParticles",alias="World Particles",category=Category.Render,description="Floating particles around the player")
     public static final class WorldParticles extends Field {
         private final ModeSetting shape=new ModeSetting("Shape","Diamond","Diamond","Cube","Ring");
         public WorldParticles() { addSettings(shape); }
@@ -81,14 +81,14 @@ public final class AmbientVisuals {
         }
     }
 
-    @FunctionAdd(name="Cubes",alias="Cubes",category=Category.Render,description="Парящие вращающиеся кубы")
+    @FunctionAdd(name="Cubes",alias="Cubes",category=Category.Render,description="Floating rotating cubes")
     public static final class Cubes extends Field {
         @Override protected void draw(VisualGeometry.Frame f,Particle p,float age,int c) {
             rotatingCube(f,p.position.add(0,Math.sin(age+p.phase)*0.5,0),size.get(),age+p.phase,c);
         }
     }
 
-    @FunctionAdd(name="CubeField",alias="Cube Field",category=Category.Render,description="Прыгающие кубики вокруг игрока")
+    @FunctionAdd(name="CubeField",alias="Cube Field",category=Category.Render,description="Bouncing cubes around the player")
     public static final class CubeField extends Field {
         @Override protected void draw(VisualGeometry.Frame f,Particle p,float age,int c) {
             BlockPos base=BlockPos.ofFloored(p.position).down();
@@ -100,7 +100,7 @@ public final class AmbientVisuals {
         }
     }
 
-    @FunctionAdd(name="LineGlyphs",alias="Line Glyphs",category=Category.Render,description="Неоновые ломаные линии в мире")
+    @FunctionAdd(name="LineGlyphs",alias="Line Glyphs",category=Category.Render,description="Neon broken lines in the world")
     public static final class LineGlyphs extends Field {
         @Override protected void draw(VisualGeometry.Frame f,Particle p,float age,int c) {
             Vec3d pos=p.position.add(0,Math.sin(age+p.phase)*0.4,0);
@@ -111,7 +111,7 @@ public final class AmbientVisuals {
         }
     }
 
-    @FunctionAdd(name="VoidButterflies",alias="Void Butterflies",category=Category.Render,description="Анимированные бабочки на поверхностях блоков")
+    @FunctionAdd(name="VoidButterflies",alias="Void Butterflies",category=Category.Render,description="Animated butterflies on block surfaces")
     public static final class VoidButterflies extends Field {
         @Override protected void draw(VisualGeometry.Frame f,Particle p,float age,int c) {
             BlockPos base=BlockPos.ofFloored(p.position);

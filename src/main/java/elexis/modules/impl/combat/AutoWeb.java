@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /** Javelin's four-tick cobweb prediction with movement-packet confirmation. */
-@FunctionAdd(name="AutoWeb", alias="AutoWeb", category=Category.Combat, description="Ставит паутину по движению игрока")
+@FunctionAdd(name="AutoWeb", alias="AutoWeb", category=Category.Combat, description="Places cobweb by player movement")
 public final class AutoWeb extends Function {
     private final ConcurrentLinkedQueue<EntityS2CPacket> movements = new ConcurrentLinkedQueue<>();
     private final List<JavelinCombat.FadingBox> visuals = new ArrayList<>();

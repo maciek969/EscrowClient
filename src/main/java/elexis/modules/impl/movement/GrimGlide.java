@@ -6,7 +6,7 @@ import elexis.modules.api.Category;
 import elexis.modules.api.Function;
 import elexis.modules.api.FunctionAdd;
 
-@FunctionAdd(name = "GrimGlide", alias = "Grim Glide", category = Category.Movement, description = "Стабилизирует полёт на элитрах")
+@FunctionAdd(name = "GrimGlide", alias = "Grim Glide", category = Category.Movement, description = "Stabilizes elytra flight")
 public class GrimGlide extends Function {
     @EventHandler
     public void onUpdate(EventUpdate.Slow event) {

@@ -30,11 +30,11 @@ public class FunctionComponent {
     private boolean expanded      = false;
     private boolean bindListening = false;
 
-    // Р С’Р Р…Р С‘Р СР В°РЎвЂ Р С‘РЎРЏ РЎР‚Р В°РЎРѓР С”РЎР‚РЎвЂ№РЎвЂљР С‘РЎРЏ Р Р…Р В°РЎРѓРЎвЂљРЎР‚Р С•Р ВµР С”
+    // Settings expand animation
     private float expandAnim = 0f;
     private long  lastAnimNanos = System.nanoTime();
 
-    // Р С’Р Р…Р С‘Р СР В°РЎвЂ Р С‘РЎРЏ Р Р†Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…Р С‘РЎРЏ (0=Р Р†РЎвЂ№Р С”Р В», 1=Р Р†Р С”Р В»)
+    // Enable animation (0=off, 1=on)
     private float enableAnim = 0f;
 
     private final List<SettingComponent<?>> settingComponents = new ArrayList<>();
@@ -54,7 +54,7 @@ public class FunctionComponent {
         }
     }
 
-    // РІвЂќР‚РІвЂќР‚ Heights РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+    
 
     public float getFullHeight() {
         if (settingComponents.isEmpty()) return HEADER_H;
@@ -75,7 +75,7 @@ public class FunctionComponent {
         return total + 10f;
     }
 
-    // РІвЂќР‚РІвЂќР‚ Draw РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+    
 
     public void draw(Renderer2D render, float x, float y, int mouseX, int mouseY, float alpha) {
         this.x = x;
@@ -93,16 +93,16 @@ public class FunctionComponent {
         Color mainC = ClientColors.getMainColor();
         Color secC  = ClientColors.getSecondaryColor();
 
-        // Р СћР ВµР Р…РЎРЉ Р С”Р В°РЎР‚РЎвЂљР С•РЎвЂЎР С”Р С‘
+        // Card shadow
         render.shadow(cx, y, cw, fh, CARD_R, 6f, 0f,
                 new Color(0, 0, 0, (int)(a01 * 30)).getRGB());
 
-        // Р В¤Р С•Р Р… Р С”Р В°РЎР‚РЎвЂљР С•РЎвЂЎР С”Р С‘ РІР‚вЂќ РЎвЂљР ВµР СР Р…Р ВµР Вµ Р ВµРЎРѓР В»Р С‘ Р Р†РЎвЂ№Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…, РЎвЂЎРЎС“РЎвЂљРЎРЉ РЎРѓР Р†Р ВµРЎвЂљР В»Р ВµР Вµ Р ВµРЎРѓР В»Р С‘ Р Р†Р С”Р В»РЎР‹РЎвЂЎРЎвЂР Р…
+        // Card background — darker if disabled, slightly lighter if enabled
         int bgAlpha = (int)(a01 * (function.isState() ? 28 : 18));
         render.rect(cx, y, cw, fh, CARD_R,
                 new Color(255, 255, 255, bgAlpha).getRGB());
 
-        // Р вЂєР ВµР Р†Р В°РЎРЏ РЎвЂ Р Р†Р ВµРЎвЂљР Р…Р В°РЎРЏ Р С—Р С•Р В»Р С•РЎРѓР С”Р В° Р С—РЎР‚Р С‘ Р Р†Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…Р С‘Р С‘
+        // Left colored stripe when enabled
         if (enableAnim > 0.01f) {
             float barW = 3f;
             float barH = HEADER_H - 12f;
@@ -115,7 +115,7 @@ public class FunctionComponent {
                     withAlpha(secC,  barAlpha));
         }
 
-        // Р С›Р В±Р Р†Р С•Р Т‘Р С”Р В° РІР‚вЂќ РЎвЂ Р Р†Р ВµРЎвЂљР Р…Р В°РЎРЏ Р С—РЎР‚Р С‘ Р Р†Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…Р С‘Р С‘, РЎвЂљРЎвЂР СР Р…Р В°РЎРЏ Р С—РЎР‚Р С‘ Р Р†РЎвЂ№Р С”Р В»РЎР‹РЎвЂЎР ВµР Р…Р С‘Р С‘
+        // Border — colored when enabled, dark when disabled
         if (enableAnim > 0.01f) {
             int outlineAlpha = (int)(a01 * enableAnim * 60);
             render.rectOutline(cx, y, cw, fh, CARD_R,
@@ -125,12 +125,12 @@ public class FunctionComponent {
                     new Color(255, 255, 255, (int)(a01 * 10)).getRGB(), 1f);
         }
 
-        // РІвЂќР‚РІвЂќР‚ Р вЂ”Р В°Р С–Р С•Р В»Р С•Р Р†Р С•Р С” РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+        // ── Header ─────────────────────────────────────────────────────────
 
         float textSize = 13f;
         float textY    = y + HEADER_H / 2f + FontRegistry.centeredBaselineOffset(FontRegistry.SF_MEDIUM, 'A', textSize);
 
-        // Р ВР СРЎРЏ Р СР С•Р Т‘РЎС“Р В»РЎРЏ
+        // Module name
         int nameAlpha;
         if (bindListening) {
             nameAlpha = ai;
@@ -144,11 +144,11 @@ public class FunctionComponent {
                 : new Color(160, 160, 172, nameAlpha).getRGB();
 
         float nameX = cx + 12f;
-        if (enableAnim > 0.01f) nameX += 5f; // Р Р…Р ВµР В±Р С•Р В»РЎРЉРЎв‚¬Р С•Р в„– Р С•РЎвЂљРЎРѓРЎвЂљРЎС“Р С— Р Т‘Р В»РЎРЏ Р С—Р С•Р В»Р С•РЎРѓР С”Р С‘
+        if (enableAnim > 0.01f) nameX += 5f; // small padding for the stripe
 
         render.text(FontRegistry.SF_MEDIUM, nameX, textY, textSize, function.getAlias(), nameColor);
 
-        // Р СџРЎР‚Р В°Р Р†Р В°РЎРЏ РЎвЂЎР В°РЎРѓРЎвЂљРЎРЉ: Р В±Р С‘Р Р…Р Т‘ Р С‘Р В»Р С‘ "bind..."
+        // Right part: bind or "bind..."
         float rightX = cx + cw - 12f;
 
         if (bindListening) {
@@ -164,7 +164,7 @@ public class FunctionComponent {
             float  bks = 10f;
             float  bkw = render.measureText(FontRegistry.SF_MEDIUM, bk, bks).width;
             float  bky = y + HEADER_H / 2f + FontRegistry.centeredBaselineOffset(FontRegistry.SF_MEDIUM, 'A', bks);
-            // Р СљР В°Р В»Р ВµР Р…РЎРЉР С”Р С‘Р в„– РЎвЂЎР С‘Р С— Р Т‘Р В»РЎРЏ Р В±Р С‘Р Р…Р Т‘Р В°
+            // Small chip for the bind
             float chipPad = 5f;
             float chipW   = bkw + chipPad * 2f;
             float chipH   = 16f;
@@ -177,19 +177,19 @@ public class FunctionComponent {
             rightX = chipX - 6f;
         }
 
-        // Р РЋРЎвЂљРЎР‚Р ВµР В»Р С”Р В° РЎР‚Р В°РЎРѓР С”РЎР‚РЎвЂ№РЎвЂљР С‘РЎРЏ Р Р…Р В°РЎРѓРЎвЂљРЎР‚Р С•Р ВµР С”
+        // Settings expand arrow
         if (!settingComponents.isEmpty()) {
             float arrowSize = 10f;
             float arrowX    = rightX - arrowSize;
             float arrowY    = y + HEADER_H / 2f + FontRegistry.centeredBaselineOffset(FontRegistry.ICONS, 'A', arrowSize);
-            // Р ВРЎРѓР С—Р С•Р В»РЎРЉР В·РЎС“Р ВµР С РЎРѓР С‘Р СР Р†Р С•Р В» РЎРѓРЎвЂљРЎР‚Р ВµР В»Р С”Р С‘ Р С‘Р В· Р С‘Р С”Р С•Р Р…Р С•Р С” (j = DOWN, k = UP)
+            // Use the arrow glyph from icons (j = DOWN, k = UP)
             String arrowGlyph = ep > 0.5f ? "k" : "j";
             int arrowAlpha = (int)(a01 * (ep > 0.5f ? 200 : 120));
             render.text(FontRegistry.ICONS, arrowX, arrowY, arrowSize, arrowGlyph,
                     new Color(200, 200, 210, arrowAlpha).getRGB());
         }
 
-        // РІвЂќР‚РІвЂќР‚ Р СњР В°РЎРѓРЎвЂљРЎР‚Р С•Р в„–Р С”Р С‘ РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+        // ── Settings ─────────────────────────────────────────────────────────
 
         if (ep > 0.001f && !settingComponents.isEmpty()) {
             float visH    = (settingsContentH() + 10f) * ep;
@@ -200,7 +200,7 @@ public class FunctionComponent {
             float curY    = y + HEADER_H + padTop - (1f - ep) * 6f;
             float cntAlpha = alpha * ep;
 
-            // Р В Р В°Р В·Р Т‘Р ВµР В»Р С‘РЎвЂљР ВµР В»РЎРЉ
+            // Separator
             render.gradient(cx + 10f, y + HEADER_H, cw - 20f, 1f, 0f,
                     new Color(255, 255, 255, 0).getRGB(),
                     new Color(255, 255, 255, (int)((cntAlpha / 255f) * 30)).getRGB(),
@@ -229,7 +229,7 @@ public class FunctionComponent {
         }
     }
 
-    // РІвЂќР‚РІвЂќР‚ Input РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+    
 
     public boolean mouseClicked(double mx, double my, int btn) {
         if (!inCard(mx, my)) return false;
@@ -298,7 +298,7 @@ public class FunctionComponent {
     public float getRowWidth()   { return cardW(); }
     public float getRowHeight()  { return getFullHeight(); }
 
-    // РІвЂќР‚РІвЂќР‚ Helpers РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+    
 
     private float cardW() { return width - 4f; }
 

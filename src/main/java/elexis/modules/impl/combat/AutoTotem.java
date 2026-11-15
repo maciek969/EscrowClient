@@ -31,24 +31,24 @@ import java.util.concurrent.TimeUnit;
 
 /** Port of Javelin's damage-aware, two-hand AutoTotem with per-item profiles. */
 @FunctionAdd(name="AutoTotem", alias="AutoTotem", category=Category.Combat,
-        description="Тотем по урону, трезубцам и падению, две руки для динамита")
+        description="Totem on damage, tridents and falling, two hands for dynamite")
 public final class AutoTotem extends Function {
     public enum Protection { NONE, OFFHAND, BOTH_HANDS }
-    public final BooleanSetting saveEnchanted = new BooleanSetting("Сохранять зачарованные", true);
-    public final MultiBooleanSetting conditions = new MultiBooleanSetting("Работать на",
-            new BooleanSetting("Трезубцы", true), new BooleanSetting("Падение", true),
-            new BooleanSetting("Динамит A", true), new BooleanSetting("Динамит B", true));
-    public final SliderSetting health = new SliderSetting("Здоровье", 4.5f, 1, 20, .5f);
-    public final SliderSetting healthElytra = new SliderSetting("Здоровье на элитрах", 4.5f, 1, 20, .5f);
-    public final SliderSetting damageFromCrystal = new SliderSetting("Дамаг от кристалла", 4.5f, 1, 100, .5f);
-    public final SliderSetting damageFromAnchor = new SliderSetting("Дамаг от якоря", 4.5f, 1, 100, .5f);
-    public final SliderSetting damageFromCart = new SliderSetting("Дамаг от вагонетки TNT", 4.5f, 1, 100, .5f);
-    public final ModeSetting swapMode = new ModeSetting("Режим свапа", "Обычный", "Обычный", "Ground");
+    public final BooleanSetting saveEnchanted = new BooleanSetting("Keep enchanted", true);
+    public final MultiBooleanSetting conditions = new MultiBooleanSetting("Work on",
+            new BooleanSetting("Tridents", true), new BooleanSetting("Fall", true),
+            new BooleanSetting("Dynamite A", true), new BooleanSetting("Dynamite B", true));
+    public final SliderSetting health = new SliderSetting("Health", 4.5f, 1, 20, .5f);
+    public final SliderSetting healthElytra = new SliderSetting("Health on elytra", 4.5f, 1, 20, .5f);
+    public final SliderSetting damageFromCrystal = new SliderSetting("Damage from crystal", 4.5f, 1, 100, .5f);
+    public final SliderSetting damageFromAnchor = new SliderSetting("Damage from anchor", 4.5f, 1, 100, .5f);
+    public final SliderSetting damageFromCart = new SliderSetting("Damage from TNT minecart", 4.5f, 1, 100, .5f);
+    public final ModeSetting swapMode = new ModeSetting("Swap mode", "Default", "Default", "Ground");
     private final Map<String, Profile> profiles = new LinkedHashMap<>();
     private Profile globalProfile = new Profile();
-    private String editingProfile = "Общий";
+    private String editingProfile = "General";
     private boolean loadingProfile;
-    public final ModeSetting profileSelector = new ModeSetting("Профиль предмета", "Общий", "Общий") {
+    public final ModeSetting profileSelector = new ModeSetting("Item profile", "General", "General") {
         @Override public void set(String value) {
             if (!loadingProfile) storeEditor();
             super.set(value);
@@ -56,7 +56,7 @@ public final class AutoTotem extends Function {
             if (!loadingProfile) loadEditor(profiles.getOrDefault(value, globalProfile));
         }
     };
-    private final StringSetting profileData = new StringSetting("Данные профилей", "") {
+    private final StringSetting profileData = new StringSetting("Profile data", "") {
         @Override public String get() { storeEditor(); return saveProfiles(); }
         @Override public void set(String value) { super.set(value); loadProfiles(value); }
     };
@@ -80,8 +80,8 @@ public final class AutoTotem extends Function {
 
     public AutoTotem() {
         profileData.setVisible(() -> false);
-        addSettings(profileSelector, new ButtonSetting("Добавить предмет из руки", this::addProfile),
-                new ButtonSetting("Удалить профиль", this::removeProfile), saveEnchanted, conditions, health,
+        addSettings(profileSelector, new ButtonSetting("Add item from hand", this::addProfile),
+                new ButtonSetting("Delete profile", this::removeProfile), saveEnchanted, conditions, health,
                 healthElytra, damageFromCrystal, damageFromAnchor, damageFromCart, swapMode, profileData);
     }
 
@@ -200,8 +200,8 @@ public final class AutoTotem extends Function {
       boolean watchA = profile.dynamiteA;
       boolean watchB = profile.dynamiteB;
       if (watchA || watchB) {
-         String normalizedA = normalizeDynamiteLabel("Динамит A");
-         String normalizedB = normalizeDynamiteLabel("Динамит B");
+         String normalizedA = normalizeDynamiteLabel("Dynamite A");
+         String normalizedB = normalizeDynamiteLabel("Dynamite B");
 
          for (Entity entity : mc.world.getEntities()) {
             if (entity instanceof TntEntity dynamite) {
@@ -621,10 +621,10 @@ public final class AutoTotem extends Function {
       profile.crystalDamage = damageFromCrystal.get();
       profile.anchorDamage = damageFromAnchor.get();
       profile.cartDamage = damageFromCart.get();
-      profile.tridents = conditions.get("Трезубцы");
-      profile.falling = conditions.get("Падение");
-      profile.dynamiteA = conditions.get("Динамит A");
-      profile.dynamiteB = conditions.get("Динамит B");
+      profile.tridents = conditions.get("Tridents");
+      profile.falling = conditions.get("Fall");
+      profile.dynamiteA = conditions.get("Dynamite A");
+      profile.dynamiteB = conditions.get("Dynamite B");
       return profile;
    }
 
@@ -647,10 +647,10 @@ public final class AutoTotem extends Function {
       damageFromCrystal.set(profile.crystalDamage);
       damageFromAnchor.set(profile.anchorDamage);
       damageFromCart.set(profile.cartDamage);
-      conditions.getByName("Трезубцы").set(profile.tridents);
-      conditions.getByName("Падение").set(profile.falling);
-      conditions.getByName("Динамит A").set(profile.dynamiteA);
-      conditions.getByName("Динамит B").set(profile.dynamiteB);
+      conditions.getByName("Tridents").set(profile.tridents);
+      conditions.getByName("Fall").set(profile.falling);
+      conditions.getByName("Dynamite A").set(profile.dynamiteA);
+      conditions.getByName("Dynamite B").set(profile.dynamiteB);
    }
 
    private static String attributes(ItemStack stack) {
@@ -693,7 +693,7 @@ public final class AutoTotem extends Function {
       profile.attributes = attributes(stack);
       String label = profile.name;
       int suffix = 2;
-      while (profiles.containsKey(label) || label.equals("Общий")) label = profile.name + " (" + suffix++ + ")";
+      while (profiles.containsKey(label) || label.equals("General")) label = profile.name + " (" + suffix++ + ")";
       profiles.put(label, profile);
       refreshProfileChoices();
       profileSelector.set(label);
@@ -705,15 +705,15 @@ public final class AutoTotem extends Function {
       loadingProfile = true;
       try {
          refreshProfileChoices();
-         profileSelector.set("Общий");
-         editingProfile = "Общий";
+         profileSelector.set("General");
+         editingProfile = "General";
          loadEditor(globalProfile);
       } finally { loadingProfile = false; }
    }
 
    private void refreshProfileChoices() {
       List<String> labels = new ArrayList<>();
-      labels.add("Общий");
+      labels.add("General");
       labels.addAll(profiles.keySet());
       profileSelector.strings = labels.toArray(String[]::new);
       profileSelector.modes = List.copyOf(labels);
@@ -745,7 +745,7 @@ public final class AutoTotem extends Function {
             profiles.putAll(loadedItems);
             globalProfile = loadedDefault;
             refreshProfileChoices();
-            String selected = profiles.containsKey(profileSelector.get()) ? profileSelector.get() : "Общий";
+            String selected = profiles.containsKey(profileSelector.get()) ? profileSelector.get() : "General";
             profileSelector.set(selected);
             editingProfile = selected;
             loadEditor(profiles.getOrDefault(selected, globalProfile));

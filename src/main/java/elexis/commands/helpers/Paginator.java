@@ -62,7 +62,7 @@ public class Paginator<E> implements ILogger {
         if (hasPrevPage) {
             prevPageComponent.setStyle(prevPageComponent.getStyle()
                     .withClickEvent(new ClickEvent.RunCommand(String.format("%s %d", commandPrefix, page - 1)))
-                    .withHoverEvent(new HoverEvent.ShowText(Text.literal("Нажмите, чтобы перейти на предыдущую страницу"))));
+                    .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to go to the previous page"))));
         } else {
             prevPageComponent.setStyle(prevPageComponent.getStyle().withColor(Formatting.DARK_GRAY));
         }
@@ -71,7 +71,7 @@ public class Paginator<E> implements ILogger {
         if (hasNextPage) {
             nextPageComponent.setStyle(nextPageComponent.getStyle()
                     .withClickEvent(new ClickEvent.RunCommand(String.format("%s %d", commandPrefix, page + 1)))
-                    .withHoverEvent(new HoverEvent.ShowText(Text.literal("Нажмите, чтобы перейти на следующую страницу"))));
+                    .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to go to the next page"))));
         } else {
             nextPageComponent.setStyle(nextPageComponent.getStyle().withColor(Formatting.DARK_GRAY));
         }

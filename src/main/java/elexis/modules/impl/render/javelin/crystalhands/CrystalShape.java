@@ -1,12 +1,12 @@
 package elexis.modules.impl.render.javelin.crystalhands;
 
 public enum CrystalShape {
-   CLASSIC("Классика"),
-   VORTEX("Вихрь"),
-   CONSTELLATION("Созвездие"),
-   CONTOUR("Контур"),
-   FACETS("Грани"),
-   CORE("Ядро");
+   CLASSIC("Classic"),
+   VORTEX("Vortex"),
+   CONSTELLATION("Constellation"),
+   CONTOUR("Outline"),
+   FACETS("Edges"),
+   CORE("Core");
 
    public final String label;
 

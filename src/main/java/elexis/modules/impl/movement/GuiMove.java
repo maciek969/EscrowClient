@@ -16,7 +16,7 @@ import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-@FunctionAdd(name = "GuiMove", alias = "GuiMove", category = Category.Movement, description = "Движение в инвентаре и контейнерах")
+@FunctionAdd(name = "GuiMove", alias = "GuiMove", category = Category.Movement, description = "Movement in inventory and containers")
 @Environment(EnvType.CLIENT)
 public class GuiMove extends Function {
     private final BooleanSetting inventory = new BooleanSetting("Inventory", true);

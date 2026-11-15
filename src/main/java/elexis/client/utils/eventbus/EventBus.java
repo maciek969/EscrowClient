@@ -71,7 +71,7 @@ public class EventBus implements IEventBus {
 
 
     /*
-    * Подписка на эвент
+    * Subscribe to the event
      */
 
     @Override
@@ -112,7 +112,7 @@ public class EventBus implements IEventBus {
     }
 
     /*
-     * Отписка от эвента
+     * Unsubscribe from the event
      */
 
     @Override

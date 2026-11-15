@@ -19,20 +19,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @FunctionAdd(name = "NameProtect", alias = "NameProtect", category = Category.Utilities,
-        description = "Скрывает ник, друзей, клан, сервер и координаты на экране")
+        description = "Hides your nickname, friends, clan, server and coords on screen")
 public final class NameProtect extends Function {
-    private static final String[] RANKS = {"Выкл", "PLAYER", "HERO", "TITAN", "AVENGER", "GOD", "IMPERATOR", "DRAGON", "OVERLORD", "ADMIN"};
+    private static final String[] RANKS = {"Off", "PLAYER", "HERO", "TITAN", "AVENGER", "GOD", "IMPERATOR", "DRAGON", "OVERLORD", "ADMIN"};
     private static final String[] SYMBOLS = {"", "ꔀ", "ꔄ", "ꔈ", "ꔒ", "ꕁ", "ꔤ", "ꔨ", "ꔖ", "ꔷ"};
     private static final Pattern CLAN = Pattern.compile("(?iu)\\[[a-zа-яё0-9_]{1,10}]\\s?|(?<=Клан: ).+");
     private static final Pattern GRIEF = Pattern.compile("(?iu)Анархия-?\\s?\\d+|ГРИФ\\s?#?\\s?\\d+");
     private static final Pattern DEBUG_COORDINATES = Pattern.compile("(?i)^\\s*(XYZ:|Block:|Chunk:|Facing:|Targeted Block:|Targeted Fluid:).*");
-    public final ModeSetting nick = new ModeSetting("Ник", "vorkis.lox", "vorkis.lox", "protected", "***", "you", "player");
-    private final BooleanSetting hideGrief = new BooleanSetting("Скрыть гриф", true);
-    private final BooleanSetting hideClan = new BooleanSetting("Скрыть клан", true);
-    private final ModeSetting donate = new ModeSetting("Донат", "Выкл", RANKS);
-    private final MultiBooleanSetting streamer = new MultiBooleanSetting("Стример режим",
-            new BooleanSetting("Скрыть координаты", true), new BooleanSetting("Менять бренд", true));
-    public final ModeSetting tabPosition = new ModeSetting("Место в табе", "Выкл", "Выкл", "Верх", "Низ");
+    public final ModeSetting nick = new ModeSetting("Username", "vorkis.lox", "vorkis.lox", "protected", "***", "you", "player");
+    private final BooleanSetting hideGrief = new BooleanSetting("Hide grief", true);
+    private final BooleanSetting hideClan = new BooleanSetting("Hide clan", true);
+    private final ModeSetting donate = new ModeSetting("Donate", "Off", RANKS);
+    private final MultiBooleanSetting streamer = new MultiBooleanSetting("Streamer mode",
+            new BooleanSetting("Hide coordinates", true), new BooleanSetting("Change brand", true));
+    public final ModeSetting tabPosition = new ModeSetting("Tab position", "Off", "Off", "Top", "Bottom");
     private String lastSettings;
 
     public NameProtect() { addSettings(nick, hideGrief, hideClan, donate, streamer, tabPosition); }
@@ -44,8 +44,8 @@ public final class NameProtect extends Function {
         return module != null && module.isState() ? module : null;
     }
 
-    public boolean hideCoordinates() { return streamer.get("Скрыть координаты"); }
-    public boolean hideBrand() { return streamer.get("Менять бренд"); }
+    public boolean hideCoordinates() { return streamer.get("Hide coordinates"); }
+    public boolean hideBrand() { return streamer.get("Change brand"); }
 
     public static String display(String text) {
         NameProtect module = active();
@@ -80,8 +80,8 @@ public final class NameProtect extends Function {
         if (hideCoordinates() && DEBUG_COORDINATES.matcher(input).matches()) return input.split(":", 2)[0] + ": •••";
         String result = replace(input, mc.player.getGameProfile().name(), nick.get());
         result = replace(result, mc.getSession().getUsername(), nick.get());
-        for (var friend : Elexis.getInstance().getFriendStorage().getFriends()) result = replace(result, friend.getName(), "Друг");
-        if (hideGrief.get()) result = GRIEF.matcher(result).replaceAll("Скрыто");
+        for (var friend : Elexis.getInstance().getFriendStorage().getFriends()) result = replace(result, friend.getName(), "Friend");
+        if (hideGrief.get()) result = GRIEF.matcher(result).replaceAll("Hidden");
         if (hideClan.get()) result = CLAN.matcher(result).replaceAll("");
         if (hideBrand()) {
             var connection = mc.getNetworkHandler();

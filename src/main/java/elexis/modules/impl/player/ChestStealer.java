@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 
-@FunctionAdd(name = "ChestStealer", alias = "ChestStealer", category = Category.Player, description = "Забирает предметы из сундука с задержкой")
+@FunctionAdd(name = "ChestStealer", alias = "ChestStealer", category = Category.Player, description = "Takes items from a chest with a delay")
 @Environment(EnvType.CLIENT)
 public class ChestStealer extends Function {
     private final SliderSetting delay = new SliderSetting("Delay", 4.0F, 1.0F, 20.0F, 1.0F);

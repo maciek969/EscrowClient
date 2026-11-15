@@ -12,6 +12,6 @@ public class NoRenderWorldRendererMixin {
 
     @Inject(method = "renderWeather", at = @At("HEAD"), cancellable = true, require = 0)
     private void noRender$weather(CallbackInfo ci) {
-        if (NoRneder.is("Погода")) ci.cancel();
+        if (NoRneder.is("Weather")) ci.cancel();
     }
 }

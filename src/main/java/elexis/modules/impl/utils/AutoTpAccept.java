@@ -14,10 +14,10 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 import java.util.Locale;
 
-@FunctionAdd(name = "AutoTpAccept", alias = "AutoTpAccept", category = Category.Utilities, description = "Автоматически принимает запросы на телепорт")
+@FunctionAdd(name = "AutoTpAccept", alias = "AutoTpAccept", category = Category.Utilities, description = "Automatically accepts teleport requests")
 @Environment(EnvType.CLIENT)
 public class AutoTpAccept extends Function {
-    private final BooleanSetting friendsOnly = new BooleanSetting("Только друзья", false);
+    private final BooleanSetting friendsOnly = new BooleanSetting("Friends only", false);
     private boolean canAccept;
     private long lastAcceptTime;
 

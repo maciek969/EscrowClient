@@ -69,7 +69,7 @@ public abstract class Function implements IMinecraft {
             if (state) onEnable();
             else onDisable();
             if (!Elexis.noNeedSounds) {
-                Interface.notify(Text.literal(getAlias() + (state ? " включён" : " выключен")),
+                Interface.notify(Text.literal(getAlias() + (state ? " enabled" : " disabled")),
                         state ? 0xFF73D9A4 : 0xFFE77B7B, 1200);
             }
         } catch (Exception e) {

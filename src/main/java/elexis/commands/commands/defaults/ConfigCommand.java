@@ -43,12 +43,12 @@ public class ConfigCommand extends Command {
             if (configStorage.findConfig(name) != null) {
                 try {
                     configStorage.loadConfiguration(name);
-                    logDirect(String.format("Конфигурация %s загружена!", name));
+                    logDirect(String.format("Config %s loaded!", name));
                 } catch (Exception e) {
-                    logDirect(String.format("Ошибка при загрузке конфига! Детали: %s", e.getMessage()), Formatting.RED);
+                    logDirect(String.format("Error loading config! Details: %s", e.getMessage()), Formatting.RED);
                 }
             } else {
-                logDirect(String.format("Конфигурация %s не найдена!", name), Formatting.RED);
+                logDirect(String.format("Config %s not found!", name), Formatting.RED);
             }
         }
 
@@ -58,9 +58,9 @@ public class ConfigCommand extends Command {
 
             try {
                 ConfigStorage.saveConfiguration(name);
-                logDirect(String.format("Конфигурация %s сохранена!", name));
+                logDirect(String.format("Config %s saved!", name));
             } catch (Exception e) {
-                logDirect(String.format("Ошибка при сохранении конфига! Детали: %s", e.getMessage()), Formatting.RED);
+                logDirect(String.format("Error saving config! Details: %s", e.getMessage()), Formatting.RED);
             }
         }
 
@@ -68,7 +68,7 @@ public class ConfigCommand extends Command {
             Paginator.paginate(
                     args, new Paginator<>(
                             getConfigs()),
-                    () -> logDirect("Список конфигов:"),
+                    () -> logDirect("Config list:"),
                     config -> {
                         MutableText namesComponent = Text.literal(config);
                         namesComponent.setStyle(namesComponent.getStyle().withColor(Formatting.WHITE));
@@ -82,7 +82,7 @@ public class ConfigCommand extends Command {
             try {
                 Runtime.getRuntime().exec("explorer " + configStorage.CONFIG_DIR.getAbsolutePath());
             } catch (IOException e) {
-                logDirect("Папка с конфигурациями не найдена!" + e.getMessage());
+                logDirect("Configs folder not found!" + e.getMessage());
             }
         }
     }
@@ -116,19 +116,19 @@ public class ConfigCommand extends Command {
 
     @Override
     public String getShortDesc() {
-        return "Позволяет взаимодействовать с конфигами в чите";
+        return "Lets you work with configs in the client";
     }
 
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "С помощью этой команды можно загружать/сохранять конфиги",
+                "This command lets you load/save configs",
                 "",
-                "Использование:",
-                "> config load <name> - Загружает конфиг.",
-                "> config save <name> - Сохраняет конфиг.",
-                "> config list - Возвращает список конфигов",
-                "> config dir - Открывает папку с конфигами."
+                "Usage:",
+                "> config load <name> - Loads a config.",
+                "> config save <name> - Saves a config.",
+                "> config list - Returns the list of configs",
+                "> config dir - Opens the configs folder."
         );
     }
 

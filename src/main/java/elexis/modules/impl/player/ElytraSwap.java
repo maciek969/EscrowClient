@@ -18,7 +18,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-@FunctionAdd(name = "Elytra Helper", alias = "Elytra Swap", description = "Помощник для элитры", category = Category.Player)
+@FunctionAdd(name = "Elytra Helper", alias = "Elytra Swap", description = "Elytra helper", category = Category.Player)
 public class ElytraSwap extends Function {
     public static final ElytraSwap INSTANCE = new ElytraSwap();
 

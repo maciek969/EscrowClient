@@ -7,7 +7,7 @@ import elexis.commands.exception.CommandNotEnoughArgumentsException;
 import java.util.stream.Stream;
 
 /**
- * DataType для команды .autofarm cacao <pos1|pos2>
+ * DataType for the .autofarm cacao <pos1|pos2> command
  */
 public enum AutoFarmActionDataType implements IDatatypeFor<String> {
     INSTANCE;
@@ -37,8 +37,8 @@ public enum AutoFarmActionDataType implements IDatatypeFor<String> {
         } catch (CommandNotEnoughArgumentsException e) {
             throw new CommandInvalidTypeException(
                     null,
-                    "pos1 или pos2",
-                    "<ничего>"
+                    "pos1 or pos2",
+                    "<none>"
             );
         }
 
@@ -48,7 +48,7 @@ public enum AutoFarmActionDataType implements IDatatypeFor<String> {
 
         throw new CommandInvalidTypeException(
                 null,
-                "pos1 или pos2",
+                "pos1 or pos2",
                 input
         );
     }

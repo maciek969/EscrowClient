@@ -94,7 +94,7 @@ public class Config implements IMinecraft {
 
          */
 
-        // Загрузка позиций элементов Overlay
+        // Loading Overlay element positions
 
         /*
         if (jsonObject.has("overlay_positions")) {

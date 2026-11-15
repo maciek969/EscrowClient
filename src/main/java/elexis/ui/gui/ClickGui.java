@@ -32,7 +32,7 @@ public class ClickGui extends Screen {
     private static String searchQuery = "";
     private boolean searchFocused = false;
 
-    // Р В РЎвЂ”Р В РЎвЂўР В Р’В·Р В РЎвЂР РЋРІР‚В Р В РЎвЂР В РЎвЂ Р В РЎвЂ”Р В Р’В°Р В Р вЂ¦Р В Р’ВµР В Р’В»Р В Р’ВµР В РІвЂћвЂ“ (Р В РўвЂР В Р’В»Р РЋР РЏ Р В РЎвЂ”Р В Р’ВµР РЋР вЂљР В Р’ВµР В РўвЂР В Р’В°Р РЋРІР‚РЋР В РЎвЂ Р В Р вЂ  mouseClicked/scroll)
+    // panel positions (to pass into mouseClicked/scroll)
     private final List<float[]> panelPositions = new ArrayList<>(); // [x, y]
 
     public ClickGui() {
@@ -80,7 +80,7 @@ public class ClickGui extends Screen {
         int overlayAlpha = Math.min(220, Math.max(0, Math.round(backgroundOpacity * progress)));
         render.rect(0f, 0f, sw, sh, new java.awt.Color(0, 0, 0, overlayAlpha).getRGB());
 
-        // Р В РЎвЂўР В Р’В±Р В Р вЂ¦Р В РЎвЂўР В Р вЂ Р В Р’В»Р РЋР РЏР В Р’ВµР В РЎВ Р В РЎвЂ”Р В РЎвЂўР В Р’В·Р В РЎвЂР РЋРІР‚В Р В РЎвЂР В РЎвЂ Р В РЎвЂ”Р В Р’В°Р В Р вЂ¦Р В Р’ВµР В Р’В»Р В Р’ВµР В РІвЂћвЂ“
+        // update panel positions
         panelPositions.clear();
         float curX = startX;
         for (Panel panel : panels) {

@@ -9,9 +9,9 @@ import elexis.modules.api.settings.impl.ModeSetting;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 
-@FunctionAdd(name = "NoVelocity", alias = "NoVelocity", category = Category.Combat, description = "Убирает отталкивание")
+@FunctionAdd(name = "NoVelocity", alias = "NoVelocity", category = Category.Combat, description = "Removes knockback")
 public final class NoVelocity extends Function {
-    private final ModeSetting mode = new ModeSetting("Режим", "Cancel", "Cancel", "Vanilla", "Grim", "Grim Air");
+    private final ModeSetting mode = new ModeSetting("Mode", "Cancel", "Cancel", "Vanilla", "Grim", "Grim Air");
     private int skipTicks;
 
     public NoVelocity() {

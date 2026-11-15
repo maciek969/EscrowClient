@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 
-@FunctionAdd(name = "SoundsRemove", alias = "SoundsRemove", category = Category.Utilities, description = "Убирает выбранные звуки сервера")
+@FunctionAdd(name = "SoundsRemove", alias = "SoundsRemove", category = Category.Utilities, description = "Removes selected server sounds")
 @Environment(EnvType.CLIENT)
 public class SoundsRemove extends Function {
     @EventHandler

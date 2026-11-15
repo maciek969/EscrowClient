@@ -93,12 +93,12 @@ public final class CrystalShaderTexture {
                String mode = CustomCrystal.shaderModeName();
                String animation = CustomCrystal.shaderAnimationName();
                float opacity = CustomCrystal.shaderOpacityValue();
-               float flash = animation.equals("Вспышки") ? (float)Math.pow(Math.max(0.0F, MathHelper.sin(phase * 5.0F)), 10.0) : 0.0F;
-               float rotation = animation.equals("Вращение") ? phase * 0.18F : 0.0F;
+               float flash = animation.equals("Flashes") ? (float)Math.pow(Math.max(0.0F, MathHelper.sin(phase * 5.0F)), 10.0) : 0.0F;
+               float rotation = animation.equals("Spin") ? phase * 0.18F : 0.0F;
                float rotationCos = MathHelper.cos(rotation);
                float rotationSin = MathHelper.sin(rotation);
-               float pulse = animation.equals("Пульсация") ? 0.72F + (0.5F + 0.5F * MathHelper.sin(phase * 2.2F)) * 0.28F : 1.0F;
-               float scanOffset = animation.equals("Сканирование") ? frac(phase * 0.22F) : -1.0F;
+               float pulse = animation.equals("Pulse") ? 0.72F + (0.5F + 0.5F * MathHelper.sin(phase * 2.2F)) * 0.28F : 1.0F;
+               float scanOffset = animation.equals("Scan") ? frac(phase * 0.22F) : -1.0F;
 
                for (int y = 0; y < 64; y++) {
                   for (int x = 0; x < 128; x++) {
@@ -111,7 +111,7 @@ public final class CrystalShaderTexture {
                         float px = u - 0.5F;
                         float py = v - 0.5F;
                         switch (animation) {
-                           case "Вращение":
+                           case "Spin":
                               u = 0.5F + px * rotationCos - py * rotationSin;
                               v = 0.5F + px * rotationSin + py * rotationCos;
                            default:
@@ -129,35 +129,35 @@ public final class CrystalShaderTexture {
                                     g = clamp(cg * shade * 255.0F);
                                     b = clamp(cb * shade * 255.0F);
                                     break;
-                                 case "Туманность": {
+                                 case "Nebula": {
                                     int c = nebula(u, v, cr, cg, cb);
                                     r = c >> 16 & 0xFF;
                                     g = c >> 8 & 0xFF;
                                     b = c & 0xFF;
                                     break;
                                  }
-                                 case "Северное сияние": {
+                                 case "Aurora": {
                                     int c = aurora(u, v, cr, cg, cb);
                                     r = c >> 16 & 0xFF;
                                     g = c >> 8 & 0xFF;
                                     b = c & 0xFF;
                                     break;
                                  }
-                                 case "Электроразряд":
+                                 case "Electric discharge":
                                     float bolt = electric(u, v);
                                     float core = smoothstep(0.18F, 0.9F, bolt);
                                     r = clamp((cr * 0.35F + core * 0.65F) * 255.0F);
                                     g = clamp((cg * 0.45F + core * 0.55F) * 255.0F);
                                     b = clamp((cb * 0.7F + core * 0.3F) * 255.0F);
                                     break;
-                                 case "Сетка":
+                                 case "Grid":
                                     float line = grid(u, v);
                                     r = clamp(cr * line * 255.0F);
                                     g = clamp(cg * line * 255.0F);
                                     b = clamp(cb * line * 255.0F);
                                     alpha = clamp(a * (0.18F + line * 0.82F));
                                     break;
-                                 case "Магма":
+                                 case "Magma":
                                     float rock = fbm(u * 9.0F + phase * 0.1F, v * 9.0F - phase * 0.12F, 4);
                                     float crack = 1.0F - smoothstep(0.025F, 0.12F, Math.abs(rock - 0.5F));
                                     float heat = crack * (0.65F + 0.35F * MathHelper.sin(phase * 1.4F + v * 12.0F));
@@ -165,7 +165,7 @@ public final class CrystalShaderTexture {
                                     g = clamp((0.015F + heat * heat * 0.7F) * 255.0F);
                                     b = clamp((cb * rock * 0.08F + heat * heat * heat * 0.12F) * 255.0F);
                                     break;
-                                 case "Голограмма":
+                                 case "Hologram":
                                     float stripe = 1.0F - smoothstep(0.08F, 0.3F, Math.abs(frac(v * 24.0F - phase * 0.5F) - 0.5F));
                                     float scan = 1.0F - smoothstep(0.01F, 0.1F, Math.abs(v - frac(phase * 0.2F)));
                                     r = clamp((cr * 0.25F + scan * 0.3F) * 255.0F);
@@ -173,7 +173,7 @@ public final class CrystalShaderTexture {
                                     b = clamp((0.65F + cb * 0.2F + scan * 0.15F) * 255.0F);
                                     alpha = clamp(a * (0.08F + stripe * 0.55F + scan * 0.35F));
                                     break;
-                                 case "Сингулярность":
+                                 case "Singularity":
                                     float sx = frac(u * 4.0F) - 0.5F;
                                     float sy = frac(v * 2.0F) - 0.5F;
                                     float radius = MathHelper.sqrt(sx * sx + sy * sy);
@@ -192,7 +192,7 @@ public final class CrystalShaderTexture {
                                     b = clamp(cb * 255.0F);
                               }
 
-                              if (animation.equals("Пульсация")) {
+                              if (animation.equals("Pulse")) {
                                  r = clamp(r * pulse);
                                  g = clamp(g * pulse);
                                  b = clamp(b * pulse);
@@ -334,7 +334,7 @@ public final class CrystalShaderTexture {
       return MathHelper.clamp((int)v, 0, 255);
    }
 
-   /** Дробная часть числа (аналог GLSL fract()). */
+   /** Fractional part of a number (like GLSL fract()). */
    public static float frac(float x) {
       return x - MathHelper.floor(x);
    }

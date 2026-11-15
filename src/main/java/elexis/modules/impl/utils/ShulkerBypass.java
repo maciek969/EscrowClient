@@ -15,7 +15,7 @@ import net.minecraft.screen.slot.SlotActionType;
 
 import java.lang.reflect.Field;
 
-@FunctionAdd(name = "ShulkerBypass", alias = "ShulkerBypass", category = Category.Utilities, description = "Перекладывает предмет из шалкера по наведённому слоту")
+@FunctionAdd(name = "ShulkerBypass", alias = "ShulkerBypass", category = Category.Utilities, description = "Moves an item from a shulker by the hovered slot")
 @Environment(EnvType.CLIENT)
 public class ShulkerBypass extends Function {
     @EventHandler

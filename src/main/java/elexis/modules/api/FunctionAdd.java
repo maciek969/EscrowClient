@@ -9,5 +9,5 @@ public @interface FunctionAdd {
     String alias();
     int key() default 0;
     Category category();
-    String description() default "Для этого модуля ещё не добавлено описание";
+    String description() default "No description has been added for this module yet";
 }

@@ -59,7 +59,7 @@ public final class ImpactVisuals {
         protected void impact(Entity entity) {add(entity);}
     }
 
-    @FunctionAdd(name="HitEffect",alias="Hit Effect",category=Category.Render,description="Сфера и кольцо в месте удара")
+    @FunctionAdd(name="HitEffect",alias="Hit Effect",category=Category.Render,description="Sphere and ring at the hit spot")
     public static final class HitEffect extends OnHit {
         private final ModeSetting mode=new ModeSetting("Mode","Sphere","Sphere","Ring");
         public HitEffect() { addSettings(mode); }
@@ -69,7 +69,7 @@ public final class ImpactVisuals {
         }
     }
 
-    @FunctionAdd(name="HitWave",alias="Hit Wave",category=Category.Render,description="Световая волна от удара")
+    @FunctionAdd(name="HitWave",alias="Hit Wave",category=Category.Render,description="Light wave from a hit")
     public static final class HitWave extends OnHit {
         private final SliderSetting radius=new SliderSetting("Radius",8f,2f,24f,1f);
         private final SliderSetting strength=new SliderSetting("Shader strength",1f,0.2f,2f,0.1f);
@@ -87,14 +87,14 @@ public final class ImpactVisuals {
         @Override public void onDisable() {SceneShockwaves.clearKind(SceneShockwaves.HIT);super.onDisable();}
     }
 
-    @FunctionAdd(name="GhostHit",alias="Ghost Hit",category=Category.Render,description="Поднимающийся контур цели после удара")
+    @FunctionAdd(name="GhostHit",alias="Ghost Hit",category=Category.Render,description="Rising target outline after a hit")
     public static final class GhostHit extends OnHit {
         private final SliderSetting lift=new SliderSetting("Lift",1.2f,0f,4f,0.1f);
         public GhostHit() { addSettings(lift); }
         @Override protected void draw(VisualGeometry.Frame f,Pulse p,float t,int c) { f.box(p.box.offset(0,t*lift.get(),0),c); }
     }
 
-    @FunctionAdd(name="HitMarkers",alias="Hit Markers",category=Category.Render,description="Маркеры и фактический урон после удара")
+    @FunctionAdd(name="HitMarkers",alias="Hit Markers",category=Category.Render,description="Markers and actual damage after a hit")
     public static final class HitMarkers extends Function {
         private record Watched(LivingEntity entity,float health,long expiry) {}
         private record Damage(Vec3d pos,float value,long start) {}
@@ -134,7 +134,7 @@ public final class ImpactVisuals {
         @Override public void onDisable() { clear(); world=null; super.onDisable(); }
     }
 
-    @FunctionAdd(name="DeathManager",alias="Death Manager",category=Category.Render,description="Метки мест смерти игроков")
+    @FunctionAdd(name="DeathManager",alias="Death Manager",category=Category.Render,description="Player death spot markers")
     public static final class DeathManager extends Pulses {
         private final Set<UUID> dead=new HashSet<>();
         public DeathManager() { duration.set(4000f); }
@@ -160,7 +160,7 @@ public final class ImpactVisuals {
         @Override public void onDisable() { dead.clear(); super.onDisable(); }
     }
 
-    @FunctionAdd(name="TNTEffect",alias="TNT Effect",category=Category.Render,description="Ударная волна при взрыве TNT")
+    @FunctionAdd(name="TNTEffect",alias="TNT Effect",category=Category.Render,description="Shockwave on TNT explosion")
     public static final class TNTEffect extends Pulses {
         private final Map<UUID,TntEntity> tracked=new HashMap<>();
         private final SliderSetting radius=new SliderSetting("Radius",12f,4f,32f,1f);
@@ -193,7 +193,7 @@ public final class ImpactVisuals {
         @Override public void onDisable() {tracked.clear();scanTick=0;SceneShockwaves.clearKind(SceneShockwaves.EXPLOSION);super.onDisable();}
     }
 
-    @FunctionAdd(name="KillCards",alias="Kill Cards",category=Category.Render,description="Карточки побеждённых целей")
+    @FunctionAdd(name="KillCards",alias="Kill Cards",category=Category.Render,description="Cards of defeated targets")
     public static final class KillCards extends Function {
         private record Candidate(LivingEntity entity,long time) {}
         private record Card(String name,long time) {}

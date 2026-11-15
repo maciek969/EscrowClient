@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 
-@FunctionAdd(name = "XCarry", alias = "XCarry", category = Category.Utilities, description = "Не закрывает экран инвентаря пакетом syncId 0")
+@FunctionAdd(name = "XCarry", alias = "XCarry", category = Category.Utilities, description = "Does not close the inventory screen with syncId 0 packet")
 @Environment(EnvType.CLIENT)
 public class XCarry extends Function {
     @EventHandler

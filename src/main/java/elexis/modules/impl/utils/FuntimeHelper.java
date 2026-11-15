@@ -15,17 +15,17 @@ import net.minecraft.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
-@FunctionAdd(name = "FuntimeHelper", alias = "FuntimeHelper", category = Category.Utilities, description = "Быстрый юз предметов FunTime")
+@FunctionAdd(name = "FuntimeHelper", alias = "FuntimeHelper", category = Category.Utilities, description = "Fast item use on FunTime")
 @Environment(EnvType.CLIENT)
 public class FuntimeHelper extends Function {
     private final List<ItemBind> binds = new ArrayList<>();
 
     public FuntimeHelper() {
-        this.binds.add(new ItemBind(Items.SUGAR, new BindSetting("Сахар", -1)));
-        this.binds.add(new ItemBind(Items.ENDER_EYE, new BindSetting("Око Эндера", -1)));
-        this.binds.add(new ItemBind(Items.NETHERITE_SCRAP, new BindSetting("Незеритовый Лом", -1)));
-        this.binds.add(new ItemBind(Items.SNOWBALL, new BindSetting("Снежок", -1)));
-        this.binds.add(new ItemBind(Items.GLOWSTONE_DUST, new BindSetting("Луминарий", -1)));
+        this.binds.add(new ItemBind(Items.SUGAR, new BindSetting("Sugar", -1)));
+        this.binds.add(new ItemBind(Items.ENDER_EYE, new BindSetting("Eye of Ender", -1)));
+        this.binds.add(new ItemBind(Items.NETHERITE_SCRAP, new BindSetting("Netherite scrap", -1)));
+        this.binds.add(new ItemBind(Items.SNOWBALL, new BindSetting("Snowball", -1)));
+        this.binds.add(new ItemBind(Items.GLOWSTONE_DUST, new BindSetting("Luminary", -1)));
         this.binds.forEach(bind -> this.addSettings(bind.setting()));
     }
 
@@ -35,7 +35,7 @@ public class FuntimeHelper extends Function {
             return;
         }
 
-        // Срабатываем при нажатии (action == 1), а не при отпускании
+        // Trigger on press (action == 1), not on release
         if (event.getAction() != 1) {
             return;
         }

@@ -64,13 +64,13 @@ public abstract class SettingComponent<T extends Setting<?>> {
     }
 }
 
-// РІвЂќР‚РІвЂќР‚РІвЂќР‚ Boolean РІР‚вЂќ Р С”РЎР‚Р В°РЎРѓР С‘Р Р†РЎвЂ№Р в„– toggle-Р С—Р ВµРЎР‚Р ВµР С”Р В»РЎР‹РЎвЂЎР В°РЎвЂљР ВµР В»РЎРЉ РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+// ─── Boolean — pretty toggle switch ──────────────────────────────────
 class BooleanComp extends SettingComponent<BooleanSetting> {
     private static final float H       = 30f;
     private static final float KNOB_W  = 32f;
     private static final float KNOB_H  = 16f;
 
-    // Р С’Р Р…Р С‘Р СР В°РЎвЂ Р С‘РЎРЏ Р С—Р ВµРЎР‚Р ВµР С”Р В»РЎР‹РЎвЂЎР ВµР Р…Р С‘РЎРЏ 0РІвЂ вЂ™1
+    // Toggle animation 0→1
     private float toggleAnim;
     private long  lastNanos = System.nanoTime();
 
@@ -84,7 +84,7 @@ class BooleanComp extends SettingComponent<BooleanSetting> {
         this.x = x; this.y = y;
         int a = (int) alpha;
 
-        // Р С’Р Р…Р С‘Р СР В°РЎвЂ Р С‘РЎРЏ
+        // Animation
         long now = System.nanoTime();
         float dt = Math.min(0.05f, (now - lastNanos) / 1_000_000_000f);
         lastNanos = now;
@@ -102,21 +102,21 @@ class BooleanComp extends SettingComponent<BooleanSetting> {
         float ty2 = y + (H - KNOB_H) / 2f;
         float r = KNOB_H / 2f;
 
-        // Р СћРЎР‚Р ВµР С” РІР‚вЂќ Р С‘Р Р…РЎвЂљР ВµРЎР‚Р С—Р С•Р В»Р С‘РЎР‚РЎС“Р ВµР С РЎвЂ Р Р†Р ВµРЎвЂљ Р С•РЎвЂљ РЎРѓР ВµРЎР‚Р С•Р С–Р С• Р С” РЎвЂ Р Р†Р ВµРЎвЂљРЎС“ РЎвЂљР ВµР СРЎвЂ№
+        // Track — interpolate color from gray to the theme color
         Color mainC = ClientColors.getMainColor();
         int offColor = new Color(50, 50, 65, a).getRGB();
         int onColor  = withAlpha(mainC, a);
         int trackColor = lerpColor(offColor, onColor, toggleAnim);
         render.rect(tx, ty2, KNOB_W, KNOB_H, r, trackColor);
 
-        // Р С™РЎР‚РЎС“Р В¶Р С•Р С” Р С—Р ВµРЎР‚Р ВµР С”Р В»РЎР‹РЎвЂЎР В°РЎвЂљР ВµР В»РЎРЏ
+        // Toggle circle
         float circleD = KNOB_H - 4f;
         float circleX = tx + 2f + (KNOB_W - circleD - 4f) * toggleAnim;
         float circleY = ty2 + 2f;
         render.rect(circleX, circleY, circleD, circleD, circleD / 2f,
                 new Color(255, 255, 255, a).getRGB());
 
-        // Р СћР ВµР Р…РЎРЉ Р С—Р С•Р Т‘ Р С”РЎР‚РЎС“Р В¶Р С”Р С•Р С
+        // Shadow under the circle
         render.shadow(circleX, circleY, circleD, circleD, circleD / 2f,
                 3f, 0f, new Color(0, 0, 0, (int)(a * 0.3f)).getRGB());
     }
@@ -128,7 +128,7 @@ class BooleanComp extends SettingComponent<BooleanSetting> {
     }
 }
 
-// РІвЂќР‚РІвЂќР‚РІвЂќР‚ Slider РІР‚вЂќ Р С”РЎР‚Р В°РЎРѓР С‘Р Р†РЎвЂ№Р в„– РЎРѓ Р С—Р С•Р Т‘РЎРѓР Р†Р ВµРЎвЂљР С”Р С•Р в„– РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+// ─── Slider — pretty with highlight ──────────────────────────────────────────
 class SliderComp extends SettingComponent<SliderSetting> {
     private static final float H       = 44f;
     private static final float TRACK_H = 4f;
@@ -166,18 +166,18 @@ class SliderComp extends SettingComponent<SliderSetting> {
                 fitText(render, RussianText.tr(setting.getName()), ts, width - valW - 8f),
                 new Color(200, 200, 210, a).getRGB());
 
-        // Р вЂ”Р Р…Р В°РЎвЂЎР ВµР Р…Р С‘Р Вµ РІР‚вЂќ РЎвЂ Р Р†Р ВµРЎвЂљ РЎвЂљР ВµР СРЎвЂ№
+        // Value — theme color
         Color mainC = ClientColors.getMainColor();
         render.text(FontRegistry.SF_MEDIUM, x + width - valW, ty, ts,
                 valStr, withAlpha(mainC, a));
 
-        // Р СћРЎР‚Р ВµР С”
+        // Track
         float trackY = y + H - TRACK_H - 6f;
-        // Р В¤Р С•Р Р… РЎвЂљРЎР‚Р ВµР С”Р В°
+        // Track background
         render.rect(x, trackY, width, TRACK_H, TRACK_H / 2f,
                 new Color(50, 50, 65, (int)(a * 0.5f)).getRGB());
 
-        // Р вЂ”Р В°Р С—Р С•Р В»Р Р…Р ВµР Р…Р Р…Р В°РЎРЏ РЎвЂЎР В°РЎРѓРЎвЂљРЎРЉ РІР‚вЂќ Р С–РЎР‚Р В°Р Т‘Р С‘Р ВµР Р…РЎвЂљ
+        // Filled part — gradient
         if (pct > 0) {
             Color secC = ClientColors.getSecondaryColor();
             render.gradient(x, trackY, width * pct, TRACK_H, TRACK_H / 2f,
@@ -187,16 +187,16 @@ class SliderComp extends SettingComponent<SliderSetting> {
                     withAlpha(secC, a));
         }
 
-        // Р С™РЎР‚РЎС“Р В¶Р С•Р С”
+        // Circle
         float kx = x + width * pct - KNOB_R;
         float ky = trackY + TRACK_H / 2f - KNOB_R;
-        // Р СћР ВµР Р…РЎРЉ Р С—Р С•Р Т‘ Р С”РЎР‚РЎС“Р В¶Р С”Р С•Р С
+        // Shadow under the circle
         render.shadow(kx, ky, KNOB_R * 2, KNOB_R * 2, KNOB_R,
                 4f, 0f, new Color(0, 0, 0, (int)(a * 0.4f)).getRGB());
-        // Р С™РЎР‚РЎС“Р В¶Р С•Р С”
+        // Circle
         render.rect(kx, ky, KNOB_R * 2, KNOB_R * 2, KNOB_R,
                 new Color(255, 255, 255, a).getRGB());
-        // Р вЂ™Р Р…РЎС“РЎвЂљРЎР‚Р ВµР Р…Р Р…Р С‘Р в„– Р С”РЎР‚РЎС“Р В¶Р С•Р С” РЎвЂ Р Р†Р ВµРЎвЂљР В° РЎвЂљР ВµР СРЎвЂ№
+        // Inner circle of the theme color
         float innerR = KNOB_R - 2.5f;
         render.rect(kx + 2.5f, ky + 2.5f, innerR * 2, innerR * 2, innerR,
                 withAlpha(mainC, a));
@@ -213,7 +213,7 @@ class SliderComp extends SettingComponent<SliderSetting> {
     }
 }
 
-// РІвЂќР‚РІвЂќР‚РІвЂќР‚ Mode РІР‚вЂќ Р С”РЎР‚Р В°РЎРѓР С‘Р Р†РЎвЂ№Р Вµ РЎвЂЎР С‘Р С—РЎвЂ№ Р Т‘Р В»РЎРЏ Р С”Р В°Р В¶Р Т‘Р С•Р С–Р С• РЎР‚Р ВµР В¶Р С‘Р СР В° РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+// ─── Mode — pretty chips for each mode ─────────────────────────────────
 class ModeComp extends SettingComponent<ModeSetting> {
     private static final float HEADER_H = 26f;
     private static final float CHIP_H   = 22f;
@@ -221,12 +221,12 @@ class ModeComp extends SettingComponent<ModeSetting> {
     private static final float CHIP_TS  = 11f;
     private static final float CHIP_PX  = 8f;
 
-    // Р С’Р Р…Р С‘Р СР В°РЎвЂ Р С‘Р С‘ Р Т‘Р В»РЎРЏ Р С”Р В°Р В¶Р Т‘Р С•Р С–Р С• РЎвЂЎР С‘Р С—Р В°
+    // Animations for each chip
     private float[] chipAnims;
     private long lastNanos = System.nanoTime();
 
     public ModeComp(ModeSetting s, float w) {
-        super(s, w, 26f + 27f); // Р Р…Р В°РЎвЂЎР В°Р В»РЎРЉР Р…Р В°РЎРЏ Р Р†РЎвЂ№РЎРѓР С•РЎвЂљР В°, Р С—Р ВµРЎР‚Р ВµРЎРѓРЎвЂЎР С‘РЎвЂљР В°Р ВµРЎвЂљРЎРѓРЎРЏ Р С—РЎР‚Р С‘ draw
+        super(s, w, 26f + 27f); // initial height, recalculated on draw
         chipAnims = new float[s.strings.length];
         for (int i = 0; i < s.strings.length; i++) {
             chipAnims[i] = s.strings[i].equals(s.get()) ? 1f : 0f;
@@ -235,7 +235,7 @@ class ModeComp extends SettingComponent<ModeSetting> {
 
     private static float calcH(ModeSetting s, float w) {
         if (FontRegistry.SF_MEDIUM == null) return 26f + 27f;
-        // Р РЋРЎвЂЎР С‘РЎвЂљР В°Р ВµР С РЎРѓР С”Р С•Р В»РЎРЉР С”Р С• РЎРѓРЎвЂљРЎР‚Р С•Р С” Р В·Р В°Р в„–Р СРЎС“РЎвЂљ РЎвЂЎР С‘Р С—РЎвЂ№
+        // Count how many rows the chips will take
         float lineX = 0f;
         int lines = 1;
         for (String mode : s.strings) {
@@ -261,7 +261,7 @@ class ModeComp extends SettingComponent<ModeSetting> {
         this.height = calcH(setting, width);
         int a = (int) alpha;
 
-        // Р С’Р Р…Р С‘Р СР В°РЎвЂ Р С‘Р С‘
+        // Animations
         long now = System.nanoTime();
         float dt = Math.min(0.05f, (now - lastNanos) / 1_000_000_000f);
         lastNanos = now;
@@ -273,14 +273,14 @@ class ModeComp extends SettingComponent<ModeSetting> {
             chipAnims[i] += (target - chipAnims[i]) * Math.min(1f, dt * 14f);
         }
 
-        // Р СњР В°Р В·Р Р†Р В°Р Р…Р С‘Р Вµ
+        // Name
         float ts = 13f;
         float ty = baseline(render, FontRegistry.SF_MEDIUM, ts, y, HEADER_H);
         render.text(FontRegistry.SF_MEDIUM, x, ty, ts,
                 fitText(render, RussianText.tr(setting.getName()), ts, width),
                 new Color(200, 200, 210, a).getRGB());
 
-        // Р В§Р С‘Р С—РЎвЂ№
+        // Chips
         Color mainC = ClientColors.getMainColor();
         Color secC  = ClientColors.getSecondaryColor();
         float cx = x;
@@ -297,19 +297,19 @@ class ModeComp extends SettingComponent<ModeSetting> {
 
             float anim = chipAnims[i];
 
-            // Р В¤Р С•Р Р… РЎвЂЎР С‘Р С—Р В° РІР‚вЂќ Р С‘Р Р…РЎвЂљР ВµРЎР‚Р С—Р С•Р В»Р С‘РЎР‚РЎС“Р ВµР С Р С•РЎвЂљ РЎвЂљРЎвЂР СР Р…Р С•Р С–Р С• Р С” РЎвЂ Р Р†Р ВµРЎвЂљРЎС“ РЎвЂљР ВµР СРЎвЂ№
+            // Chip background — interpolate from dark to the theme color
             int bgOff = new Color(40, 40, 55, (int)(a * 0.4f)).getRGB();
             int bgOn  = withAlpha(mainC, (int)(a * 0.35f));
             int bgColor = lerpColor(bgOff, bgOn, anim);
             render.rect(cx, cy, cw, CHIP_H, CHIP_H / 2f, bgColor);
 
-            // Р С›Р В±Р Р†Р С•Р Т‘Р С”Р В° Р С—РЎР‚Р С‘ Р В°Р С”РЎвЂљР С‘Р Р†Р Р…Р С•Р С
+            // Border when active
             if (anim > 0.01f) {
                 int outlineColor = withAlpha(mainC, (int)(a * anim * 0.6f));
                 render.rectOutline(cx, cy, cw, CHIP_H, CHIP_H / 2f, outlineColor, 1f);
             }
 
-            // Р СћР ВµР С”РЎРѓРЎвЂљ
+            // Text
             int tcOff = new Color(140, 140, 155, a).getRGB();
             int tcOn  = new Color(240, 240, 248, a).getRGB();
             int textColor = lerpColor(tcOff, tcOn, anim);
@@ -340,7 +340,7 @@ class ModeComp extends SettingComponent<ModeSetting> {
     }
 }
 
-// РІвЂќР‚РІвЂќР‚РІвЂќР‚ ModeList РІР‚вЂќ РЎвЂЎР С‘Р С—РЎвЂ№ РЎРѓ Р СРЎС“Р В»РЎРЉРЎвЂљР С‘Р Р†РЎвЂ№Р В±Р С•РЎР‚Р С•Р С РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+// ─── ModeList — chips with multi-select ─────────────────────────────────────────
 class ModeListComp extends SettingComponent<ModeListSetting> {
     private static final float HEADER_H = 26f;
     private static final float CHIP_H   = 22f;
@@ -423,7 +423,7 @@ class ModeListComp extends SettingComponent<ModeListSetting> {
     }
 }
 
-// РІвЂќР‚РІвЂќР‚РІвЂќР‚ Bind РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚РІвЂќР‚
+
 class BindComp extends SettingComponent<BindSetting> {
     private static final float H = 30f;
     private boolean listening = false;
@@ -444,7 +444,7 @@ class BindComp extends SettingComponent<BindSetting> {
                 fitText(render, RussianText.tr(setting.getName()), ts, width - 60f),
                 new Color(200, 200, 210, a).getRGB());
 
-        // Р В§Р С‘Р С— Р Т‘Р В»РЎРЏ Р С”Р В»Р В°Р Р†Р С‘РЎв‚¬Р С‘
+        // Chip for the key
         float ks = 11f;
         float kw = render.measureText(FontRegistry.SF_MEDIUM, keyStr, ks).width;
         float chipPad = 6f;

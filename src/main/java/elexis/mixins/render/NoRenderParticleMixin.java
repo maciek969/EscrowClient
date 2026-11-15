@@ -20,7 +20,7 @@ public class NoRenderParticleMixin {
                                     CallbackInfoReturnable<Particle> cir) {
         if (parameters == null) return;
 
-        if (NoRneder.is("Дым")) {
+        if (NoRneder.is("Smoke")) {
             if (parameters.getType() == ParticleTypes.SMOKE
                     || parameters.getType() == ParticleTypes.LARGE_SMOKE
                     || parameters.getType() == ParticleTypes.CAMPFIRE_COSY_SMOKE
@@ -30,7 +30,7 @@ public class NoRenderParticleMixin {
             }
         }
 
-        if (NoRneder.is("Плохие эффекты")) {
+        if (NoRneder.is("Bad effects")) {
             if (parameters.getType() == ParticleTypes.EFFECT
                     || parameters.getType() == ParticleTypes.INSTANT_EFFECT
                     || parameters.getType() == ParticleTypes.ENTITY_EFFECT) {

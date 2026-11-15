@@ -11,11 +11,11 @@ import elexis.modules.api.settings.impl.SliderSetting;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 
-@FunctionAdd(name = "Gamma", alias = "Gamma", category = Category.Render, description = "Настраивает яркость")
+@FunctionAdd(name = "Gamma", alias = "Gamma", category = Category.Render, description = "Adjusts brightness")
 public final class Gamma extends Function {
-    private final ModeSetting mode = new ModeSetting("Режим света", "Dynamic", "Dynamic", "Fixed", "Potion");
-    private final SliderSetting gamma = new SliderSetting("Гамма", 1.0F, 0.1F, 2.0F, 0.01F).hidden(() -> !mode.is("Fixed"));
-    private final BooleanSetting nightVision = new BooleanSetting("Зелье ночного зрения", true).hidden(() -> !mode.is("Potion"));
+    private final ModeSetting mode = new ModeSetting("Light mode", "Dynamic", "Dynamic", "Fixed", "Potion");
+    private final SliderSetting gamma = new SliderSetting("Gamma", 1.0F, 0.1F, 2.0F, 0.01F).hidden(() -> !mode.is("Fixed"));
+    private final BooleanSetting nightVision = new BooleanSetting("Night vision potion", true).hidden(() -> !mode.is("Potion"));
 
     public Gamma() {
         addSettings(mode, gamma, nightVision);

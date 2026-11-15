@@ -32,9 +32,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 
 @FunctionAdd(name = "ElytraBooster", alias = "Elytra Booster", category = Category.Movement,
-        description = "Буст элитры из Javelin с расчётом импульса фейерверка")
+        description = "Elytra boost from Javelin with firework impulse calculation")
 public final class ElytraBooster extends Function {
-    public final ModeSetting mode = new ModeSetting("Режим", "Grim", "Grim", "GroundedGrim", "ReallyWorld", "Bravo");
+    public final ModeSetting mode = new ModeSetting("Mode", "Grim", "Grim", "GroundedGrim", "ReallyWorld", "Bravo");
     private Object groundedLevel;
     private boolean groundedWasGliding;
     private int groundedGlideStart = Integer.MIN_VALUE;

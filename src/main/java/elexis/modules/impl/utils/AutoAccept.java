@@ -8,7 +8,7 @@ import elexis.modules.api.settings.impl.BooleanSetting;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@FunctionAdd(name = "AutoAccept", alias = "AutoAccept", category = Category.Utilities, description = "Автоматически принимает телепортацию")
+@FunctionAdd(name = "AutoAccept", alias = "AutoAccept", category = Category.Utilities, description = "Automatically accepts teleportation")
 @Environment(EnvType.CLIENT)
 public class AutoAccept extends Function {
     private final BooleanSetting friendsOnly = new BooleanSetting("Friends Only", false);

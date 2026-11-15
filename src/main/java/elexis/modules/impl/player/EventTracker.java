@@ -29,7 +29,7 @@ import net.minecraft.world.WorldEvents;
 
 import java.awt.Color;
 
-@FunctionAdd(name = "EventTracker", alias = "Event Tracker", category = Category.Player, description = "Показывает игровые события вокруг тебя")
+@FunctionAdd(name = "EventTracker", alias = "Event Tracker", category = Category.Player, description = "Shows game events around you")
 public class EventTracker extends Function {
     private final MultiBooleanSetting trackedEvents = new MultiBooleanSetting("Events to track",
             new BooleanSetting("Totem pop", true),
@@ -58,7 +58,7 @@ public class EventTracker extends Function {
                 boolean friend = Elexis.getInstance().getFriendStorage().isFriend(living.getName().getString());
                 MutableText message = Text.empty()
                         .append(Text.of(living.getName().getString()).copy().withColor(friend ? ClientColors.FRIEND_COLOR.getRGB() : Color.WHITE.getRGB()))
-                        .append(" потерял тотем ")
+                        .append(" lost totem ")
                         .append(protect.getName());
                 Interface.notify(message, 0xFFF0C344, 4000, new ItemStack(Items.TOTEM_OF_UNDYING));
             }
@@ -71,7 +71,7 @@ public class EventTracker extends Function {
                         && mc.player.currentScreenHandler.getSlot(slot).getStack().isEmpty()
                         && !packet.getStack().isEmpty()) {
                     Interface.notify(
-                            Text.of("Подобран предмет ").copy().append(packet.getStack().getFormattedName()),
+                            Text.of("Picked up item ").copy().append(packet.getStack().getFormattedName()),
                             0xFF52BEFF,
                             4000
                     );
@@ -95,7 +95,7 @@ public class EventTracker extends Function {
             StatusEffect effect = findVanillaEffect(event.getData());
             if (effect != null) {
                 Interface.notify(
-                        player.getName().copy().append(" использовал зелье ").append(effect.getName().copy().withColor(effect.getColor())),
+                        player.getName().copy().append(" used potion ").append(effect.getName().copy().withColor(effect.getColor())),
                         0xFF000000 | effect.getColor(),
                         4000
                 );
@@ -105,7 +105,7 @@ public class EventTracker extends Function {
             SpecialPotionType special = findSpecial(event.getData());
             if (special != null) {
                 Interface.notify(
-                        player.getName().copy().append(" получил баф ").append(Text.of(special.getDisplayName()).copy().withColor(special.getBaseColor())),
+                        player.getName().copy().append(" got buff ").append(Text.of(special.getDisplayName()).copy().withColor(special.getBaseColor())),
                         0xFF000000 | special.getBaseColor(),
                         4000
                 );
