@@ -1,0 +1,98 @@
+package yabloko.utility.mixin.client.render.gui.hud;
+
+import com.darkmagician6.eventapi.EventManager;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.world.GameMode;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import yabloko.base.events.impl.render.EventRender2D;
+import yabloko.client.modules.impl.render.Crosshair;
+import yabloko.client.modules.impl.render.Interface;
+import yabloko.utility.interfaces.IMinecraft;
+import yabloko.utility.render.display.base.CustomDrawContext;
+
+@Mixin({InGameHud.class})
+public abstract class InGameHudMixin {
+   @Inject(
+      method = {"render"},
+      at = {@At("HEAD")}
+   )
+   public void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+      CustomDrawContext customDrawContext = new CustomDrawContext(context, IMinecraft.mc.getBufferBuilders().getEntityVertexConsumers());
+      EventManager.call(new EventRender2D(customDrawContext, tickCounter.getDynamicDeltaTicks()));
+   }
+
+   @Inject(
+      method = {"renderCrosshair"},
+      at = {@At("HEAD")},
+      cancellable = true
+   )
+   private void removeVanillaCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+      try {
+         Crosshair crosshairModule = Crosshair.INSTANCE;
+         if (crosshairModule.isEnabled()) {
+            ci.cancel();
+         }
+      } catch (Exception var5) {
+      }
+   }
+
+   @Inject(
+      method = {"renderPlayerList"},
+      at = {@At("HEAD")},
+      cancellable = true
+   )
+   private void inject(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+      Interface interfaceModule = Interface.INSTANCE;
+      if (interfaceModule.isEnabled() && interfaceModule.isEnableTab()) {
+         ci.cancel();
+      }
+   }
+
+   @Inject(
+      method = {"renderOverlayMessage"},
+      at = {@At("HEAD")},
+      cancellable = true
+   )
+   private void injectRenderOverlayMessage(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+      if (IMinecraft.mc.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR) {
+         Interface interfaceModule = Interface.INSTANCE;
+         if (interfaceModule.isEnabled() && interfaceModule.isEnableHotBar()) {
+            ci.cancel();
+         }
+      }
+   }
+
+   @Inject(
+      method = {"renderScoreboardSidebar*"},
+      at = {@At("HEAD")},
+      cancellable = true
+   )
+   private void injectRenderScoreboardSidebar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+      Interface interfaceModule = Interface.INSTANCE;
+      if (interfaceModule.isEnabled() && interfaceModule.isEnableScoreBar()) {
+         ci.cancel();
+      }
+   }
+
+   @ModifyVariable(
+      method = {"renderStatusBars"},
+      at = @At("STORE"),
+      ordinal = 3
+   )
+   private int modifyM(int original, DrawContext context) {
+      if (IMinecraft.mc.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR) {
+         Interface interfaceModule = Interface.INSTANCE;
+         if (interfaceModule.isEnabled() && interfaceModule.isEnableHotBar()) {
+            return context.getScaledWindowWidth() / 2 + 90 + 36;
+         }
+      }
+
+      return original;
+   }
+}
